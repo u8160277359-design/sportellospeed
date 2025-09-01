@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sportello Digitale - Servizi</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f4f4f4; color:#333; }
+    header { background:linear-gradient(135deg,#0066CC 0%,#004C99 100%); padding:15px 20px; color:#fff; }
+    header .logo { font-weight:bold; font-size:20px; }
+    nav { margin-top:10px; }
+    nav a { color:#fff; text-decoration:none; margin-right:15px; }
+    nav a:hover { color:#F9D423; }
+    .container { max-width:1000px; margin:30px auto; background:#fff; padding:30px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+    h1 { text-align:center; color:#004C99; margin-bottom:20px; }
+    p { text-align:center; font-size:1.1em; margin-bottom:30px; }
+    .services-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+    .service-card { background:#fafafa; padding:20px; border-radius:8px; box-shadow:0 0 5px rgba(0,0,0,0.1); transition:transform .3s; }
+    .service-card:hover { transform:translateY(-5px); }
+    .service-card h3 { color:#0066CC; margin-bottom:10px; }
+    footer { margin-top:40px; background:linear-gradient(135deg,#0066CC 0%,#004C99 100%); color:#fff; text-align:center; padding:20px; font-size:.9em; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo"></div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="servizi.html">Servizi</a>
+      <a href="comefunziona.html">Come Funziona</a>
+    </nav>
+  </header>
+
+  <!-- Contenuto -->
+  <div class="container">
+    <h1>I Nostri Servizi</h1>
+    <p>
+      Siamo esperti in <strong>assistenza digitale</strong> e nei principali 
+      <strong>servizi pubblici online</strong>. Offriamo supporto pratico e veloce 
+      per semplificare ogni tua pratica burocratica.
+    </p>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <h3>NASpI</h3>
+        <p>Ti guidiamo nella richiesta della Nuova Assicurazione Sociale per l'Impiego (NASpI) per ottenere il tuo sussidio di disoccupazione.</p>
+      </div>
+      <div class="service-card">
+        <h3>ISEE</h3>
+        <p>Supporto completo per la compilazione e l’invio dell’ISEE, indispensabile per accedere a bonus e agevolazioni.</p>
+      </div>
+      <div class="service-card">
+        <h3>ADI</h3>
+        <p>Assistenza nella presentazione della domanda per l’Assegno di Inclusione, pensato per le famiglie in difficoltà economica.</p>
+      </div>
+      <div class="service-card">
+        <h3>SFL</h3>
+        <p>Supporto per la misura “Supporto per la Formazione e il Lavoro”, con informazioni e gestione delle domande online.</p>
+      </div>
+      <div class="service-card">
+        <h3>SIISL</h3>
+        <p>Ti aiutiamo a registrarti e utilizzare la piattaforma SIISL, per accedere ai percorsi formativi e di reinserimento lavorativo.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="contatti">
+    <p>&copy; 2025 Sportello Speed - Tutti i diritti riservati</p>
+    <p>WhatsApp: +39 393 4146871</p>
+  </footer>
+</body>
+</html>

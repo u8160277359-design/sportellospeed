@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sportello Digitale - Assistenza INPS, Naspi, AdE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --poste-yellow: #F9D423;
+            --poste-blue: #0066CC;
+            --poste-dark-blue: #004C99;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+            --whatsapp-green: #25D366;
+            --whatsapp-light: #dcf8c6;
+            --unread-blue: #0066CC;
+            --read-green: #25D366;
+        }
+
+        /* >>> aggiunta per nascondere elementi admin in questa pagina */
+        .admin-only { display: none !important; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--poste-blue) 0%, var(--poste-dark-blue) 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--poste-yellow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--poste-yellow);
+        }
+        
+        .admin-login {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .admin-login:hover {
+            opacity: 1;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230066CC" fill-opacity="0.1"/><path d="M0 0L100 100" stroke="%230066CC" stroke-width="1" stroke-opacity="0.2"/></svg>');
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--poste-dark-blue);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--poste-blue);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--poste-dark-blue);
+        }
+        
+        /* Chat Section */
+        .chat-section {
+            padding: 4rem 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--poste-dark-blue);
+            font-size: 2rem;
+        }
+        
+        .chat-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        .chat-info {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+        
+        .chat-box {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            background-color: var(--light-gray);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, var(--poste-blue) 0%, var(--poste-dark-blue) 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .chat-header i {
+            font-size: 1.5rem;
+        }
+        
+        .chat-messages {
+            padding: 20px;
+            height: 200px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .message {
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+        }
+        
+        .received {
+            background-color: #e6e6e6;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .sent {
+            background-color: var(--poste-blue);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .chat-input {
+            padding: 15px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .chat-input input,
+        .chat-input textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        
+        .chat-input textarea {
+            min-height: 100px;
+        }
+        
+        .file-upload {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            color: var(--poste-blue);
+            font-weight: 500;
+        }
+        
+        .file-list {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .chat-input button {
+            background-color: var(--poste-blue);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .chat-input button:hover {
+            background-color: var(--poste-dark-blue);
+        }
+        
+        .whatsapp-note {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .whatsapp-note i {
+            color: #25D366;
+            font-size: 1.5rem;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 4rem 0;
+            background-color: var(--light-gray);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 2rem;
+        }
+        
+        .feature-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--poste-blue);
+            margin-bottom: 15px;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--poste-blue) 0%, var(--poste-dark-blue) 100%);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column a {
+            color: #e6e6e6;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: var(--poste-yellow);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+        
+        /* WhatsApp Chat Interface */
+        .whatsapp-chat-container {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .whatsapp-chat-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .whatsapp-chat-header i {
+            font-size: 24px;
+            color: var(--whatsapp-green);
+        }
+        
+        .whatsapp-chat-header h3 {
+            color: var(--poste-dark-blue);
+        }
+        
+        .chat-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .chat-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .chat-item:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .chat-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--poste-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 15px;
+        }
+        
+        .chat-content {
+            flex: 1;
+        }
+        
+        .chat-user {
+            font-weight: bold;
+            color: var(--poste-dark-blue);
+            margin-bottom: 5px;
+        }
+        
+        .chat-preview {
+            font-size: 0.9rem;
+            color: #666;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }
+        
+        .chat-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+        
+        .chat-time {
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        .chat-status {
+            font-size: 1rem;
+        }
+        
+        .status-unread {
+            color: var(--unread-blue);
+        }
+        
+        .status-read {
+            color: var(--read-green);
+        }
+        
+        /* Admin Panel */
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            overflow: hidden;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, var(--poste-blue) 0%, var(--poste-dark-blue) 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .close-admin {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .question-list {
+            padding: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .question-item {
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .user-info {
+            font-weight: bold;
+            color: var(--poste-blue);
+        }
+        
+        .question-time {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .question-content {
+            margin-bottom: 15px;
+        }
+        
+        .admin-response {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .admin-response input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .admin-response button {
+            background-color: var(--whatsapp-green);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            nav ul {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .chat-container {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .admin-response {
+                flex-direction: column;
+            }
+            
+            .chat-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .chat-meta {
+                flex-direction: row;
+                align-items: center;
+                margin-top: 10px;
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+  <img src="logo.png" alt="Logo" style="height:80px;">
+</div>
+                    <div class="logo-text">Sportello Speed</div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="servizi.html">Servizi</a></li>
+                        <li><a href="comefunziona.html">Come Funziona</a></li>
+                       
+                    </ul>
+                </nav>
+                <!-- Link admin presente ma nascosto -->
+                <a href="admin.html" class="admin-login admin-only" id="admin-toggle" aria-hidden="true">Accesso Amministratori</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Assistenza Immediate per INPS, Naspi, AdE e servizi al cittadino</h1>
+            <p>Il primo sportello digitale in Italia that ti offre supporto immediato per le tue pratiche burocratiche. Ricevi risposte in tempo zero direttamente sul tuo WhatsApp!</p>
+            <a href="#chat" class="btn">Inizia Ora</a>
+        </div>
+    </section>
+
+    <!-- Chat Section -->
+    <section id="chat" class="chat-section">
+        <div class="container">
+            <h2 class="section-title">Invia la tua domanda</h2>
+            <div class="chat-container">
+                <div class="chat-info">
+                    <h3>Come funziona il nostro servizio</h3>
+                    <p>Scrivi la tua domanda nel modulo qui accanto, allega eventuali documenti e invia la richiesta. I nostri operatori specializzati ti risponderanno nel minor tempo possibile direttamente sul tuo WhatsApp.</p>
+                    <p>Il servizio è disponibile per assistenza su:</p>
+                    <ul>
+                        <li>INPS - Pensioni e prestazioni sociali</li>
+                        <li>Naspi - Disoccupazione</li>
+                        <li>Agenzia delle Entrate (AdE)</li>
+                        <li>ANPAL - Servizi per il lavoro</li>
+                        <li>e molti altri servizi al cittadino</li>
+                    </ul>
+                </div>
+                <div class="chat-box">
+                    <div class="chat-header">
+                        <i class="fas fa-comments"></i>
+                        <span>Hai una domanda? Scrivici qui!</span>
+                    </div>
+                    <div class="chat-messages">
+                        <div class="message received">
+                            Ciao! Come possiamo aiutarti oggi?
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="user-name" placeholder="Il tuo nome" required>
+                        <input type="tel" id="user-phone" placeholder="Il tuo numero WhatsApp" required>
+                        <textarea id="user-question" placeholder="Inserisci la tua domanda qui..." required></textarea>
+                        
+                        <div class="file-upload">
+                            <input type="file" id="file-upload" multiple style="display: none;">
+                            <label for="file-upload" class="file-upload-label">
+                                <i class="fas fa-paperclip"></i> Allega file
+                            </label>
+                            <span class="file-list">Nessun file selezionato</span>
+                        </div>
+                        
+                        <div class="whatsapp-note">
+                            <i class="fab fa-whatsapp"></i>
+                            <span>Riceverai la risposta direttamente sul tuo WhatsApp in tempo zero!</span>
+                        </div>
+                        
+                        <button type="button" id="submit-question">Invia richiesta</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Interfaccia amministratore: presente ma nascosta -->
+            <div class="whatsapp-chat-container admin-only">
+                <div class="whatsapp-chat-header">
+                    <i class="fab fa-whatsapp"></i>
+                    <h3>Chat Ricevute - Interfaccia Amministratore</h3>
+                </div>
+                <div class="chat-list" id="whatsapp-chat-list">
+                    <!-- Le chat verranno aggiunte dinamicamente qui -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Perché scegliere il nostro servizio</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Risposte Immediate</h3>
+                    <p>Tempo zero di attesa per lesposte alle tue domande più urgenti.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Sicuro e Affidabile</h3>
+                    <p>I tuoi dati sono protetti e trattati nel rispetto della privacy.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Esperti del Settore</h3>
+                    <p>Personale specializzato in pratiche burocratiche e servizi al cittadino.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h3>Comodità WhatsApp</h3>
+                    <p>Risposte direttamente sul tuo smartphone, senza bisogno di app.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Sportello Digitale</h3>
+                    <p>Il primo sportello digitale in Italia per assistenza immediata su INPS, Naspi, AdE e servizi al cittadino.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Servizi</h3>
+                    <ul>
+                        <li><a href="servizi.html">NASpI, Sussidio di disoccupazione</a></li>
+                        <li><a href="servizi.html">ISEE, Bonus e agevolazioni</a></li>
+                        <li><a href="servizi.html">ADI, Inclusione per le famiglie</a></li>
+                        <li><a href="servizi.html">SFL, Supporto per la Formazione e il Lavoro</a></li>
+                        <li><a href="servizi.html">SIISL, Percorsi formativi reinserimento lavoro</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contatti</h3>
+                    <ul>
+                        <li><a href="#"></a></li>
+                        <li><a href="#">+39 3934146871</a></li>
+                        <li><a href="#">Assistenza WhatsApp</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Sportello Speed - Tutti i diritti riservati</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Admin Panel nascosto -->
+    <div class="overlay admin-only" id="admin-overlay"></div>
+    <div class="admin-panel admin-only" id="admin-panel">
+        <div class="admin-header">
+            <h3>Pannello di Amministrazione - Domande degli Utenti</h3>
+            <button class="close-admin" id="close-admin">&times;</button>
+        </div>
+        <div class="question-list" id="question-list">
+            <!-- Le domande verranno aggiunte dinamicamente qui -->
+        </div>
+    </div>
+
+    <script>
+        // Gestione del caricamento file
+        document.getElementById('file-upload').addEventListener('change', function(e) {
+            const fileList = document.querySelector('.file-list');
+            if (this.files.length > 0) {
+                if (this.files.length === 1) {
+                    fileList.textContent = this.files[0].name;
+                } else {
+                    fileList.textContent = this.files.length + ' file selezionati';
+                }
+            } else {
+                fileList.textContent = 'Nessun file selezionato';
+            }
+        });
+
+        // === Utilities robustezza WhatsApp ===
+        function normalizePhone(phone) {
+            let p = (phone || '').replace(/\D/g, '');
+            p = p.replace(/^0+/, ''); // rimuove zeri iniziali
+            if (!p.startsWith('39')) p = '39' + p; // default Italia
+            return p;
+        }
+
+        // Funzione per convertire file in base64
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        // Canale broadcast per comunicare con admin.html
+        let bc = null;
+        try { bc = new BroadcastChannel('sd_chats'); } catch(e) { /* Safari privato etc. */ }
+
+        // Array per memorizzare le chat
+        let chats = JSON.parse(localStorage.getItem('whatsapp_chats')) || [];
+        
+        // Simulazione invio domanda (utente)
+        document.getElementById('submit-question').addEventListener('click', async function() {
+            const userName = document.getElementById('user-name').value.trim();
+            const userPhoneRaw = document.getElementById('user-phone').value.trim();
+            const userQuestion = document.getElementById('user-question').value.trim();
+            const fileInput = document.getElementById('file-upload');
+            
+            if (userName && userPhoneRaw && userQuestion) {
+                const userPhone = normalizePhone(userPhoneRaw);
+                
+                // Gestione allegati
+                let attachments = [];
+                if (fileInput.files.length > 0) {
+                    for (let i = 0; i < fileInput.files.length; i++) {
+                        const base64File = await fileToBase64(fileInput.files[i]);
+                        attachments.push({
+                            name: fileInput.files[i].name,
+                            type: fileInput.files[i].type,
+                            data: base64File
+                        });
+                    }
+                }
+
+                // Aggiungi alla chat fittizia (interfaccia)
+                const messagesContainer = document.querySelector('.chat-messages');
+                const newMessage = document.createElement('div');
+                newMessage.classList.add('message', 'sent');
+                newMessage.textContent = userQuestion;
+                
+                messagesContainer.appendChild(newMessage);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                // Simula risposta automatica
+                setTimeout(function() {
+                    const response = document.createElement('div');
+                    response.classList.add('message', 'received');
+                    response.textContent = 'Grazie per la tua richiesta! Ti risponderemo al più presto sul tuo WhatsApp.';
+                    
+                    messagesContainer.appendChild(response);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }, 800);
+                
+                // Crea un nuovo oggetto chat
+                const newChat = {
+                    id: Date.now().toString(),
+                    userName: userName,
+                    userPhone: userPhone,
+                    question: userQuestion,
+                    timestamp: new Date().toISOString(),
+                    status: 'unread',
+                    attachments: attachments  // Aggiungi gli allegati
+                };
+                
+                // Aggiungi alla lista chat (persistenza condivisa)
+                chats.unshift(newChat);
+                localStorage.setItem('whatsapp_chats', JSON.stringify(chats));
+
+                // Notifica l'admin (BroadcastChannel + storage event già si attiva sugli altri tab)
+                if (bc) bc.postMessage({ type: 'new_chat', payload: newChat });
+
+                // Resetta il form
+                document.getElementById('user-name').value = '';
+                document.getElementById('user-phone').value = '';
+                document.getElementById('user-question').value = '';
+                document.querySelector('.file-list').textContent = 'Nessun file selezionato';
+                fileInput.value = '';  // Resetta l'input file
+                
+            } else {
+                alert('Per favore, compila tutti i campi prima di inviare la domanda.');
+            }
+        });
+
+        // Nessun handler per pannello admin su questa pagina (rimane nascosto)
+    </script>
+</body>
+</html>
