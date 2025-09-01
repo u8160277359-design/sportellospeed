@@ -624,27 +624,39 @@
 <body>
     <!-- Header -->
     <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-icon">
-  <img src="logo.png" alt="Logo" style="height:80px;">
-</div>
-                    <div class="logo-text">Sportello Speed</div>
+    <div class="container">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="logo.png" alt="Logo" style="height:80px;">
                 </div>
-                <nav>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="servizi.html">Servizi</a></li>
-                        <li><a href="comefunziona.html">Come Funziona</a></li>
-                       
-                    </ul>
-                </nav>
-                <!-- Link admin presente ma nascosto -->
-                <a href="admin.html" class="admin-login admin-only" id="admin-toggle" aria-hidden="true">Accesso Amministratori</a>
+                <div class="logo-text">Sportello Speed</div>
             </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="servizi.html">Servizi</a></li>
+                    <li><a href="comefunziona.html">Come Funziona</a></li>
+                </ul>
+            </nav>
+            <!-- Link admin con password -->
+            <a href="#" class="admin-login" id="admin-toggle">Accesso Amministratori</a>
         </div>
-    </header>
+    </div>
+</header>
+
+<script>
+document.getElementById('admin-toggle').addEventListener('click', function(e) {
+    e.preventDefault();
+    const pwd = prompt("Inserisci la password per accedere all'area amministratori:");
+    if (pwd === "GppRmO72@") {
+        window.location.href = "admin.html";
+    } else {
+        alert("Password errata! Accesso negato.");
+    }
+});
+</script>
+
 
     <!-- Hero Section -->
     <section class="hero">
