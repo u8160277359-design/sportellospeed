@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sportello Digitale - Assistenza INPS, Naspi, AdE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Aggiungi Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <style>
      /* === Loghi Enti === */
 #enti-riferimento {
@@ -234,6 +237,8 @@
             flex: 1;
             min-width: 300px;
             padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
         }
         
         .chat-box {
@@ -605,6 +610,7 @@
         .user-info {
             font-weight: bold;
             color: var(--poste-blue);
+            font-size: 1.1rem;
         }
         
         .question-time {
@@ -614,6 +620,8 @@
         
         .question-content {
             margin-bottom: 15px;
+            font-size: 1rem;
+            line-height: 1.5;
         }
         
         .admin-response {
@@ -627,6 +635,7 @@
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
+            font-size: 1rem;
         }
         
         .admin-response button {
@@ -636,6 +645,11 @@
             padding: 10px 15px;
             border-radius: 5px;
             cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .admin-response button:hover {
+            background-color: #128C7E;
         }
         
         .overlay {
@@ -749,7 +763,7 @@ document.getElementById('admin-toggle').addEventListener('click', function(e) {
                 <div class="chat-info">
                     <h3>Come funziona il nostro servizio</h3>
                     <p>Scrivi la tua domanda nel modulo qui accanto, allega eventuali documenti e invia la richiesta. I nostri operatori specializzati ti risponderanno nel minor tempo possibile direttamente sul tuo WhatsApp.</p>
-                    <p>Il servizio è disponibile per assistenza su:</p>
+                    <p>Il servizio è disponible per assistenza su:</p>
                     <ul>
                         <li>INPS - Pensioni e prestazioni sociali</li>
                         <li>Naspi - Disoccupazione</li>
@@ -961,6 +975,58 @@ document.getElementById('admin-toggle').addEventListener('click', function(e) {
     </div>
 
     <script>
+       <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+    // Configurazione Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyAA9sbM03-XbikVrBGhVV6H_du6E28WIg4",
+        authDomain: "sportellospeed.firebaseapp.com",
+        projectId: "sportellospeed",
+        storageBucket: "sportellospeed.firebasetorage.app",
+        messagingSenderId: "224365418093",
+        appId: "1:224365418093:web:b01c57d26ba86300e85164",
+        measurementId: "G-SHBNCHFG1F"
+    };
+
+    // Inizializza Firebase
+    try {
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        console.log("Firebase inizializzato correttamente");
+    } catch (e) {
+        console.error("Errore inizializzazione Firebase:", e);
+        }
+
+        // Funzioni per interagire con Firestore
+        async function saveChatToFirestore(chat) {
+    try {
+        // Accedi a firebase direttamente dall'oggetto globale
+        const db = firebase.firestore();
+        await db.collection("chats").doc(chat.id).set(chat);
+        console.log("Chat salvata su Firestore");
+    } catch (error) {
+        console.error("Errore salvataggio su Firestore:", error);
+        // Fallback al localStorage
+        saveToLocalStorage(chat);
+    }
+
+        }
+
+        // Funzioni di fallback per localStorage
+        function saveToLocalStorage(chat) {
+            let chats = JSON.parse(localStorage.getItem('whatsapp_chats')) || [];
+            const existingIndex = chats.findIndex(c => c.id === chat.id);
+            
+            if (existingIndex >= 0) {
+                chats[existingIndex] = chat;
+            } else {
+                chats.unshift(chat);
+            }
+            
+            localStorage.setItem('whatsapp_chats', JSON.stringify(chats));
+        }
+
         // Gestione del caricamento file
         document.getElementById('file-upload').addEventListener('change', function(e) {
             const fileList = document.querySelector('.file-list');
@@ -1053,19 +1119,15 @@ document.getElementById('admin-toggle').addEventListener('click', function(e) {
                     attachments: attachments  // Aggiungi gli allegati
                 };
                 
-                // Aggiungi alla lista chat (persistenza condivisa)
-                chats.unshift(newChat);
-                localStorage.setItem('whatsapp_chats', JSON.stringify(chats));
-
-                // Notifica l'admin (BroadcastChannel + storage event già si attiva sugli altri tab)
-                if (bc) bc.postMessage({ type: 'new_chat', payload: newChat });
+                // Salva su Firestore (con fallback a localStorage)
+                await saveChatToFirestore(newChat);
 
                 // Resetta il form
                 document.getElementById('user-name').value = '';
                 document.getElementById('user-phone').value = '';
                 document.getElementById('user-question').value = '';
                 document.querySelector('.file-list').textContent = 'Nessun file selezionato';
-                fileInput.value = '';  // Resetta l'input file
+                fileInput.value = '';
                 
             } else {
                 alert('Per favore, compila tutti i campi prima di inviare la domanda.');

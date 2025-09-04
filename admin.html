@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sportello Digitale • Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Aggiungi Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <style>
         :root {
             --poste-yellow: #F9D423;
@@ -207,6 +210,79 @@
     </div>
 
     <script>
+       <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+    // Configurazione Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyAA9sbM03-XbikVrBGhVV6H_du6E28WIg4",
+        authDomain: "sportellospeed.firebaseapp.com",
+        projectId: "sportellospeed",
+        storageBucket: "sportellospeed.firebasetorage.app",
+        messagingSenderId: "224365418093",
+        appId: "1:224365418093:web:b01c57d26ba86300e85164",
+        measurementId: "G-SHBNCHFG1F"
+    };
+
+    // Inizializza Firebase
+    try {
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        console.log("Firebase inizializzato correttamente");
+    } catch (e) {
+        console.error("Errore inizializzazione Firebase:", e);
+        }
+
+        // Funzioni per interagire con Firestore
+        async function saveChatToFirestore(chat) {
+            try {
+                await db.collection("chats").doc(chat.id).set(chat);
+                console.log("Chat salvata su Firestore");
+            } catch (error) {
+                console.error("Errore salvataggio su Firestore:", error);
+                // Fallback al localStorage
+                saveToLocalStorage(chat);
+            }
+        }
+
+        async function loadChatsFromFirestore() {
+            try {
+                const snapshot = await db.collection("chats").orderBy("timestamp", "desc").get();
+                const chats = [];
+                snapshot.forEach(doc => {
+                    chats.push(doc.data());
+                });
+                return chats;
+            } catch (error) {
+                console.error("Errore caricamento da Firestore:", error);
+                // Fallback al localStorage
+                return JSON.parse(localStorage.getItem('whatsapp_chats')) || [];
+            }
+        }
+
+        async function deleteChatFromFirestore(chatId) {
+            try {
+                await db.collection("chats").doc(chatId).delete();
+                console.log("Chat eliminata da Firestore");
+            } catch (error) {
+                console.error("Errore eliminazione da Firestore:", error);
+            }
+        }
+
+        // Funzioni di fallback per localStorage
+        function saveToLocalStorage(chat) {
+            let chats = JSON.parse(localStorage.getItem('whatsapp_chats')) || [];
+            const existingIndex = chats.findIndex(c => c.id === chat.id);
+            
+            if (existingIndex >= 0) {
+                chats[existingIndex] = chat;
+            } else {
+                chats.unshift(chat);
+            }
+            
+            localStorage.setItem('whatsapp_chats', JSON.stringify(chats));
+        }
+
         // === Canale di comunicazione tra pagine
         let bc = null;
         try { bc = new BroadcastChannel('sd_chats'); } catch(e) { /* non supportato */ }
@@ -220,11 +296,11 @@
         }
 
         // Stato
-        let chats = JSON.parse(localStorage.getItem('whatsapp_chats')) || [];
+        let chats = [];
 
         // Rendering lista chat
-        function updateChatList() {
-            chats = JSON.parse(localStorage.getItem('whatsapp_chats')) || [];
+        async function updateChatList() {
+            chats = await loadChatsFromFirestore();
             const chatList = document.getElementById('whatsapp-chat-list');
             chatList.innerHTML = '';
 
@@ -300,17 +376,17 @@
         }
 
         // Funzione per eliminare una chat singola
-        function deleteChat(chatId) {
+        async function deleteChat(chatId) {
             if (confirm('Sei sicuro di voler eliminare questa chat?')) {
-                chats = chats.filter(chat => chat.id !== chatId);
-                localStorage.setItem('whatsapp_chats', JSON.stringify(chats));
-                if (bc) bc.postMessage({ type: 'chat_deleted', payload: { id: chatId } });
+                await deleteChatFromFirestore(chatId);
+                
+                // Aggiorna la lista
                 updateChatList();
             }
         }
 
         // Funzione per eliminare le chat selezionate
-        function deleteSelectedChats() {
+        async function deleteSelectedChats() {
             const selectedCheckboxes = document.querySelectorAll('.chat-checkbox:checked');
             if (selectedCheckboxes.length === 0) {
                 alert('Seleziona almeno una chat da eliminare.');
@@ -319,9 +395,13 @@
             
             if (confirm(`Sei sicuro di voler eliminare ${selectedCheckboxes.length} chat?`)) {
                 const idsToDelete = Array.from(selectedCheckboxes).map(checkbox => checkbox.dataset.id);
-                chats = chats.filter(chat => !idsToDelete.includes(chat.id));
-                localStorage.setItem('whatsapp_chats', JSON.stringify(chats));
-                if (bc) bc.postMessage({ type: 'chats_deleted', payload: { ids: idsToDelete } });
+                
+                // Elimina ogni chat da Firestore
+                for (const id of idsToDelete) {
+                    await deleteChatFromFirestore(id);
+                }
+                
+                // Aggiorna la lista
                 updateChatList();
             }
         }
@@ -369,13 +449,12 @@
         }
 
         // Apri dettaglio chat
-        function openChat(chatId) {
+        async function openChat(chatId) {
             const chat = chats.find(c => c.id === chatId);
             if (!chat) return;
 
             chat.status = 'read';
-            localStorage.setItem('whatsapp_chats', JSON.stringify(chats));
-            if (bc) bc.postMessage({ type: 'status_update', payload: { id: chatId, status: 'read' } });
+            await saveChatToFirestore(chat);
             updateChatList();
 
             // Pannello
@@ -463,7 +542,7 @@
         }
 
         // Invia risposta via WhatsApp
-        function sendResponse(chatId) {
+        async function sendResponse(chatId) {
             const chat = chats.find(c => c.id === chatId);
             if (!chat) return;
 
@@ -476,8 +555,7 @@
             input.value = '';
 
             chat.status = 'read';
-            localStorage.setItem('whatsapp_chats', JSON.stringify(chats));
-            if (bc) bc.postMessage({ type: 'status_update', payload: { id: chatId, status: 'read' } });
+            await saveChatToFirestore(chat);
             updateChatList();
 
             setTimeout(() => {
@@ -507,22 +585,31 @@
             document.getElementById('admin-overlay').style.display = 'none';
         });
 
-        // Sincronizzazione tra pagine
-        window.addEventListener('storage', (ev) => {
-            if (ev.key === 'whatsapp_chats') updateChatList();
-        });
-        if (bc) {
-            bc.onmessage = (ev) => {
-                const { type } = ev.data || {};
-                if (type === 'new_chat' || type === 'status_update' || 
-                    type === 'chat_deleted' || type === 'chats_deleted') {
-                    updateChatList();
-                }
-            };
+        // Sincronizzazione in tempo reale con Firestore
+        function setupRealtimeListener() {
+            try {
+                db.collection("chats")
+                    .orderBy("timestamp", "desc")
+                    .onSnapshot((snapshot) => {
+                        snapshot.docChanges().forEach((change) => {
+                            if (change.type === "added" || change.type === "modified") {
+                                updateChatList();
+                            }
+                            if (change.type === "removed") {
+                                updateChatList();
+                            }
+                        });
+                    });
+            } catch (error) {
+                console.error("Errore listener Firestore:", error);
+            }
         }
 
         // Init
-        document.addEventListener('DOMContentLoaded', updateChatList);
+        document.addEventListener('DOMContentLoaded', function() {
+            updateChatList();
+            setupRealtimeListener();
+        });
     </script>
 </body>
 </html>
