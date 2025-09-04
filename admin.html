@@ -1,217 +1,3 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sportello Digitale • Admin</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Aggiungi Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <style>
-        :root {
-            --poste-yellow: #F9D423;
-            --poste-blue: #0066CC;
-            --poste-dark-blue: #004C99;
-            --light-gray: #f5f5f5;
-            --dark-gray: #333;
-            --whatsapp-green: #25D366;
-            --whatsapp-light: #dcf8c6;
-            --unread-blue: #0066CC;
-            --read-green: #25D366;
-        }
-        * {margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
-        body {background-color: var(--light-gray); color: var(--dark-gray); line-height:1.6;}
-        .container {width:100%;max-width:1200px;margin:0 auto;padding:0 20px;}
-
-        /* Header (stile coerente) */
-        header {background:linear-gradient(135deg,var(--poste-blue) 0%,var(--poste-dark-blue) 100%);color:#fff;padding:1.2rem 0;box-shadow:0 2px 10px rgba(0,0,0,0.1);}
-        .header-content{display:flex;justify-content:space-between;align-items:center;}
-        .logo{display:flex;align-items:center;gap:12px;}
-        .logo-icon{font-size:2rem;color:var(--poste-yellow);}
-        .logo-text{font-size:1.4rem;font-weight:700;}
-        .header-actions a{color:#fff;text-decoration:none;opacity:.85}
-        .header-actions a:hover{opacity:1;text-decoration:underline;}
-
-        /* Lista chat */
-        .whatsapp-chat-container {margin-top:30px;padding:20px;background:#fff;border-radius:10px;box-shadow:0 5px 15px rgba(0,0,0,.1);}
-        .whatsapp-chat-header {display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid #eee;}
-        .whatsapp-chat-header i {font-size:24px;color:var(--whatsapp-green);}
-        .whatsapp-chat-header h3 {color:var(--poste-dark-blue);}
-        .chat-list {display:flex;flex-direction:column;gap:15px;}
-        .chat-item {display:flex;align-items:center;padding:15px;border-radius:10px;background:#f9f9f9;cursor:pointer;transition:background .3s;}
-        .chat-item:hover{background:#f0f0f0;}
-        .chat-avatar{width:50px;height:50px;border-radius:50%;background:var(--poste-blue);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold;font-size:18px;margin-right:15px;}
-        .chat-content{flex:1;}
-        .chat-user{font-weight:bold;color:var(--poste-dark-blue);margin-bottom:5px;}
-        .chat-preview{font-size:.9rem;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:420px;}
-        .chat-meta{display:flex;flex-direction:column;align-items:flex-end;gap:5px;}
-        .chat-time{font-size:.8rem;color:#888;}
-        .chat-status{font-size:1rem;}
-        .status-unread{color:var(--unread-blue);}
-        .status-read{color:var(--read-green);}
-
-        /* Pannello dettaglio */
-        .admin-panel{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;max-width:800px;max-height:80vh;background:#fff;border-radius:10px;box-shadow:0 5px 30px rgba(0,0,0,.3);z-index:1000;overflow:hidden;}
-        .admin-header{background:linear-gradient(135deg,var(--poste-blue) 0%,var(--poste-dark-blue) 100%);color:#fff;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;}
-        .close-admin{background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;}
-        .question-list{padding:20px;max-height:60vh;overflow-y:auto;}
-        .question-item{padding:15px;border:1px solid #eee;border-radius:8px;margin-bottom:15px;background:#f9f9f9;}
-        .question-header{display:flex;justify-content:space-between;margin-bottom:10px;}
-        .user-info{font-weight:bold;color:var(--poste-blue);}
-        .question-time{color:#888;font-size:.9rem;}
-        .question-content{margin-bottom:15px;}
-        .admin-response{display:flex;gap:10px;margin-top:10px;}
-        .admin-response input{flex:1;padding:10px;border:1px solid #ddd;border-radius:5px;}
-        .admin-response button{background:var(--whatsapp-green);color:#fff;border:none;padding:10px 15px;border-radius:5px;cursor:pointer;}
-        .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:999;}
-
-        /* Stile per la sezione allegati */
-        .attachments-section {
-            margin: 15px 0;
-            padding: 10px;
-            background: #f0f8ff;
-            border-radius: 5px;
-            border-left: 4px solid var(--poste-blue);
-        }
-
-        .attachments-section h4 {
-            margin-bottom: 10px;
-            color: var(--poste-dark-blue);
-        }
-
-        .attachment-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px;
-            background: white;
-            border-radius: 4px;
-            margin-bottom: 8px;
-        }
-
-        .download-btn {
-            background: var(--poste-blue);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .download-btn:hover {
-            background: var(--poste-dark-blue);
-        }
-
-        /* Pulsante di cancellazione */
-        .delete-btn {
-            background: #ff4444;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            margin-left: 10px;
-        }
-
-        .delete-btn:hover {
-            background: #cc0000;
-        }
-
-        .admin-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .bulk-delete {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        #delete-selected {
-            background: #ff4444;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        #delete-selected:hover {
-            background: #cc0000;
-        }
-
-        .chat-item.selected {
-            background-color: #e3f2fd;
-            border: 2px solid var(--poste-blue);
-        }
-
-        @media (max-width:768px){
-            .header-content{flex-direction:column;text-align:center;gap:10px;}
-            .chat-item{flex-direction:column;align-items:flex-start;}
-            .chat-meta{flex-direction:row;align-items:center;margin-top:10px;width:100%;justify-content:space-between;}
-            .admin-response{flex-direction:column;}
-            .attachment-item{flex-direction:column;align-items:flex-start;gap:8px;}
-            .download-btn{align-self:flex-end;}
-            .admin-actions{flex-direction:column;align-items:flex-start;gap:10px;}
-            .bulk-delete{flex-wrap:wrap;}
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-icon"><img src="logo.png" alt="Logo" style="height:80px;"></div>
-                    <div class="logo-text">Sportello Digitale • Amministratore</div>
-                </div>
-                <div class="header-actions">
-                    <a href="index.html" title="Torna al sito">← Torna al sito</a>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <section class="container">
-        <div class="whatsapp-chat-container">
-            <div class="whatsapp-chat-header">
-                <div>
-                    <i class="fab fa-whatsapp"></i>
-                    <h3>Chat Ricevute - Interfaccia Amministratore</h3>
-                </div>
-                <div class="admin-actions">
-                    <div class="bulk-delete">
-                        <input type="checkbox" id="select-all">
-                        <label for="select-all">Seleziona tutti</label>
-                        <button id="delete-selected">Elimina selezionate</button>
-                    </div>
-                </div>
-            </div>
-            <div class="chat-list" id="whatsapp-chat-list">
-                <!-- Le chat verranno aggiunte dinamicamente qui -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Overlay + pannello dettaglio -->
-    <div class="overlay" id="admin-overlay"></div>
-    <div class="admin-panel" id="admin-panel">
-        <div class="admin-header">
-            <h3>Pannello di Amministrazione - Domande degli Utenti</h3>
-            <button class="close-admin" id="close-admin" aria-label="Chiudi pannello">&times;</button>
-        </div>
-        <div class="question-list" id="question-list"></div>
-    </div>
-
-    <script>
-       <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 <script>
     // Configurazione Firebase
     const firebaseConfig = {
@@ -225,391 +11,389 @@
     };
 
     // Inizializza Firebase
+    let db;
     try {
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        db = firebase.firestore();
         console.log("Firebase inizializzato correttamente");
     } catch (e) {
         console.error("Errore inizializzazione Firebase:", e);
+    }
+
+    // Funzioni per interagire con Firestore
+    async function saveChatToFirestore(chat) {
+        try {
+            const db = firebase.firestore();
+            await db.collection("chats").doc(chat.id).set(chat);
+            console.log("Chat salvata su Firestore");
+        } catch (error) {
+            console.error("Errore salvataggio su Firestore:", error);
+            saveToLocalStorage(chat);
         }
+    }
 
-        // Funzioni per interagire con Firestore
-        async function saveChatToFirestore(chat) {
-            try {
-                await db.collection("chats").doc(chat.id).set(chat);
-                console.log("Chat salvata su Firestore");
-            } catch (error) {
-                console.error("Errore salvataggio su Firestore:", error);
-                // Fallback al localStorage
-                saveToLocalStorage(chat);
-            }
-        }
-
-        async function loadChatsFromFirestore() {
-            try {
-                const snapshot = await db.collection("chats").orderBy("timestamp", "desc").get();
-                const chats = [];
-                snapshot.forEach(doc => {
-                    chats.push(doc.data());
-                });
-                return chats;
-            } catch (error) {
-                console.error("Errore caricamento da Firestore:", error);
-                // Fallback al localStorage
-                return JSON.parse(localStorage.getItem('whatsapp_chats')) || [];
-            }
-        }
-
-        async function deleteChatFromFirestore(chatId) {
-            try {
-                await db.collection("chats").doc(chatId).delete();
-                console.log("Chat eliminata da Firestore");
-            } catch (error) {
-                console.error("Errore eliminazione da Firestore:", error);
-            }
-        }
-
-        // Funzioni di fallback per localStorage
-        function saveToLocalStorage(chat) {
-            let chats = JSON.parse(localStorage.getItem('whatsapp_chats')) || [];
-            const existingIndex = chats.findIndex(c => c.id === chat.id);
-            
-            if (existingIndex >= 0) {
-                chats[existingIndex] = chat;
-            } else {
-                chats.unshift(chat);
-            }
-            
-            localStorage.setItem('whatsapp_chats', JSON.stringify(chats));
-        }
-
-        // === Canale di comunicazione tra pagine
-        let bc = null;
-        try { bc = new BroadcastChannel('sd_chats'); } catch(e) { /* non supportato */ }
-
-        // Util per normalizzare numero
-        function normalizePhone(phone) {
-            let p = (phone || '').replace(/\D/g, '');
-            p = p.replace(/^0+/, '');
-            if (!p.startsWith('39')) p = '39' + p;
-            return p;
-        }
-
-        // Stato
-        let chats = [];
-
-        // Rendering lista chat
-        async function updateChatList() {
-            chats = await loadChatsFromFirestore();
-            const chatList = document.getElementById('whatsapp-chat-list');
-            chatList.innerHTML = '';
-
-            if (chats.length === 0) {
-                chatList.innerHTML = '<p style="text-align:center;padding:20px;color:#888;">Nessuna chat ricevuta</p>';
-                return;
-            }
-
-            chats.sort((a,b) => {
-                if (a.status !== b.status) return a.status === 'unread' ? -1 : 1;
-                return new Date(b.timestamp) - new Date(a.timestamp);
+    async function loadChatsFromFirestore() {
+        try {
+            const db = firebase.firestore();
+            const snapshot = await db.collection("chats").orderBy("timestamp", "desc").get();
+            const chats = [];
+            snapshot.forEach(doc => {
+                chats.push(doc.data());
             });
+            return chats;
+        } catch (error) {
+            console.error("Errore caricamento da Firestore:", error);
+            return JSON.parse(localStorage.getItem('whatsapp_chats')) || [];
+        }
+    }
 
-            chats.forEach((chat) => {
-                const chatItem = document.createElement('div');
-                chatItem.className = 'chat-item';
-                chatItem.dataset.id = chat.id;
+    async function deleteChatFromFirestore(chatId) {
+        try {
+            const db = firebase.firestore();
+            await db.collection("chats").doc(chatId).delete();
+            console.log("Chat eliminata da Firestore");
+            return true;
+        } catch (error) {
+            console.error("Errore eliminazione da Firestore:", error);
+            return false;
+        }
+    }
 
-                const initial = (chat.userName || '?').charAt(0).toUpperCase();
-                const time = new Date(chat.timestamp);
-                const timeString = time.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+    // Funzioni di fallback per localStorage
+    function saveToLocalStorage(chat) {
+        let chats = JSON.parse(localStorage.getItem('whatsapp_chats')) || [];
+        const existingIndex = chats.findIndex(c => c.id === chat.id);
+        
+        if (existingIndex >= 0) {
+            chats[existingIndex] = chat;
+        } else {
+            chats.unshift(chat);
+        }
+        
+        localStorage.setItem('whatsapp_chats', JSON.stringify(chats));
+    }
 
-                // Aggiungi indicatore allegati se presenti
-                const attachmentsIndicator = chat.attachments && chat.attachments.length > 0 
-                    ? ` <i class="fas fa-paperclip" style="color: var(--poste-blue);"></i>` 
-                    : '';
+    function deleteFromLocalStorage(chatId) {
+        let chats = JSON.parse(localStorage.getItem('whatsapp_chats')) || [];
+        chats = chats.filter(chat => chat.id !== chatId);
+        localStorage.setItem('whatsapp_chats', JSON.stringify(chats));
+    }
 
-                chatItem.innerHTML = `
-                    <div style="display: flex; align-items: center; margin-right: 10px;">
-                        <input type="checkbox" class="chat-checkbox" data-id="${chat.id}">
-                    </div>
-                    <div class="chat-avatar">${initial}</div>
-                    <div class="chat-content">
-                        <div class="chat-user">${chat.userName}${attachmentsIndicator}</div>
-                        <div class="chat-preview">${chat.question}</div>
-                    </div>
-                    <div class="chat-meta">
-                        <div class="chat-time">${timeString}</div>
-                        <div class="chat-status ${chat.status === 'unread' ? 'status-unread':'status-read'}">
-                            <i class="fas ${chat.status === 'unread' ? 'fa-check-circle':'fa-check-double'}"></i>
-                        </div>
-                        <button class="delete-btn" data-id="${chat.id}">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                `;
+    // Util per normalizzare numero
+    function normalizePhone(phone) {
+        let p = (phone || '').replace(/\D/g, '');
+        p = p.replace(/^0+/, '');
+        if (!p.startsWith('39')) p = '39' + p;
+        return p;
+    }
 
-                chatItem.addEventListener('click', (e) => {
-                    // Evita l'apertura della chat se si clicca sulla checkbox o sul pulsante di eliminazione
-                    if (!e.target.closest('.chat-checkbox') && !e.target.closest('.delete-btn')) {
-                        openChat(chat.id);
-                    }
-                });
-                
-                // Aggiungi event listener per il pulsante di eliminazione
-                chatItem.querySelector('.delete-btn').addEventListener('click', (e) => {
-                    e.stopPropagation(); // Impedisce l'apertura della chat
-                    deleteChat(chat.id);
-                });
+    // Stato
+    let chats = [];
 
-                // Aggiungi event listener per la checkbox
-                const checkbox = chatItem.querySelector('.chat-checkbox');
-                checkbox.addEventListener('change', function() {
-                    toggleChatSelection(this);
-                    updateSelectAllCheckbox();
-                });
+    // Rendering lista chat
+    async function updateChatList() {
+        chats = await loadChatsFromFirestore();
+        const chatList = document.getElementById('whatsapp-chat-list');
+        chatList.innerHTML = '';
 
-                chatList.appendChild(chatItem);
-            });
-            
-            // Inizializza la selezione
-            setTimeout(setupSelectAll, 0);
+        if (chats.length === 0) {
+            chatList.innerHTML = '<p style="text-align:center;padding:20px;color:#888;">Nessuna chat ricevuta</p>';
+            return;
         }
 
-        // Funzione per eliminare una chat singola
-        async function deleteChat(chatId) {
-            if (confirm('Sei sicuro di voler eliminare questa chat?')) {
-                await deleteChatFromFirestore(chatId);
-                
-                // Aggiorna la lista
-                updateChatList();
-            }
-        }
+        chats.sort((a,b) => {
+            if (a.status !== b.status) return a.status === 'unread' ? -1 : 1;
+            return new Date(b.timestamp) - new Date(a.timestamp);
+        });
 
-        // Funzione per eliminare le chat selezionate
-        async function deleteSelectedChats() {
-            const selectedCheckboxes = document.querySelectorAll('.chat-checkbox:checked');
-            if (selectedCheckboxes.length === 0) {
-                alert('Seleziona almeno una chat da eliminare.');
-                return;
-            }
-            
-            if (confirm(`Sei sicuro di voler eliminare ${selectedCheckboxes.length} chat?`)) {
-                const idsToDelete = Array.from(selectedCheckboxes).map(checkbox => checkbox.dataset.id);
-                
-                // Elimina ogni chat da Firestore
-                for (const id of idsToDelete) {
-                    await deleteChatFromFirestore(id);
-                }
-                
-                // Aggiorna la lista
-                updateChatList();
-            }
-        }
+        chats.forEach((chat) => {
+            const chatItem = document.createElement('div');
+            chatItem.className = 'chat-item';
+            chatItem.dataset.id = chat.id;
 
-        // Gestione selezione/deselezione tutti
-        function setupSelectAll() {
-            const selectAllCheckbox = document.getElementById('select-all');
-            const chatCheckboxes = document.querySelectorAll('.chat-checkbox');
-            
-            selectAllCheckbox.addEventListener('change', function() {
-                chatCheckboxes.forEach(checkbox => {
-                    checkbox.checked = this.checked;
-                    toggleChatSelection(checkbox);
-                });
-            });
-            
-            chatCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    toggleChatSelection(this);
-                    updateSelectAllCheckbox();
-                });
-            });
-            
-            updateSelectAllCheckbox();
-        }
-
-        function toggleChatSelection(checkbox) {
-            const chatItem = checkbox.closest('.chat-item');
-            if (checkbox.checked) {
-                chatItem.classList.add('selected');
-            } else {
-                chatItem.classList.remove('selected');
-            }
-        }
-
-        function updateSelectAllCheckbox() {
-            const selectAllCheckbox = document.getElementById('select-all');
-            const chatCheckboxes = document.querySelectorAll('.chat-checkbox');
-            const allChecked = chatCheckboxes.length > 0 && 
-                              Array.from(chatCheckboxes).every(checkbox => checkbox.checked);
-            
-            selectAllCheckbox.checked = allChecked;
-            selectAllCheckbox.indeterminate = !allChecked && 
-                                            Array.from(chatCheckboxes).some(checkbox => checkbox.checked);
-        }
-
-        // Apri dettaglio chat
-        async function openChat(chatId) {
-            const chat = chats.find(c => c.id === chatId);
-            if (!chat) return;
-
-            chat.status = 'read';
-            await saveChatToFirestore(chat);
-            updateChatList();
-
-            // Pannello
-            document.getElementById('admin-panel').style.display = 'block';
-            document.getElementById('admin-overlay').style.display = 'block';
-
-            const questionList = document.getElementById('question-list');
-            questionList.innerHTML = '';
-
+            const initial = (chat.userName || '?').charAt(0).toUpperCase();
             const time = new Date(chat.timestamp);
             const timeString = time.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
 
-            const item = document.createElement('div');
-            item.className = 'question-item';
-            
-            // Costruisci HTML per gli allegati se presenti
-            let attachmentsHTML = '';
-            if (chat.attachments && chat.attachments.length > 0) {
-                attachmentsHTML = `
-                    <div class="attachments-section">
-                        <h4>Allegati:</h4>
-                        ${chat.attachments.map((attachment, index) => `
-                            <div class="attachment-item">
-                                <span>${attachment.name}</span>
-                                <button type="button" class="download-btn" data-index="${index}">
-                                    <i class="fas fa-download"></i> Scarica
-                                </button>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            }
+            const attachmentsIndicator = chat.attachments && chat.attachments.length > 0 
+                ? ` <i class="fas fa-paperclip" style="color: var(--poste-blue);"></i>` 
+                : '';
 
-            item.innerHTML = `
-                <div class="question-header">
-                    <span class="user-info">${chat.userName} (${chat.userPhone})</span>
-                    <span class="question-time">Oggi, ${timeString}</span>
+            chatItem.innerHTML = `
+                <div style="display: flex; align-items: center; margin-right: 10px;">
+                    <input type="checkbox" class="chat-checkbox" data-id="${chat.id}">
                 </div>
-                <div class="question-content"><p>${chat.question}</p></div>
-                ${attachmentsHTML}
-                <div class="admin-response">
-                    <input type="text" placeholder="Scrivi la risposta qui..." id="response-${chat.id}">
-                    <button type="button" class="send-reply-btn"><i class="fab fa-whatsapp"></i> Invia via WhatsApp</button>
+                <div class="chat-avatar">${initial}</div>
+                <div class="chat-content">
+                    <div class="chat-user">${chat.userName}${attachmentsIndicator}</div>
+                    <div class="chat-preview">${chat.question}</div>
+                </div>
+                <div class="chat-meta">
+                    <div class="chat-time">${timeString}</div>
+                    <div class="chat-status ${chat.status === 'unread' ? 'status-unread':'status-read'}">
+                        <i class="fas ${chat.status === 'unread' ? 'fa-check-circle':'fa-check-double'}"></i>
+                    </div>
+                    <button class="delete-btn" data-id="${chat.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </div>
             `;
-            questionList.appendChild(item);
 
-            // Aggiungi event listener per i pulsanti di download
-            item.querySelectorAll('.download-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const index = e.target.closest('.download-btn').dataset.index;
-                    const attachment = chat.attachments[index];
-                    downloadAttachment(attachment.data, attachment.name);
-                });
+            chatItem.addEventListener('click', (e) => {
+                if (!e.target.closest('.chat-checkbox') && !e.target.closest('.delete-btn')) {
+                    openChat(chat.id);
+                }
+            });
+            
+            chatItem.querySelector('.delete-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteChat(chat.id);
             });
 
-            item.querySelector('.send-reply-btn').addEventListener('click', () => sendResponse(chat.id));
-        }
+            const checkbox = chatItem.querySelector('.chat-checkbox');
+            checkbox.addEventListener('change', function() {
+                toggleChatSelection(this);
+                updateSelectAllCheckbox();
+            });
 
-        // Funzione per scaricare allegati
-        function downloadAttachment(base64Data, fileName) {
-            // Estrae il tipo MIME e i dati base64
-            const parts = base64Data.split(';base64,');
-            const contentType = parts[0].split(':')[1];
-            const raw = window.atob(parts[1]);
-            const uInt8Array = new Uint8Array(raw.length);
+            chatList.appendChild(chatItem);
+        });
+        
+        setTimeout(setupSelectAll, 0);
+    }
+
+    // Funzione per eliminare una chat singola
+    async function deleteChat(chatId) {
+        if (confirm('Sei sicuro di voler eliminare questa chat?')) {
+            const success = await deleteChatFromFirestore(chatId);
+            if (!success) {
+                deleteFromLocalStorage(chatId);
+            }
+            updateChatList();
+        }
+    }
+
+    // Funzione per eliminare le chat selezionate
+    async function deleteSelectedChats() {
+        const selectedCheckboxes = document.querySelectorAll('.chat-checkbox:checked');
+        if (selectedCheckboxes.length === 0) {
+            alert('Seleziona almeno una chat da eliminare.');
+            return;
+        }
+        
+        if (confirm(`Sei sicuro di voler eliminare ${selectedCheckboxes.length} chat?`)) {
+            const idsToDelete = Array.from(selectedCheckboxes).map(checkbox => checkbox.dataset.id);
             
-            for (let i = 0; i < raw.length; ++i) {
-                uInt8Array[i] = raw.charCodeAt(i);
+            for (const id of idsToDelete) {
+                const success = await deleteChatFromFirestore(id);
+                if (!success) {
+                    deleteFromLocalStorage(id);
+                }
             }
             
-            const blob = new Blob([uInt8Array], { type: contentType });
-            const url = URL.createObjectURL(blob);
-            
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            
-            setTimeout(() => {
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }, 100);
-        }
-
-        // Invia risposta via WhatsApp
-        async function sendResponse(chatId) {
-            const chat = chats.find(c => c.id === chatId);
-            if (!chat) return;
-
-            const input = document.getElementById(`response-${chat.id}`);
-            const msg = (input && input.value || '').trim();
-
-            if (!msg) { alert('Per favore, inserisci una risposta prima di inviare.'); return; }
-
-            sendWhatsAppMessage(chat.userPhone, msg);
-            input.value = '';
-
-            chat.status = 'read';
-            await saveChatToFirestore(chat);
             updateChatList();
+        }
+    }
 
-            setTimeout(() => {
-                document.getElementById('admin-panel').style.display = 'none';
-                document.getElementById('admin-overlay').style.display = 'none';
-            }, 300);
+    // Gestione selezione/deselezione tutti
+    function setupSelectAll() {
+        const selectAllCheckbox = document.getElementById('select-all');
+        const chatCheckboxes = document.querySelectorAll('.chat-checkbox');
+        
+        selectAllCheckbox.addEventListener('change', function() {
+            chatCheckboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+                toggleChatSelection(checkbox);
+            });
+        });
+        
+        chatCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                toggleChatSelection(this);
+                updateSelectAllCheckbox();
+            });
+        });
+        
+        updateSelectAllCheckbox();
+    }
+
+    function toggleChatSelection(checkbox) {
+        const chatItem = checkbox.closest('.chat-item');
+        if (checkbox.checked) {
+            chatItem.classList.add('selected');
+        } else {
+            chatItem.classList.remove('selected');
+        }
+    }
+
+    function updateSelectAllCheckbox() {
+        const selectAllCheckbox = document.getElementById('select-all');
+        const chatCheckboxes = document.querySelectorAll('.chat-checkbox');
+        const allChecked = chatCheckboxes.length > 0 && 
+                          Array.from(chatCheckboxes).every(checkbox => checkbox.checked);
+        
+        selectAllCheckbox.checked = allChecked;
+        selectAllCheckbox.indeterminate = !allChecked && 
+                                        Array.from(chatCheckboxes).some(checkbox => checkbox.checked);
+    }
+
+    // Apri dettaglio chat
+    async function openChat(chatId) {
+        const chat = chats.find(c => c.id === chatId);
+        if (!chat) return;
+
+        chat.status = 'read';
+        await saveChatToFirestore(chat);
+        updateChatList();
+
+        document.getElementById('admin-panel').style.display = 'block';
+        document.getElementById('admin-overlay').style.display = 'block';
+
+        const questionList = document.getElementById('question-list');
+        questionList.innerHTML = '';
+
+        const time = new Date(chat.timestamp);
+        const timeString = time.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+
+        let attachmentsHTML = '';
+        if (chat.attachments && chat.attachments.length > 0) {
+            attachmentsHTML = `
+                <div class="attachments-section">
+                    <h4>Allegati:</h4>
+                    ${chat.attachments.map((attachment, index) => `
+                        <div class="attachment-item">
+                            <span>${attachment.name}</span>
+                            <button type="button" class="download-btn" data-index="${index}">
+                                <i class="fas fa-download"></i> Scarica
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
         }
 
-        function sendWhatsAppMessage(phone, message) {
-            const formattedPhone = normalizePhone(phone);
-            const encoded = encodeURIComponent(message || '');
-            const url = `https://wa.me/${formattedPhone}?text=${encoded}`;
-            const win = window.open(url, '_blank', 'noopener');
-            if (!win) window.location.href = url;
+        const item = document.createElement('div');
+        item.className = 'question-item';
+        item.innerHTML = `
+            <div class="question-header">
+                <span class="user-info">${chat.userName} (${chat.userPhone})</span>
+                <span class="question-time">Oggi, ${timeString}</span>
+            </div>
+            <div class="question-content"><p>${chat.question}</p></div>
+            ${attachmentsHTML}
+            <div class="admin-response">
+                <input type="text" placeholder="Scrivi la risposta qui..." id="response-${chat.id}">
+                <button type="button" class="send-reply-btn"><i class="fab fa-whatsapp"></i> Invia via WhatsApp</button>
+            </div>
+        `;
+        questionList.appendChild(item);
+
+        item.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const index = e.target.closest('.download-btn').dataset.index;
+                const attachment = chat.attachments[index];
+                downloadAttachment(attachment.data, attachment.name);
+            });
+        });
+
+        item.querySelector('.send-reply-btn').addEventListener('click', () => sendResponse(chat.id));
+    }
+
+    // Funzione per scaricare allegati
+    function downloadAttachment(base64Data, fileName) {
+        const parts = base64Data.split(';base64,');
+        const contentType = parts[0].split(':')[1];
+        const raw = window.atob(parts[1]);
+        const uInt8Array = new Uint8Array(raw.length);
+        
+        for (let i = 0; i < raw.length; ++i) {
+            uInt8Array[i] = raw.charCodeAt(i);
+        }
+        
+        const blob = new Blob([uInt8Array], { type: contentType });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 100);
+    }
+
+    // Invia risposta via WhatsApp
+    async function sendResponse(chatId) {
+        const chat = chats.find(c => c.id === chatId);
+        if (!chat) return;
+
+        const input = document.getElementById(`response-${chat.id}`);
+        const msg = (input && input.value || '').trim();
+
+        if (!msg) { 
+            alert('Per favore, inserisci una risposta prima di inviare.'); 
+            return; 
         }
 
-        // Event listener per eliminazione multipla
-        document.getElementById('delete-selected').addEventListener('click', deleteSelectedChats);
+        sendWhatsAppMessage(chat.userPhone, msg);
+        input.value = '';
 
-        // Eventi UI pannello
-        document.getElementById('close-admin').addEventListener('click', () => {
+        chat.status = 'read';
+        await saveChatToFirestore(chat);
+        updateChatList();
+
+        setTimeout(() => {
             document.getElementById('admin-panel').style.display = 'none';
             document.getElementById('admin-overlay').style.display = 'none';
-        });
-        document.getElementById('admin-overlay').addEventListener('click', () => {
-            document.getElementById('admin-panel').style.display = 'none';
-            document.getElementById('admin-overlay').style.display = 'none';
-        });
+        }, 300);
+    }
 
-        // Sincronizzazione in tempo reale con Firestore
-        function setupRealtimeListener() {
-            try {
-                db.collection("chats")
-                    .orderBy("timestamp", "desc")
-                    .onSnapshot((snapshot) => {
-                        snapshot.docChanges().forEach((change) => {
-                            if (change.type === "added" || change.type === "modified") {
-                                updateChatList();
-                            }
-                            if (change.type === "removed") {
-                                updateChatList();
-                            }
-                        });
+    function sendWhatsAppMessage(phone, message) {
+        const formattedPhone = normalizePhone(phone);
+        const encoded = encodeURIComponent(message || '');
+        const url = `https://wa.me/${formattedPhone}?text=${encoded}`;
+        const win = window.open(url, '_blank', 'noopener');
+        if (!win) window.location.href = url;
+    }
+
+    // Event listener per eliminazione multipla
+    document.getElementById('delete-selected').addEventListener('click', deleteSelectedChats);
+
+    // Eventi UI pannello
+    document.getElementById('close-admin').addEventListener('click', () => {
+        document.getElementById('admin-panel').style.display = 'none';
+        document.getElementById('admin-overlay').style.display = 'none';
+    });
+    document.getElementById('admin-overlay').addEventListener('click', () => {
+        document.getElementById('admin-panel').style.display = 'none';
+        document.getElementById('admin-overlay').style.display = 'none';
+    });
+
+    // Sincronizzazione in tempo reale con Firestore
+    function setupRealtimeListener() {
+        try {
+            const db = firebase.firestore();
+            db.collection("chats")
+                .orderBy("timestamp", "desc")
+                .onSnapshot((snapshot) => {
+                    snapshot.docChanges().forEach((change) => {
+                        if (change.type === "added" || change.type === "modified" || change.type === "removed") {
+                            updateChatList();
+                        }
                     });
-            } catch (error) {
-                console.error("Errore listener Firestore:", error);
-            }
+                });
+            console.log("Listener Firestore attivato");
+        } catch (error) {
+            console.error("Errore listener Firestore:", error);
         }
+    }
 
-        // Init
-        document.addEventListener('DOMContentLoaded', function() {
-            updateChatList();
-            setupRealtimeListener();
-        });
-    </script>
-</body>
-</html>
+    // Init
+    document.addEventListener('DOMContentLoaded', function() {
+        updateChatList();
+        setupRealtimeListener();
+    });
+</script>
