@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sportello Speed - Servizi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Navigation styles */
+        nav {
+            background-color: #0066cc;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 25px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #f0f0f0;
+            text-decoration: underline;
+        }
+        
+        .menu-toggle {
+            display: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 30px;
+        }
+        
+        h1 {
+            color: #0066cc;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .service-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            transition: transform 0.3s ease;
+          
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .service-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .service-title {
+            font-size: 1.4rem;
+            color: #0066cc;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+        
+        .service-price {
+            font-weight: bold;
+            color: #28a745;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        
+        .service-list {
+            list-style-type: none;
+            margin-bottom: 20px;
+        }
+        
+        .service-list li {
+            padding: 8px 0;
+            border-bottom: 1px dotted #eee;
+        }
+        
+        .service-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #0066cc;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            margin-top: 10px;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background-color: #004d99;
+        }
+        
+        .more-info {
+            display: block;
+            text-align: center;
+            color: #0066cc;
+            text-decoration: none;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        
+        .more-info:hover {
+            text-decoration: underline;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow: auto;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #aaa;
+            cursor: pointer;
+        }
+        
+        .close-btn:hover {
+            color: #333;
+        }
+        
+        .modal-title {
+            color: #0066cc;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .modal-text {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .modal-list {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-list li {
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                padding: 20px;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: absolute;
+                right: 0;
+                top: 60px;
+                background-color: #0066cc;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: all 0.3s ease;
+                z-index: -1;
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                z-index: 1;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Menu -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Sportello Speed</a>
+            <div class="menu-toggle" id="mobile-menu">
+                ☰
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="comefunziona.html">Come Funziona</a></li>
+                <li><a href="servizi.html">Servizi</a></li>
+                
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Guide</h1>
+            <p class="subtitle">Servizi di assistenza e supporto</p>
+        </header>
+        
+        <div class="services-grid">
+            <!-- INPS Service -->
+            <div class="service-card">
+                <div class="service-icon">📌</div>
+                <h2 class="service-title">INPS – Richiedi la Guida</h2>
+                <div class="service-price">Servizio Gratuito</div>
+                <ul class="service-list">
+                    <li>1. Come si controlla lo stato di una domanda INPS dal Fascicolo Previdenziale?</li>
+                    <li>2. Dove si trovano i cedolini e come si leggono?</li>
+                    <li>3. Come si aggiorna l'IBAN per ricevere pagamenti INPS?</li>
+                    <li>4. Cosa fare se il pagamento è saltato o non è arrivato?</li>
+                    <li>5. Come si invia un modello ADI-COM o una comunicazione integrativa?</li>
+                </ul>
+                <button class="btn" onclick="openWhatsApp('INPS')">Richiedi Ora</button>
+                <a class="more-info" onclick="openModal('inps-modal')">Per saperne di più →</a>
+            </div>
+            
+            <!-- NASpI Service -->
+            <div class="service-card">
+                <div class="service-icon">💼</div>
+                <h2 class="service-title">NASpI – Richiedi la Guida</h2>
+                <div class="service-price">Servizio Gratuito</div>
+                <ul class="service-list">
+                    <li>1. Quali sono i requisiti per richiedere la NASpI nel 2025?</li>
+                    <li>2. Come si presenta la domanda NASpI online passo passo?</li>
+                    <li>3. Cosa succede se si presenta la domanda dopo 60 giorni?</li>
+                    <li>4. Como si calcola la durata e l'importo della NASpI?</li>
+                    <li>5. Cosa fare dopo l'accoglimento: iscrizione SIISL e patto di servizio?</li>
+                </ul>
+                <button class="btn" onclick="openWhatsApp('NASpI')">Richiedi Ora</button>
+                <a class="more-info" onclick="openModal('naspi-modal')">Per saperne di più →</a>
+            </div>
+            
+            <!-- SPID Service -->
+            <div class="service-card">
+                <div class="service-icon">🔐</div>
+                <h2 class="service-title">SPID – Richiedi la Guida</h2>
+                <div class="service-price">Servizio Gratuito</div>
+                <ul class="service-list">
+                    <li>1. Come si richiede lo SPID da casa senza andare in posta?</li>
+                    <li>2. Come si recuperano le credenziali SPID dimenticate?</li>
+                    <li>3. Come si cambia provider SPID?</li>
+                    <li>4. SPID sta per andare in pensione: cosa fare ora?</li>
+                </ul>
+                <button class="btn" onclick="openWhatsApp('SPID')">Richiedi Ora</button>
+                <a class="more-info" onclick="openModal('spid-modal')">Per saperne di più →</a>
+            </div>
+            
+            <!-- CIE Service -->
+            <div class="service-card">
+                <div class="service-icon">🆔</div>
+                <h2 class="service-title">CIE – Richiedi la Guida</h2>
+                <div class="service-price">Servizio Gratuito</div>
+                <ul class="service-list">
+                    <li>1. Come si richiede la Carta d'Identità Elettronica (CIE)?</li>
+                    <li>2. Come si attiva la CIE per accedere ai servizi online?</li>
+                    <li>3. Come si usa la CIE con l'app CieID?</li>
+                    <li>4. Differenze tra SPID e CIE: quale conviene usare?</li>
+                </ul>
+                <button class="btn" onclick="openWhatsApp('CIE')">Richiedi Ora</button>
+                <a class="more-info" onclick="openModal('cie-modal')">Per saperne di più →</a>
+            </div>
+            
+            <!-- ISEE Service -->
+            <div class="service-card">
+                <div class="service-icon">📊</div>
+                <h2 class="service-title">ISEE – Richiedi la Guida</h2>
+                <div class="service-price">Servizio Gratuito</div>
+                <ul class="service-list">
+                    <li>1. Come si fa l'ISEE precompilato online?</li>
+                    <li>2. Quali documenti servono per l'ISEE ordinario, corrente e universitario?</li>
+                    <li>3. Come si corregge un ISEE errato?</li>
+                    <li>4. Se sono sposato ma ho residenza diversa, posso fare ISEE separato?</li>
+                </ul>
+                <button class="btn" onclick="openWhatsApp('ISEE')">Richiedi Ora</button>
+                <a class="more-info" onclick="openModal('isee-modal')">Per saperne di più →</a>
+            </div>
+            
+            <!-- ADI Service -->
+            <div class="service-card">
+                <div class="service-icon">💳</div>
+                <h2 class="service-title">ADI – Richiedi la Guida</h2>
+                <div class="service-price">Servizio Gratuito</div>
+                <ul class="service-list">
+                    <li>1. Quali sono i requisiti per richiedere l'Assegno di Inclusione?</li>
+                    <li>2. Come si presenta la domanda ADI online?</li>
+                    <li>3. Cosa fare dopo l'accoglimento: firma PAD e convocazione servizi sociali</li>
+                    <li>4. Come funziona il rinnovo ADI e quando farlo?</li>
+                </ul>
+                <button class="btn" onclick="openWhatsApp('ADI')">Richiedi Ora</button>
+                <a class="more-info" onclick="openModal('adi-modal')">Per saperne di più →</a>
+            </div>
+            
+            <!-- SFL Service -->
+            <div class="service-card">
+                <div class="service-icon">📚</div>
+                <h2 class="service-title">SFL – Richiedi la Guida</h2>
+                <div class="service-price">Servizio Gratuito</div>
+                <ul class="service-list">
+                    <li>1. Chi può richiedere il Supporto Formazione e Lavoro (SFL)?</li>
+                    <li>2. Come si presenta la domanda SFL?</li>
+                    <li>3. Come si firma il Patto di Servizio Digitale?</li>
+                    <li>4. Quando arrivano i pagamenti SFL?</li>
+                </ul>
+                <button class="btn" onclick="openWhatsApp('SFL')">Richiedi Ora</button>
+                <a class="more-info" onclick="openModal('sfl-modal')">Per saperne di più →</a>
+            </div>
+            
+            <!-- SIISL Service -->
+            <div class="service-card">
+                <div class="service-icon">🌐</div>
+                <h2 class="service-title">SIISL – Richiedi la Guida</h2>
+                <div class="service-price">Servizio Gratuito</div>
+                <ul class="service-list">
+                    <li>1. Come ci si iscrive al portale SIISL?</li>
+                    <li>2. Come si crea il curriculum online?</li>
+                    <li>3. Come si firma il Patto di Attivazione Digitale (PAD)?</li>
+                    <li>4. Come si candidano le offerte di lavoro su SIISL?</li>
+                </ul>
+                <button class="btn" onclick="openWhatsApp('SIISL')">Richiedi Ora</button>
+                <a class="more-info" onclick="openModal('siisl-modal')">Per saperne di più →</a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 Sportello Speed - Tutti i servizi gratuiti</p>
+        </footer>
+    </div>
+
+    <!-- INPS Modal -->
+    <div id="inps-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('inps-modal')">&times;</span>
+            <h2 class="modal-title">INPS – Informazioni dettagliate</h2>
+            <p class="modal-text">Il servizio di assistenza INPS ti aiuta a navigare tra i servizi dell'Istituto Nazionale della Previdenza Sociale. Ecco cosa offriamo:</p>
+            <ul class="modal-list">
+                <li><strong>Controllo stato domanda:</strong> Ti guidiamo passo passo per verificare lo stato della tua pratica direttamente dal Fascicolo Previdenziale.</li>
+                <li><strong>Lettura cedolini:</strong> Spiegazione dettagliata di come accedere e interpretare i cedolini INPS, con focus sulle voci retributive.</li>
+                <li><strong>Aggiornamento IBAN:</strong> Assistenza completa per modificare o inserire il tuo IBAN per ricevere i pagamenti INPS senza intoppi.</li>
+                <li><strong>Problemi di pagamento:</strong> Supporto nella risoluzione di pagamenti saltati o non arrivati, con indicazioni sui tempi di attesa e procedure di sollecito.</li>
+                <li><strong>Invio modelli:</strong> Guida all'invio di modelli ADI-COM e comunicazioni integrative, con controllo della documentazione necessaria.</li>
+            </ul>
+            <p class="modal-text">Il nostro servizio include anche assistenza telefonica dedicata per problemi urgenti.</p>
+            <button class="btn" onclick="closeModal('inps-modal')">Chiudi</button>
+        </div>
+    </div>
+
+    <!-- NASpI Modal -->
+    <div id="naspi-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('naspi-modal')">&times;</span>
+            <h2 class="modal-title">NASpI – Informazioni dettagliate</h2>
+            <p class="modal-text">Assistenza completa per la Nuova Prestazione de Disoccupazione. Il nostro servizio include:</p>
+            <ul class="modal-list">
+                <li><strong>Verifica requisiti 2025:</strong> Analisi della tua situazione per verificare il possesso di tutti i requisiti per accedere alla NASpI.</li>
+                <li><strong>Presentazione domanda:</strong> Supporto completo nella compilazione e invio della domanda online, con controllo degli allegati.</li>
+                <li><strong>Domande oltre i 60 giorni:</strong> Consigli su come procedere in caso di presentazione tardiva della domanda e possibili soluzioni.</li>
+                <li><strong>Calcolo importo e durata:</strong> Spiegazione dettagliata del metodo di calcolo della durata e dell'importo della prestazione.</li>
+                <li><strong>Post accoglimento:</strong> Guida all'iscrizione al SIISL e alla compilazione del patto di servizio, obbligatori per percepire la NASpI.</li>
+            </ul>
+            <p class="modal-text">Forniamo anche modelli precompilati e checklist per non dimenticare nessun documento.</p>
+            <button class="btn" onclick="closeModal('naspi-modal')">Chiudi</button>
+        </div>
+    </div>
+
+    <!-- SPID Modal -->
+    <div id="spid-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('spid-modal')">&times;</span>
+            <h2 class="modal-title">SPID – Informazioni dettagliate</h2>
+            <p class="modal-text">Servizio di assistenza completo per il Sistema Pubblico di Identità Digitale. Cosa offriamo:</p>
+            <ul class="modal-list">
+                <li><strong>Attivazione da casa:</strong> Guida step-by-step per richiedere SPID senza recarsi fisicamente in un ufficio, con confronto tra i vari provider.</li>
+                <li><strong>Recupero credenziali:</strong> Procedure per recuperare username, password o codice OSM dimenticati, con tempistiche e contatti utili.</li>
+                <li><strong>Cambio provider:</strong> Istruzioni per migrare da un identity provider a un altro senza perdere i propri dati e servizi associati.</li>
+                <li><strong>Transizione a CIE:</strong> Informazioni aggiornate sul pensionamento di SPID e guida alla migrazione verso CIE come nuovo standard.</li>
+            </ul>
+            <p class="modal-text">Includiamo anche una comparazione dei migliori provider SPID e consigli per la scelta in base alle tue esigenze.</p>
+            <button class="btn" onclick="closeModal('spid-modal')">Chiudi</button>
+        </div>
+    </div>
+
+    <!-- CIE Modal -->
+    <div id="cie-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('cie-modal')">&times;</span>
+            <h2 class="modal-title">CIE – Informazioni dettagliate</h2>
+            <p class="modal-text">Supporto completo per la Carta d'Identità Elettronica. Il nostro servizio include:</p>
+            <ul class="modal-list">
+                <li><strong>Richiesta CIE:</strong> Guida alla prenotazione online al comune, documenti necessari e costi. Informazioni su tempi di attesa e ritiro.</li>
+                <li><strong>Attivazione servizi:</strong> Procedura completa per attivare la CIE e utilizzarla per accedere a tutti i servizi della PA.</li>
+                <li><strong>App CieID:</strong> Configurazione e uso dell'applicazione ufficiale para utilizzare la CIE con dispositivi NFC e senza lettore di carte.</li>
+                <li><strong>Confronto SPID/CIE:</strong> Analisi comparativa delle due identità digitali, con vantaggi e svantaggi di ciascuna in diversi scenari d'uso.</li>
+            </ul>
+            <p class="modal-text">Forniamo anche troubleshooting per i problemi più comuni di attivazione e utilizzo della CIE.</p>
+            <button class="btn" onclick="closeModal('cie-modal')">Chiudi</button>
+        </div>
+    </div>
+
+    <!-- ISEE Modal -->
+    <div id="isee-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('isee-modal')">&times;</span>
+            <h2 class="modal-title">ISEE – Informazioni dettagliate</h2>
+            <p class="modal-text">Assistenza specialistica per l'Indicatore della Situazione Economica Equivalente. Il servizio offre:</p>
+            <ul class="modal-list">
+                <li><strong>ISEE precompilato:</strong> Guida all'accesso e compilazione del modello precompilato, con verifica dei dati pre-caricati dall'Agenzia delle Entrate.</li>
+                <li><strong>Documentazione necessaria:</strong> Checklist completa dei documenti richiesti per le diverse tipologie di ISEE (ordinario, corrente, universitario).</li>
+                <li><strong>Correzione errori:</strong> Procedure per correggere un ISEE già presentato ma contenente errori, con indicazione dei tempi di rettifica.</li>
+                <li><strong>ISEE per coppie separate:</strong> Analisi della normativa per coppie con residenze diverse, con esempi pratici di compilazione.</li>
+            </ul>
+            <p class="modal-text">Includiamo anche simulazioni dell'ISEE per valutare in anticipo l'importo indicatore e consigli per l'ottimizzazione.</p>
+            <button class="btn" onclick="closeModal('isee-modal')">Chiudi</button>
+        </div>
+    </div>
+
+    <!-- ADI Modal -->
+    <div id="adi-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('adi-modal')">&times;</span>
+            <h2 class="modal-title">ADI – Informazioni dettagliate</h2>
+            <p class="modal-text">Supporto completo per l'Assegno di Inclusione. Il nostro servizio include:</p>
+            <ul class="modal-list">
+                <li><strong>Verifica requisiti:</strong> Analisi della tua situazione per verificare l'accesso all'ADI, con focus sui requisiti reddituali e familiari.</li>
+                <li><strong>Presentazione domanda:</strong> Assistenza nella compilazione della domanda online, con particolare attenzione alle sezioni più complesse.</li>
+                <li><strong>Post accoglimento:</strong> Guida alla firma del Patto di Attivazione Digitale (PAD) e alla gestione delle convocazioni ai servizi sociali.</li>
+                <li><strong>Rinnovo ADI:</strong> Tempistiche e procedure per il rinnovo della prestazione, con alert per non perdere le scadenze.</li>
+            </ul>
+            <p class="modal-text">Forniamo anche modelli per la comunicazione variazioni reddituali e supporto nella gestione degli adempimenti periodici.</p>
+            <button class="btn" onclick="closeModal('adi-modal')">Chiudi</button>
+        </div>
+    </div>
+
+    <!-- SFL Modal -->
+    <div id="sfl-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('sfl-modal')">&times;</span>
+            <h2 class="modal-title">SFL – Informazioni dettagliate</h2>
+            <p class="modal-text">Assistenza per il Supporto Formazione e Lavoro. Il servizio offre:</p>
+            <ul class="modal-list">
+                <li><strong>Requisiti di accesso:</strong> Analisi dettagliata dei criteri per accedere al SFL, con focus su età, situazione occupazionale e formativa.</li>
+                <li><strong>Presentazione domanda:</strong> Supporto completo nella compilazione della domanda, con particolare attenzione alla sezione motivazionale.</li>
+                <li><strong>Patto di Servizio:</strong> Guida alla comprensione e alla firma digitale del Patto di Servizio, documento fondamentale per l'attivazione.</li>
+                <li><strong>Tempistiche pagamento:</strong> Informazioni sulle scadenze dei pagamenti e procedure per segnalare eventuali ritardi.</li>
+            </ul>
+            <p class="modal-text">Includiamo anche consigli per massimizzare le opportunità formative e di inserimento lavorativo offerte dal SFL.</p>
+            <button class="btn" onclick="closeModal('sfl-modal')">Chiudi</button>
+        </div>
+    </div>
+
+    <!-- SIISL Modal -->
+    <div id="siisl-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('siisl-modal')">&times;</span>
+            <h2 class="modal-title">SIISL – Informazioni dettagliate</h2>
+            <p class="modal-text">Supporto completo per il Sistema Informativo per l'Impiego e la Formazione. Il servizio include:</p>
+            <ul class="modal-list">
+                <li><strong>Iscrizione portale:</strong> Guida step-by-step alla registrazione su SIISL, con risoluzione dei problemi più comuni di registrazione.</li>
+                <li><strong>Creazione curriculum:</strong> Consigli per compilare un curriculum efficace sul portale, con esempi pratici e keyword per essere trovati dai recruiter.</li>
+                <li><strong>Firma PAD:</strong> Istruzioni per la firma digitale del Patto di Attivazione, requisito fondamentale per i percorsi di politica attiva.</li>
+                <li><strong>Candidature offerte:</strong> Tecniche per candidarsi efficacemente alle offerte di lavoro e aumentare le possibilità di essere contattati.</li>
+            </ul>
+            <p class="modal-text">Forniamo anche consigli per utilizzare al meglio tutti gli strumenti del portale (alert, matching automatico, statistiche).</p>
+            <button class="btn" onclick="closeModal('siisl-modal')">Chiudi</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to open WhatsApp with service selection
+        function openWhatsApp(serviceName) {
+            // Create service selection message
+            const message = `Salve, sono interessato al servizio: ${serviceName}. Per favore indicare il numero della scelta:[indicare numero 1,2,3,4,5,]`;
+            
+            // Encode message for URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Open WhatsApp with pre-filled message
+            window.open(`https://wa.me/3934146871?text=${encodedMessage}`, '_blank');
+            
+            // Prevent default action
+            return false;
+        }
+        
+        // Function to open modals
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Function to close modals
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            let modals = document.getElementsByClassName('modal');
+            for (let i = 0; i < modals.length; i++) {
+                if (event.target == modals[i]) {
+                    modals[i].style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        }
+        
+        // Mobile menu toggle
+        document.getElementById('mobile-menu').addEventListener('click', function() {
+            document.getElementById('nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
