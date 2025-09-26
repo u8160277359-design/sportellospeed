@@ -1322,30 +1322,35 @@ footer {
 </footer>
 
 <script>
-// FAQ Accordion Functionality - MIGLIORATO
+// 1. Modifica la funzione dell'accordion FAQ
 document.querySelectorAll('.faq-question').forEach(question => {
     question.addEventListener('click', () => {
         const item = question.parentNode;
-        const wasActive = item.classList.contains('active');
         
-        // Chiudi tutte le FAQ
-        document.querySelectorAll('.faq-item').forEach(faqItem => {
-            faqItem.classList.remove('active');
+        // Chiudi tutte le altre FAQ prima di aprire quella cliccata
+        document.querySelectorAll('.faq-item').forEach(otherItem => {
+            if (otherItem !== item && otherItem.classList.contains('active')) {
+                otherItem.classList.remove('active');
+            }
         });
         
-        // Apri la FAQ cliccata se non era già attiva
-        if (!wasActive) {
-            item.classList.add('active');
-            
-            // Scroll leggero per mostrare la risposta
+        // Apri/chiudi la FAQ cliccata
+        item.classList.toggle('active');
+        
+        // Scroll automatico per garantire visibilità completa
+        if (item.classList.contains('active')) {
             setTimeout(() => {
-                item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 300);
+                item.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start', // Cambiato da 'center' a 'start'
+                    inline: 'nearest'
+                });
+            }, 100); // Ridotto il timeout
         }
     });
 });
 
-// Category Filter Functionality
+// 2. Modifica la funzione dei filtri categoria
 document.querySelectorAll('.category-btn').forEach(button => {
     button.addEventListener('click', () => {
         // Remove active class from all buttons
@@ -1362,10 +1367,14 @@ document.querySelectorAll('.category-btn').forEach(button => {
         document.querySelectorAll('.faq-category').forEach(cat => {
             if (category === 'all' || cat.id === category) {
                 cat.style.display = 'block';
+                
                 // Scroll alla categoria selezionata
                 setTimeout(() => {
-                    cat.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 100);
+                    cat.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start'
+                    });
+                }, 300);
             } else {
                 cat.style.display = 'none';
             }
@@ -1373,7 +1382,7 @@ document.querySelectorAll('.category-btn').forEach(button => {
     });
 });
 
-// Search Functionality
+// 3. Modifica la funzione di ricerca
 document.querySelector('.search-btn').addEventListener('click', performSearch);
 document.querySelector('.search-input').addEventListener('keyup', (e) => {
     if (e.key === 'Enter') {
@@ -1383,49 +1392,69 @@ document.querySelector('.search-input').addEventListener('keyup', (e) => {
 
 function performSearch() {
     const searchTerm = document.querySelector('.search-input').value.toLowerCase();
+    const faqItems = document.querySelectorAll('.faq-item');
 
     if (searchTerm.trim() === '') {
-        // If search is empty, show all FAQs
-        document.querySelectorAll('.faq-item').forEach(item => {
+        // Se search è vuoto, mostra tutte le FAQ e scrolla in alto
+        faqItems.forEach(item => {
             item.style.display = 'block';
             item.classList.remove('active');
         });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
     }
 
-    let foundResults = false;
+    let foundItems = false;
     
-    // Search through questions and answers
-    document.querySelectorAll('.faq-item').forEach(item => {
+    // Cerca attraverso domande e risposte
+    faqItems.forEach(item => {
         const question = item.querySelector('.faq-question').textContent.toLowerCase();
         const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
 
         if (question.includes(searchTerm) || answer.includes(searchTerm)) {
             item.style.display = 'block';
-            // Expand matching items
-            item.classList.add('active');
-            foundResults = true;
+            item.classList.add('active'); // Espandi gli elementi trovati
+            foundItems = true;
             
-            // Scroll al primo risultato trovato
-            if (!foundResults) {
+            // Scroll al primo elemento trovato
+            if (!foundItems) {
                 setTimeout(() => {
-                    item.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 300);
+                    item.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start'
+                    });
+                }, 200);
             }
         } else {
             item.style.display = 'none';
-            item.classList.remove('active');
         }
     });
+
+    // Se non trova risultati, scrolla in alto
+    if (!foundItems) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 }
 
-// Miglioramento per il touch su dispositivi mobili
-document.addEventListener('touchstart', function() {}, {passive: true});
-
-// Prevenire problemi di zoom su iOS
-document.addEventListener('gesturestart', function (e) {
-    e.preventDefault();
+// 4. Aggiungi gestione resize e caricamento
+window.addEventListener('load', function() {
+    // Forza il ridimensionamento corretto al caricamento
+    setTimeout(() => {
+        document.body.style.overflowX = 'hidden';
+        document.documentElement.style.overflowX = 'hidden';
+    }, 100);
 });
+
+window.addEventListener('resize', function() {
+    // Corregge problemi di visualizzazione su mobile durante il ridimensionamento
+    if (window.innerWidth <= 768) {
+        document.body.style.overflowX = 'hidden';
+        document.documentElement.style.overflowX = 'hidden';
+    }
+});
+
+// 5. Aggiungi questo per prevenire problemi di zoom su mobile
+document.addEventListener('touchstart', function() {}, { passive: true });
 </script>
 </body>
 </html>
