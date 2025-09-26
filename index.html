@@ -1,803 +1,485 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sportello Digitale - Assistenza INPS, Naspi, AdE</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Aggiungi Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <style>
-     /* === Loghi Enti === */
-#enti-riferimento {
-  background:#fff;
-  padding:40px 16px;
-  text-align:center;
-}
-#enti-riferimento h3 {
-  margin-bottom:24px;
-  font-size:1.4rem;
-}
-.enti-logos {
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:40px;
-}
-.enti-logos img {
-  max-height:60px;
-  width:auto;
-  object-fit:contain;
-  filter:grayscale(100%);
-  opacity:0.9;
-  transition:all 0.3s ease;
-}
-.enti-logos img:hover {
-  filter:none;
-  opacity:1;
-}
-.enti-note {
-  font-size:0.85rem;
-  color:#666;
-  margin-top:18px;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ - Domande Frequenti | Sportello Speed</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --poste-yellow: #F9D423;
+    --poste-blue: #0066CC;
+    --poste-dark-blue: #004C99;
+    --light-gray: #f5f5f5;
+    --dark-gray: #333;
+    --whatsapp-green: #25D366;
+    --isee-orange: #FF6B35;
+    --adi-purple: #8A2BE2;
+    --sfl-green: #28A745;
 }
 
-   
-        
-        /* === Testimonianze / Fiducia === */
-#testimonianze { background:#f7f7fb; padding:48px 16px; }
-#testimonianze .ts-wrap { max-width:1000px; margin:0 auto; }
-#testimonianze h2 { font-size:1.9rem; margin:0 0 6px; }
-#testimonianze .ts-sub { color:#555; margin:0 0 24px; }
-
-#testimonianze .ts-grid {
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap:16px;
-}
-@media (max-width: 900px){
-  #testimonianze .ts-grid { grid-template-columns: 1fr; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.ts-card {
-  background:#fff; border:1px solid #e9e9ef; border-radius:16px;
-  padding:18px; box-shadow:0 8px 20px rgba(0,0,0,0.05);
+body {
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+    line-height: 1.6;
 }
-.ts-stars { color:#f2b01e; font-size:1.1rem; letter-spacing:2px; margin-bottom:8px; }
-.ts-card blockquote { margin:0 0 12px; color:#222; line-height:1.45; }
-.ts-name { font-weight:600; }
-.ts-meta { display:block; color:#666; font-size:0.92rem; margin-top:2px; }
-.ts-badge {
-  display:inline-block; margin-top:8px; font-size:0.8rem;
-  padding:4px 8px; border-radius:999px; background:#e7f7ef; color:#0f7a47;
-  border:1px solid #bcead3;
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
-.ts-note { font-size:0.88rem; color:#777; margin:16px 0 22px; }
 
-.ts-cta {
-  display:inline-block; background:#25D366; color:#fff; text-decoration:none;
-  padding:12px 18px; border-radius:12px; font-weight:700;
-  transition: transform .15s ease, box-shadow .15s ease;
+/* Header */
+header {
+    background: linear-gradient(135deg, var(--poste-blue) 0%, var(--poste-dark-blue) 100%);
+    color: white;
+    padding: 1.5rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-.ts-cta:hover { transform: translateY(-2px); box-shadow:0 8px 18px rgba(37,211,102,.25); }
 
-        :root {
-            --poste-yellow: #F9D423;
-            --poste-blue: #0066CC;
-            --poste-dark-blue: #004C99;
-            --light-gray: #f5f5f5;
-            --dark-gray: #333;
-            --whatsapp-green: #25D366;
-            --whatsapp-light: #dcf8c6;
-            --unread-blue: #0066CC;
-            --read-green: #25D366;
-        }
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        /* >>> aggiunta per nascondere elementi admin in questa pagina */
-        .admin-only { display: none !important; }
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: var(--light-gray);
-            color: var(--dark-gray);
-            line-height: 1.6;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Header */
-        header {
-            background: linear-gradient(135deg, var(--poste-blue) 0%, var(--poste-dark-blue) 100%);
-            color: white;
-            padding: 1.5rem 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .logo-icon {
-            font-size: 2.5rem;
-            color: var(--poste-yellow);
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo-text {
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 25px;
-        }
-        
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        nav a:hover {
-            color: var(--poste-yellow);
-        }
-        
-        .admin-login {
-            color: white;
-            text-decoration: none;
-            font-size: 0.9rem;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-        
-        .admin-login:hover {
-            opacity: 1;
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230066CC" fill-opacity="0.1"/><path d="M0 0L100 100" stroke="%230066CC" stroke-width="1" stroke-opacity="0.2"/></svg>');
-            padding: 4rem 0;
-            text-align: center;
-        }
-        
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--poste-dark-blue);
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 2rem;
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: var(--poste-blue);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        
-        .btn:hover {
-            background-color: var(--poste-dark-blue);
-        }
-        
-        /* Chat Section */
-        .chat-section {
-            padding: 4rem 0;
-            background-color: white;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-            color: var(--poste-dark-blue);
-            font-size: 2rem;
-        }
-        
-        .chat-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: center;
-            align-items: flex-start;
-        }
-        
-        .chat-info {
-            flex: 1;
-            min-width: 300px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-        }
-        
-        .chat-box {
-            flex: 1;
-            min-width: 300px;
-            max-width: 500px;
-            background-color: var(--light-gray);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .chat-header {
-            background: linear-gradient(135deg, var(--poste-blue) 0%, var(--poste-dark-blue) 100%);
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .chat-header i {
-            font-size: 1.5rem;
-        }
-        
-        .chat-messages {
-            padding: 20px;
-            height: 200px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .message {
-            padding: 10px 15px;
-            border-radius: 18px;
-            max-width: 80%;
-        }
-        
-        .received {
-            background-color: #e6e6e6;
-            align-self: flex-start;
-            border-bottom-left-radius: 5px;
-        }
-        
-        .sent {
-            background-color: var(--poste-blue);
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 5px;
-        }
-        
-        .chat-input {
-            padding: 15px;
-            background-color: white;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .chat-input input,
-        .chat-input textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            resize: vertical;
-        }
-        
-        .chat-input textarea {
-            min-height: 100px;
-        }
-        
-        .file-upload {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 10px 0;
-        }
-        
-        .file-upload-label {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-            color: var(--poste-blue);
-            font-weight: 500;
-        }
-        
-        .file-list {
-            font-size: 0.9rem;
-            color: #666;
-        }
-        
-        .chat-input button {
-            background-color: var(--poste-blue);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        
-        .chat-input button:hover {
-            background-color: var(--poste-dark-blue);
-        }
-        
-        .whatsapp-note {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 15px;
-            padding: 10px;
-            background-color: #f0f8ff;
-            border-radius: 5px;
-            font-size: 0.9rem;
-        }
-        
-        .whatsapp-note i {
-            color: #25D366;
-            font-size: 1.5rem;
-        }
-        
-        /* Features Section */
-        .features {
-            padding: 4rem 0;
-            background-color: var(--light-gray);
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 2rem;
-        }
-        
-        .feature-card {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .feature-icon {
-            font-size: 2.5rem;
-            color: var(--poste-blue);
-            margin-bottom: 15px;
-        }
-        
-        /* Footer */
-        footer {
-            background: linear-gradient(135deg, var(--poste-blue) 0%, var(--poste-dark-blue) 100%);
-            color: white;
-            padding: 3rem 0 1.5rem;
-        }
-        
-        .footer-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 40px;
-            justify-content: space-between;
-            margin-bottom: 2rem;
-        }
-        
-        .footer-column {
-            flex: 1;
-            min-width: 200px;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .footer-column h3 {
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-        
-        .footer-column ul {
-            list-style: none;
-        }
-        
-        .footer-column li {
-            margin-bottom: 10px;
-        }
-        
-        .footer-column a {
-            color: #e6e6e6;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-column a:hover {
-            color: var(--poste-yellow);
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-        }
-        
-        /* WhatsApp Chat Interface */
-        .whatsapp-chat-container {
-            margin-top: 40px;
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .whatsapp-chat-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .whatsapp-chat-header i {
-            font-size: 24px;
-            color: var(--whatsapp-green);
-        }
-        
-        .whatsapp-chat-header h3 {
-            color: var(--poste-dark-blue);
-        }
-        
-        .chat-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .chat-item {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .chat-item:hover {
-            background-color: #f0f0f0;
-        }
-        
-        .chat-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--poste-blue);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-            margin-right: 15px;
-        }
-        
-        .chat-content {
-            flex: 1;
-        }
-        
-        .chat-user {
-            font-weight: bold;
-            color: var(--poste-dark-blue);
-            margin-bottom: 5px;
-        }
-        
-        .chat-preview {
-            font-size: 0.9rem;
-            color: #666;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 200px;
-        }
-        
-        .chat-meta {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 5px;
-        }
-        
-        .chat-time {
-            font-size: 0.8rem;
-            color: #888;
-        }
-        
-        .chat-status {
-            font-size: 1rem;
-        }
-        
-        .status-unread {
-            color: var(--unread-blue);
-        }
-        
-        .status-read {
-            color: var(--read-green);
-        }
-        
-        /* Admin Panel */
-        .admin-panel {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            max-width: 800px;
-            max-height: 80vh;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            overflow: hidden;
-        }
-        
-        .admin-header {
-            background: linear-gradient(135deg, var(--poste-blue) 0%, var(--poste-dark-blue) 100%);
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .close-admin {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        
-        .question-list {
-            padding: 20px;
-            max-height: 60vh;
-            overflow-y: auto;
-        }
-        
-        .question-item {
-            padding: 15px;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            background-color: #f9f9f9;
-        }
-        
-        .question-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        
-        .user-info {
-            font-weight: bold;
-            color: var(--poste-blue);
-            font-size: 1.1rem;
-        }
-        
-        .question-time {
-            color: #888;
-            font-size: 0.9rem;
-        }
-        
-        .question-content {
-            margin-bottom: 15px;
-            font-size: 1rem;
-            line-height: 1.5;
-        }
-        
-        .admin-response {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .admin-response input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-        
-        .admin-response button {
-            background-color: var(--whatsapp-green);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        .admin-response button:hover {
-            background-color: #128C7E;
-        }
-        
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 999;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-            }
-            
-            nav ul {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .chat-container {
-                flex-direction: column;
-            }
-            
-            .footer-content {
-                flex-direction: column;
-                gap: 30px;
-            }
-            
-            .admin-response {
-                flex-direction: column;
-            }
-            
-            .chat-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .chat-meta {
-                flex-direction: row;
-                align-items: center;
-                margin-top: 10px;
-                width: 100%;
-                justify-content: space-between;
-            }
-        }
-        /* === Sezione Servizi Lettere Ufficiali === */
-        .servizi-lettere {
-            background-color: #f8f9fa;
-            padding: 40px 0;
-            text-align: center;
-        }
-        
-        .servizi-lettere h2 {
-            color: var(--poste-dark-blue);
-            margin-bottom: 20px;
-            font-size: 28px;
-        }
-        
-        .servizi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-            padding: 0 20px;
-        }
-        
-        .servizio-card {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-            text-align: left;
-        }
-        
-        .servizio-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-        
-        .servizio-card h3 {
-            color: var(--poste-dark-blue);
-            margin-bottom: 15px;
-            font-size: 20px;
-        }
-        
-        .servizio-card p {
-            color: #7f8c8d;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-        
-        .prezzo {
-            font-weight: bold;
-            color: #27ae60;
-            font-size: 18px;
-            margin-bottom: 15px;
-        }
-        
-        .tempo-consegna {
-            color: #7f8c8d;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-        
-        .btn-richiedi {
-            display: inline-block;
-            background-color: var(--poste-blue);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-        
-        .btn-richiedi:hover {
-            background-color: var(--poste-dark-blue);
-        }
-        
-        .info-link {
-            display: block;
-            margin-top: 15px;
-            color: var(--poste-blue);
-            text-decoration: none;
-        }
-        
-        @media (max-width: 768px) {
-            .servizi-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+.logo-icon {
+    font-size: 2.5rem;
+    color: var(--poste-yellow);
+    display: flex;
+    align-items: center;
+}
+
+.logo-text {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--poste-yellow);
+}
+
+/* Hero Section */
+.hero {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230066CC" fill-opacity="0.1"/><path d="M0 0L100 100" stroke="%230066CC" stroke-width="1" stroke-opacity="0.2"/></svg>');
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--poste-dark-blue);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    color: #555;
+}
+
+/* FAQ Section */
+.faq-section {
+    padding: 4rem 0;
+}
+
+.faq-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 40px;
+    justify-content: center;
+}
+
+.category-btn {
+    background-color: white;
+    border: 2px solid var(--poste-blue);
+    color: var(--poste-blue);
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.category-btn.active, .category-btn:hover {
+    background-color: var(--poste-blue);
+    color: white;
+}
+
+.category-btn[data-category="isee"] {
+    border-color: var(--isee-orange);
+    color: var(--isee-orange);
+}
+
+.category-btn[data-category="isee"].active, 
+.category-btn[data-category="isee"]:hover {
+    background-color: var(--isee-orange);
+    color: white;
+}
+
+.category-btn[data-category="adi"] {
+    border-color: var(--adi-purple);
+    color: var(--adi-purple);
+}
+
+.category-btn[data-category="adi"].active, 
+.category-btn[data-category="adi"]:hover {
+    background-color: var(--adi-purple);
+    color: white;
+}
+
+.category-btn[data-category="sfl"] {
+    border-color: var(--sfl-green);
+    color: var(--sfl-green);
+}
+
+.category-btn[data-category="sfl"].active, 
+.category-btn[data-category="sfl"]:hover {
+    background-color: var(--sfl-green);
+    color: white;
+}
+
+.faq-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.faq-category {
+    margin-bottom: 50px;
+}
+
+.faq-category h2 {
+    color: var(--poste-dark-blue);
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--poste-blue);
+    font-size: 1.8rem;
+}
+
+.faq-category#isee h2 {
+    color: var(--isee-orange);
+    border-bottom-color: var(--isee-orange);
+}
+
+.faq-category#adi h2 {
+    color: var(--adi-purple);
+    border-bottom-color: var(--adi-purple);
+}
+
+.faq-category#sfl h2 {
+    color: var(--sfl-green);
+    border-bottom-color: var(--sfl-green);
+}
+
+.faq-item {
+    background-color: white;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.faq-question {
+    padding: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.faq-question:hover {
+    background-color: #f9f9f9;
+}
+
+.faq-icon {
+    color: var(--poste-blue);
+    transition: transform 0.3s ease;
+}
+
+.faq-answer {
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+.faq-item.active .faq-answer {
+    padding: 20px;
+    max-height: 1000px;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(180deg);
+}
+
+.faq-answer ol, .faq-answer ul {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.faq-answer li {
+    margin-bottom: 8px;
+}
+
+/* Search Section */
+.search-section {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 40px;
+}
+
+.search-container {
+    display: flex;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 5px 0 0 5px;
+    font-size: 1rem;
+}
+
+.search-btn {
+    background-color: var(--poste-blue);
+    color: white;
+    border: none;
+    padding: 0 20px;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.search-btn:hover {
+    background-color: var(--poste-dark-blue);
+}
+
+/* Contact CTA */
+.contact-cta {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 40px;
+    background: linear-gradient(135deg, #1a6bb3 0%, #0d4d8c 100%);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-cta::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+    z-index: 0;
+}
+
+.contact-cta > * {
+    position: relative;
+    z-index: 1;
+}
+
+.contact-cta h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.contact-cta p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #e6f2ff;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #25D366;
+    color: white;
+    padding: 14px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+}
+
+.btn:hover {
+    background-color: #128C7E;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+}
+
+.btn i {
+    font-size: 24px;
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(135deg, var(--poste-blue) 0%, var(--poste-dark-blue) 100%);
+    color: white;
+    padding: 3rem 0 1.5rem;
+    margin-top: 50px;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-column h3 {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column li {
+    margin-bottom: 10px;
+}
+
+.footer-column a {
+    color: #e6e6e6;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-column a:hover {
+    color: var(--poste-yellow);
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    nav ul {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .faq-question {
+        padding: 15px;
+        font-size: 1rem;
+    }
+
+    .search-container {
+        flex-direction: column;
+    }
+
+    .search-input {
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .search-btn {
+        border-radius: 5px;
+        padding: 12px;
+    }
+
+    .contact-cta {
+        padding: 30px 20px;
+        margin: 20px auto;
+    }
+    
+    .contact-cta h2 {
+        font-size: 24px;
+    }
+    
+    .contact-cta p {
+        font-size: 16px;
+    }
+    
+    .btn {
+        padding: 12px 24px;
+        font-size: 16px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+</style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
+<header>
     <div class="container">
         <div class="header-content">
             <div class="logo">
@@ -808,583 +490,903 @@
             </div>
             <nav>
                 <ul>
-                   
-                    <li><a href="servizi.html">Servizi</a></li>
-                    <li><a href="comefunziona.html">Come Funziona</a></li>
-                    <li><a href="guide.html">Guide</a></li>
+                    <li><a href="chat.html">Chatta con Noi</a></li>
                 </ul>
             </nav>
-            <!-- Link admin con password -->
-            <a href="#" class="admin-login" id="admin-toggle">Accesso Amministratori</a>
         </div>
     </div>
 </header>
 
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <h1>Lo Sportello Digitale</h1>
+        <p>Aiutiamo i cittadini a districarsi nella burocrazia online. Offriamo guide, modelli e assistenza per pratiche come NASpI, ISEE, ADI, SFL e SIISL.</p>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section">
+    <div class="container">
+        <!-- Search Bar -->
+        <div class="search-section">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Cerca nelle domande frequenti...">
+                <button class="search-btn">Cerca</button>
+            </div>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="faq-categories">
+            <button class="category-btn active" data-category="all">Tutte le categorie</button>
+            <button class="category-btn" data-category="inps">INPS</button>
+            <button class="category-btn" data-category="naspi">NASpI</button>
+            <button class="category-btn" data-category="isee">ISEE</button>
+            <button class="category-btn" data-category="adi">ADI</button>
+            <button class="category-btn" data-category="sfl">SFL/SIISL</button>
+            <button class="category-btn" data-category="generale">Servizi Generali</button>
+        </div>
+
+        <!-- FAQ Container -->
+        <div class="faq-container">
+            <!-- INPS Category -->
+            <div class="faq-category" id="inps">
+                <h2><i class="fas fa-university"></i> INPS - Istituto Nazionale della Previdenza Sociale</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Come si controlla lo stato di una domanda INPS dal Fascicolo Previdenziale?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>Per consultare lo stato della domanda, devi avere una delle seguenti credenziali:</b></p>
+                        <ol>
+                            <li>SPID (Sistema Pubblico di Identità Digitale)</li>
+                            <li>CIE (Carta d'Identità Elettronica)</li>
+                            <li>CNS (Carta Nazionale dei Servizi)</li>
+                        </ol>
+                        
+                        <p><b>Come accedere al Fascicolo Previdenziale</b></p>
+                        <ol>
+                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
+                            <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
+                            <li>Seleziona la modalità di accesso: <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
+                            <li>Inserisci le tue credenziali e completa l'accesso</li>
+                        </ol>
+
+                        <p><b>Guida passo-passo</b></p>
+                        <ol>
+                            <li>Dal menu cerca e apri il <b>Fascicolo Previdenziale del Cittadino</b></li>
+                            <li>Vai alla sezione <b>Prestazioni e domande</b></li>
+                            <li>Clicca su <b>Lista domande presentate</b></li>
+                            <li>Seleziona la pratica che ti interessa (es. NASpI, ADI, Assegno Unico, Pensione, ecc.)</li>
+                            <li>All'interno della pratica potrai visualizzare:</li>
+                            <ul>
+                                <li>Data di invio della domanda</li>
+                                <li>Numero di protocollo</li>
+                                <li>Stato di lavorazione (<i>acquisita</i>, <i>in istruttoria</i>, <i>accolta</i>, <i>respinta</i>, <i>pagamento disposto</i>)</li>
+                            </ul>
+                            <li>Scarica eventuali ricevute o comunicazioni in formato PDF e salvale sul tuo dispositivo</li>
+                        </ol>
+
+                        <p><b>Checklist finale</b></p>
+                        <ol>
+                            <li>✅ Ho SPID/CIE/CNS attivo</li>
+                            <li>✅ Sono entrato su www.inps.it</li>
+                            <li>✅ Ho aperto il Fascicolo Previdenziale</li>
+                            <li>✅ Ho selezionato la mia domanda</li>
+                            <li>✅ Ho letto lo stato e salvato la ricevuta</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Come si aggiorna l'IBAN per ricevere i pagamenti INPS?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>Come aggiornare l'IBAN per ricevere i pagamenti INPS</b></p>
+                        <ol>
+                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
+                            <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
+                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
+                            <li>Una volta effettuato l'accesso, cerca "<b>Variazione modalità di pagamento</b>" nella barra di ricerca</li>
+                        </ol>
+
+                        <p><b>Guida passo-passo</b></p>
+                        <ol>
+                            <li>Apri il servizio <b>Variazione modalità di pagamento</b></li>
+                            <li>Seleziona la prestazione per cui vuoi aggiornare l'IBAN (es. NASpI, Assegno Unico, Pensione)</li>
+                            <li>Inserisci il nuovo codice IBAN del conto corrente a te intestato o cointestato</li>
+                            <li>Conferma i dati inseriti e invia la richiesta</li>
+                            <li>Scarica e salva la ricevuta in formato PDF</li>
+                        </ol>
+
+                        <p><b>Documenti utili</b></p>
+                        <ol>
+                            <li>Carta d'identità o CIE</li>
+                            <li>Codice fiscale</li>
+                            <li>IBAN intestato o cointestato al richiedente (no carte ricaricabili non abilitate a bonifici SEPA)</li>
+                        </ol>
+
+                        <p><b>Checklist finale</b></p>
+                        <ol>
+                            <li>✅ Ho SPID/CIE/CNS attivo</li>
+                            <li>✅ Sono entrato su www.inps.it</li>
+                            <li>✅ Ho aperto il servizio "Variazione modalità di pagamento"</li>
+                            <li>✅ Ho inserito e confermato il nuovo IBAN</li>
+                            <li>✅ Ho scaricato e salvato la ricevuta PDF</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Cosa fare se il pagamento INPS non arriva?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>Cosa fare se il pagamento INPS non arriva</b></p>
+                        <ol>
+                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
+                            <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
+                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
+                            <li>Una volta dentro, apri il <b>Fascicolo Previdenziale del Cittadino</b></li>
+                        </ol>
+
+                        <p><b>Guida passo-passo</b></p>
+                        <ol>
+                            <li>Vai nella sezione <b>Prestazioni</b></li>
+                            <li>Clicca su <b>Pagamenti</b></li>
+                            <li>Seleziona la prestazione che ti interessa (es. NASpI, Assegno Unico, Pensione, ADI)</li>
+                            <li>Controlla la data prevista di accredito e l'IBAN registrato</li>
+                            <li>Se il pagamento risulta disposto ma non è arrivato, attendi 2-3 giorni lavorativi</li>
+                            <li>Se il pagamento non compare o ci sono errori sull'IBAN, usa il servizio <b>Variazione modalità di pagamento</b> per correggere i dati</li>
+                            <li>In caso di anomalie o mancato accredito prolungato, contatta il <b>Contact Center INPS</b> (803164 da fisso, 06164164 da mobile) o prenota un appuntamento presso la sede INPS</li>
+                        </ol>
+
+                        <p><b>Documenti utili</b></p>
+                        <ol>
+                            <li>Carta d'identità o CIE</li>
+                            <li>Codice fiscale</li>
+                            <li>Numero di protocollo della domanda</li>
+                            <li>Coordinate IBAN corrette (intestate o cointestate al beneficiario)</li>
+                            <li>Ricevute o comunicazioni INPS già ricevute</li>
+                        </ol>
+
+                        <p><b>Checklist finale</b></p>
+                        <ol>
+                            <li>✅ Ho controllato nel Fascicolo Previdenziale la sezione "Pagamenti"</li>
+                            <li>✅ Ho verificato la data di accredito</li>
+                            <li>✅ Ho controllato l'IBAN registrato</li>
+                            <li>✅ Ho scaricato e salvato la ricevuta</li>
+                            <li>✅ Ho contattato INPS se il pagamento non è arrivato entro i tempi</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Dove si trovano i Cedolini INPS?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>Come trovare i Cedolini INPS</b></p>
+                        <ol>
+                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
+                            <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
+                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
+                            <li>Una volta effettuato l'accesso, cerca "<b>Cedolino pensione</b>" o "<b>Pagamenti</b>" nella barra di ricerca</li>
+                        </ol>
+
+                        <p><b>Guida passo-passo</b></p>
+                        <ol>
+                            <li>Apri il servizio <b>Cedolino pensione e servizi collegati</b></li>
+                            <li>Scegli l'anno e il mese del cedolino che vuoi visualizzare</li>
+                            <li>Clicca su <b>Visualizza cedolino</b> per aprire il documento</li>
+                            <li>Scarica il cedolino in formato PDF</li>
+                            <li>Salva il file sul tuo computer o telefono per consultarlo in qualsiasi momento</li>
+                        </ol>
+
+                        <p><b>Documenti utili</b></p>
+                        <ol>
+                            <li>Carta d'identità o CIE</li>
+                            <li>Codice fiscale</li>
+                            <li>Credenziali SPID, CIE o CNS attive</li>
+                        </ol>
+
+                        <p><b>Checklist finale</b></p>
+                        <ol>
+                            <li>✅ Ho SPID/CIE/CNS attivo</li>
+                            <li>✅ Sono entrato su www.inps.it</li>
+                            <li>✅ Ho cercato "Cedolino pensione"</li>
+                            <li>✅ Ho selezionato mese e anno del cedolino</li>
+                            <li>✅ Ho scaricato e salvato il PDF</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Come si invia un modello ADI-COM o una comunicazione integrativa?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>Come inviare un modello ADI-COM o una comunicazione integrativa</b></p>
+                        <ol>
+                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
+                            <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
+                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
+                            <li>Una volta effettuato l'accesso, cerca "<b>ADI-COM</b>" o "<b>Comunicazione integrativa</b>" nella barra di ricerca</li>
+                        </ol>
+
+                        <p><b>Guida passo-passo</b></p>
+                        <ol>
+                            <li>Apri il servizio <b>ADI-COM</b></li>
+                            <li>Seleziona la prestazione a cui si riferisce la comunicazione (es. Assegno di Inclusione)</li>
+                            <li>Compila i campi richiesti (es. variazione nucleo familiare, attività lavorativa, altre informazioni utili)</li>
+                            <li>Allega eventuali documenti in formato PDF o JPG (dimensioni: <i>DA VERIFICARE su sito ufficiale INPS</i>)</li>
+                            <li>Conferma l'invio e scarica la ricevuta in formato PDF</li>
+                        </ol>
+
+                        <p><b>Documenti utili</b></p>
+                        <ol>
+                            <li>Carta d'identità o CIE</li>
+                            <li>Codice fiscale</li>
+                            <li>Documenti giustificativi da allegare (es. contratti, certificati, dichiarazioni) in formato PDF o JPG</li>
+                            <li>Credenziali SPID, CIE o CNS attive</li>
+                        </ol>
+
+                        <p><b>Checklist finale</b></p>
+                        <ol>
+                            <li>✅ Ho SPID/CIE/CNS attivo</li>
+                            <li>✅ Sono entrato su www.inps.it</li>
+                            <li>✅ Ho aperto il servizio "ADI-COM"</li>
+                            <li>✅ Ho compilato la comunicazione integrativa</li>
+                            <li>✅ Ho allegato eventuali documenti richiesti</li>
+                            <li>✅ Ho inviato e salvato la ricevuta PDF</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NASpI Category -->
+            <div class="faq-category" id="naspi">
+                <h2><i class="fas fa-briefcase"></i> NASpI - Disoccupazione</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Quali sono i requisiti per richiedere la NASpI nel 2025?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>Requisiti per richiedere la NASpI nel 2025</b></p>
+                        <ol>
+                            <li>Essere disoccupato involontariamente (es. licenziamento, scadenza contratto, dimissioni per giusta causa)</li>
+                            <li>Avere almeno 13 settimane di contribuzione nei 4 anni precedenti l'inizio della disoccupazione</li>
+                            <li>Avere almeno 30 giornate contributive nell'ultimo anno</li>
+                            <li>Essere immediatamente disponibile al lavoro (DID attiva)</li>
+                            <li>Non superare i limiti di reddito previsti dalla normativa</li>
+                            <li>Avere un'iscrizione valida alle liste di collocamento</li>
+                            <li>Presentare la domanda entro 68 giorni dalla cessazione del lavoro</li>
+                        </ol>
+
+                        <p><b>Guida passo-passo</b></p>
+                        <ol>
+                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
+                            <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
+                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
+                            <li>Una volta effettuato l'accesso, cerca "<b>Domanda NASpI</b>" nella barra di ricerca</li>
+                            <li>Apri il servizio <b>Domanda NASpI</b> e compila tutti i campi richiesti</li>
+                            <li>Allega eventuali documenti giustificativi (es. comunicazioni del datore di lavoro, contratti) in formato PDF o JPG (<i>DA VERIFICARE su sito ufficiale INPS</i>)</li>
+                            <li>Conferma l'invio e scarica la ricevuta in formato PDF</li>
+                        </ol>
+
+                        <p><b>Documenti utili</b></p>
+                        <ol>
+                            <li>Carta d'identità o CIE</li>
+                            <li>Codice fiscale</li>
+                            <li>Documenti che attestano il rapporto di lavoro concluso (lettera di licenziamento, fine contratto, dimissioni per giusta causa)</li>
+                            <li>Credenziali SPID, CIE o CNS attive</li>
+                        </ol>
+
+                        <p><b>Checklist finale</b></p>
+                        <ol>
+                            <li>✅ Ho SPID/CIE/CNS attivo</li>
+                            <li>✅ Sono entrato su www.inps.it</li>
+                            <li>✅ Ho aperto il servizio "Domanda NASpI"</li>
+                            <li>✅ Ho compilato tutti i campi richiesti</li>
+                            <li>✅ Ho allegato eventuali documenti giustificativi</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Come si calcola la durata e l'importo della NASpI?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>Calcolo della durata e dell'importo della NASpI</b></p>
+                        <ol>
+                            <li>La durata della NASpI corrisponde alla metà delle settimane di contribuzione maturate nei 4 anni precedenti la disoccupazione</li>
+                            <li>L'importo mensile si calcola sulla media delle retribuzioni imponibili degli ultimi 4 anni</li>
+                            <li>Dopo i primi 4 mesi di NASpI, l'indennità viene ridotta del 3% ogni mese successivo</li>
+                            <li>È necessario rimanere disoccupati e avere la DID attiva per percepire le rate</li>
+                            <li>Eventuali altri redditi percepiti possono ridurre l'importo della NASpI</li>
+                        </ol>
+
+                        <p><b>Guida passo-passo</b></p>
+                        <ol>
+                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
+                            <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
+                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
+                            <li>Una volta effettuato l'accesso, cerca "<b>Calcolo NASpI</b>" o "<b>Simulatore NASpI</b>" nella barra di ricerca</li>
+                            <li>Inserisci le settimane contributive e le retribuzioni degli ultimi 4 anni</li>
+                            <li>Visualizza il calcolo della durata e dell'importo mensile stimato</li>
+                            <li>Salva o stampa il risultato per consultazione futura</li>
+                        </ol>
+
+                        <p><b>Documenti utili</b></p>
+                        <ol>
+                            <li>Carta d'identità o CIE</li>
+                            <li>Codice fiscale</li>
+                            <li>Ultime buste paga o certificazioni delle retribuzioni degli ultimi 4 anni</li>
+                            <li>Credenziali SPID, CIE o CNS attive</li>
+                        </ol>
+
+                        <p><b>Checklist finale</b></p>
+                        <ol>
+                            <li>✅ Ho SPID/CIE/CNS attivo</li>
+                            <li>✅ Sono entrato su www.inps.it</li>
+                            <li>✅ Ho aperto il servizio "Calcolo NASpI" o simulatore</li>
+                            <li>✅ Ho inserito dati contributivi e retributivi corretti</li>
+                            <li>✅ Ho salvato o stampato il risultato del calcolo</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Cosa succede se si presenta la domanda dopo 60 giorni?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>Presentazione tardiva della domanda NASpI</b></p>
+                        <ol>
+                            <li>Se la domanda NASpI viene presentata dopo i 68 giorni dalla cessazione del lavoro, l'indennità viene ridotta proporzionalmente ai giorni di ritardo</li>
+                            <li>La NASpI spetta comunque, ma l'importo sarà calcolato a partire dalla data di presentazione della domanda</li>
+                            <li>È importante conservare tutta la documentazione e comprovare la data di disoccupazione</li>
+                            <li>Non ci sono penalità aggiuntive, ma i giorni non coperti dalla domanda tardiva non sono indennizzati</li>
+                            <li>Si raccomanda di contattare il centro per l'impiego o l'INPS per verificare casi particolari o giustificati ritardi</li>
+                        </ol>
+
+                        <p><b>Guida passo-passo</b></p>
+                        <ol>
+                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
+                            <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
+                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
+                            <li>Una volta effettuato l'accesso, cerca "<b>Domanda NASpI</b>" nella barra di ricerca</li>
+                            <li>Apri il servizio e compila la domanda indicando correttamente la data di cessazione del lavoro</li>
+                            <li>Allega eventuali documenti giustificativi del ritardo, se disponibili</li>
+                            <li>Conferma l'invio e scarica la ricevuta in formato PDF</li>
+                        </ol>
+
+                        <p><b>Documenti utili</b></p>
+                        <ol>
+                            <li>Carta d'identità o CIE</li>
+                            <li>Codice fiscale</li>
+                            <li>Documenti che attestano il rapporto di lavoro concluso</li>
+                            <li>Eventuali documenti che giustificano il ritardo nella presentazione</li>
+                            <li>Credenziali SPID, CIE o CNS attive</li>
+                        </ol>
+
+                        <p><b>Checklist finale</b></p>
+                        <ol>
+                            <li>✅ Ho SPID/CIE/CNS attivo</li>
+                            <li>✅ Sono entrato su www.inps.it</li>
+                            <li>✅ Ho aperto il servizio "Domanda NASpI"</li>
+                            <li>✅ Ho indicato correttamente la data di cessazione del lavoro</li>
+                            <li>✅ Ho allegato eventuali documenti giustificativi del ritardo</li>
+                            <li>✅ Ho inviato la domanda e salvato la ricevuta PDF</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Come si presenta la domanda NASpI online passo passo?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>Presentazione della domanda NASpI online passo passo</b></p>
+                        <ol>
+                            <li>Assicurati di avere SPID, CIE o CNS attivo per l'accesso ai servizi online</li>
+                            <li>Raccogli i documenti necessari: carta d'identità, codice fiscale, eventuali certificazioni del rapporto di lavoro concluso</li>
+                            <li>Verifica di avere la Dichiarazione di Immediata Disponibilità (DID) attiva</li>
+                        </ol>
+
+                        <p><b>Guida passo-passo su MyINPS</b></p>
+                        <ol>
+                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
+                            <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
+                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
+                            <li>Una volta effettuato l'accesso, cerca "<b>Domanda NASpI</b>" nella barra di ricerca</li>
+                            <li>Apri il servizio e compila tutti i campi richiesti</li>
+                            <li>Allega eventuali documenti giustificativi in formato PDF o JPG (<i>DA VERIFICARE su sito ufficiale INPS</i>)</li>
+                            <li>Conferma l'invio e scarica la ricevuta in formato PDF</li>
+                        </ol>
+
+                        <p><b>Documenti utili</b></p>
+                        <ol>
+                            <li>Carta d'identità o CIE</li>
+                            <li>Codice fiscale</li>
+                            <li>Documenti che attestano la cessazione del rapporto di lavoro (lettera di licenziamento, fine contratto, dimissioni per giusta causa)</li>
+                            <li>Eventuali documenti giustificativi aggiuntivi</li>
+                            <li>Credenziali SPID, CIE o CNS attive</li>
+                        </ol>
+
+                        <p><b>Checklist finale</b></p>
+                        <ol>
+                            <li>✅ Ho SPID/CIE/CNS attivo</li>
+                            <li>✅ Sono entrato su www.inps.it</li>
+                            <li>✅ Ho aperto il servizio "Domanda NASpI"</li>
+                            <li>✅ Ho compilato tutti i campi richiesti</li>
+                            <li>✅ Ho allegato eventuali documenti giustificativi</li>
+                            <li>✅ Ho inviato la domanda e salvato la ricevuta PDF</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Cosa fare dopo l'accoglimento: iscrizione SIISL e patto di servizio?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>Iscrizione al SIISL e Patto di Servizio dopo l'accoglimento della NASpI</b></p>
+                        <ol>
+                            <li>Dopo l'accoglimento della NASpI, devi iscriverti al <b>SIISL (Sistema Informativo Intermediari Servizi Lavoro)</b> tramite il portale o il centro per l'impiego competente</li>
+                            <li>Verifica di avere SPID, CIE o CNS attivo per accedere ai servizi online del centro per l'impiego</li>
+                            <li>Raccogli i documenti necessari: carta d'identità, codice fiscale, copia della comunicazione di accoglimento NASpI</li>
+                            <li>Partecipa alla stipula del <b>Patto di Servizio Personalizzato</b> presso il centro per l'impiego o tramite piattaforma online, se disponibile</li>
+                        </ol>
+
+                        <p><b>Guida passo-passo su MyINPS e centri per l'impiego</b></p>
+                        <ol>
+                            <li>Vai sul sito del centro per l'impiego della tua provincia o sulla piattaforma online dedicata al SIISL</li>
+                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
+                            <li>Seleziona la sezione "<b>Iscrizione SIISL</b>"</li>
+                            <li>Compila i dati richiesti, allegando la comunicazione di accoglimento NASpI</li>
+                            <li>Prendi appuntamento per la stipula del Patto di Servizio, se necessario in presenza</li>
+                            <li>Firma il Patto di Servizio e conferma l'iscrizione al SIISL</li>
+                            <li>Salva o stampa la ricevuta di iscrizione e del Patto di Servizio</li>
+                        </ol>
+
+                        <p><b>Documenti utili</b></p>
+                        <ol>
+                            <li>Carta d'identità o CIE</li>
+                            <li>Codice fiscale</li>
+                            <li>Comunicazione di accoglimento NASpI</li>
+                            <li>Eventuali certificazioni aggiuntive richieste dal centro per l'impiego</li>
+                            <li>Credenziali SPID, CIE o CNS attive</li>
+                        </ol>
+
+                        <p><b>Checklist finale</b></p>
+                        <ol>
+                            <li>✅ Ho SPID/CIE/CNS attivo</li>
+                            <li>✅ Ho raccolto i documenti richiesti</li>
+                            <li>✅ Ho effettuato l'iscrizione al SIISL</li>
+                            <li>✅ Ho preso appuntamento per il Patto di Servizio, se necessario</li>
+                            <li>✅ Ho firmato e confermato il Patto di Servizio</li>
+                            <li>✅ Ho salvato o stampato la ricevuta dell'iscrizione</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ISEE Category -->
+            <div class="faq-category" id="isee">
+                <h2><i class="fas fa-file-invoice-dollar"></i> ISEE - Indicatore della Situazione Economica Equivalente</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Come funziona l'ISEE precompilato?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>ISEE Precompilato: cos'è e come funziona</b></p>
+                        <ol>
+                            <li>L'ISEE precompilato è un servizio che recupera automaticamente i tuoi dati dall'Agenzia delle Entrate</li>
+                            <li>Pre-compila il modulo ISEE con le informazioni già disponibili</li>
+                            <li>Ti chiede solo di integrare i dati mancanti o aggiornare quelli non corretti</li>
+                            <li>Riduce gli errori e semplifica notevolmente la compilazione</li>
+                        </ol>
+
+                        <p><b>Guida passo-passo per l'ISEE precompilato</b></p>
+                        <ol>
+                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
+                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
+                            <li>Cerca "<b>ISEE precompilato</b>" nella barra di ricerca</li>
+                            <li>Seleziona il servizio e verifica i dati precompilati</li>
+                            <li>Integra le informazioni mancanti (es. dati patrimoniali non presenti)</li>
+                            <li>Conferma e invia la dichiarazione</li>
+                            <li>Scarica la ricevuta in formato PDF</li>
+                        </ol>
+
+                        <p><b>Documenti necessari</b></p>
+                        <ol>
+                            <li>Carta d'identità valida</li>
+                            <li>Codice fiscale di tutti i componenti del nucleo familiare</li>
+                            <li>Dichiarazione dei redditi dell'anno precedente</li>
+                            <li>Eventuali documenti patrimoniali (conti correnti, investimenti, immobili)</li>
+                        </ol>
+
+                        <p><b>Checklist finale</b></p>
+                        <ol>
+                            <li>✅ Ho verificato i dati precompilati</li>
+                            <li>✅ Ho integrato le informazioni mancanti</li>
+                            <li>✅ Ho controllato l'esattezza di tutti i dati</li>
+                            <li>✅ Ho inviato la dichiarazione</li>
+                            <li>✅ Ho salvato la ricevuta PDF</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Quali documenti servono per compilare l'ISEE?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>Documentazione necessaria per la compilazione dell'ISEE</b></p>
+                        
+                        <p><b>Documenti anagrafici</b></p>
+                        <ul>
+                            <li>Carta d'identità e codice fiscale di tutti i componenti</li>
+                            <li>Stato di famiglia</li>
+                            <li>Eventuali documenti di separazione/divorzio</li>
+                        </ul>
+
+                        <p><b>Documenti reddituali</b></p>
+                        <ul>
+                            <li>CU (Certificazione Unica) o dichiarazione dei redditi</li>
+                            <li>Eventuali altri redditi (pensioni, affitti, etc.)</li>
+                        </ul>
+
+                        <p><b>Documenti patrimoniali</b></p>
+                        <ul>
+                            <li>Saldo conti correnti e libretti al 31/12</li>
+                            <li>Valore di azioni, obbligazioni, fondi</li>
+                            <li>Dichiarazione IMU per immobili posseduti</li>
+                            <li>Eventuali finanziamenti e mutui in corso</li>
+                        </ul>
+
+                        <p><b>Checklist documenti</b></p>
+                        <ol>
+                            <li>✅ Documenti anagrafici di tutti i componenti</li>
+                            <li>✅ Documenti reddituali completi</li>
+                            <li>✅ Situazione patrimoniale aggiornata</li>
+                            <li>✅ Eventuali documenti specifici per situazioni particolari</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADI Category -->
+            <div class="faq-category" id="adi">
+                <h2><i class="fas fa-hands-helping"></i> ADI - Assegno di Inclusione</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Quali sono i requisiti per richiedere l'ADI?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>Requisiti per l'Assegno di Inclusione (ADI)</b></p>
+                        
+                        <p><b>Requisiti anagrafici e di residenza</b></p>
+                        <ul>
+                            <li>Cittadinanza italiana o UE, oppure permesso di soggiorno UE per soggiornanti di lungo periodo</li>
+                            <li>Residenza in Italia da almeno 2 anni</li>
+                            <li>Età compresa tra 18 e 67 anni (con alcune eccezioni)</li>
+                        </ul>
+
+                        <p><b>Requisiti economici</b></p>
+                        <ul>
+                            <li>ISEE inferiore alla soglia stabilita annualmente</li>
+                            <li>Disoccupazione o sottoccupazione</li>
+                            <li>Disponibilità a partecipare a progetti di inclusione lavorativa</li>
+                        </ul>
+
+                        <p><b>Requisiti aggiuntivi</b></p>
+                        <ul>
+                            <li>Iscrizione al centro per l'impiego</li>
+                            <li>Firma del Patto di Servizio Personalizzato</li>
+                            <li>Partecipazione ai percorsi di attivazione</li>
+                        </ul>
+
+                        <p><b>Checklist requisiti</b></p>
+                        <ol>
+                            <li>✅ Requisiti anagrafici soddisfatti</li>
+                            <li>✅ ISEE inferiore alla soglia</li>
+                            <li>✅ Iscrizione al centro per l'impiego</li>
+                            <li>✅ Disponibilità a partecipare ai progetti</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Come si presenta la domanda ADI online?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>Presentazione domanda ADI online</b></p>
+                        
+                        <p><b>Preparazione documenti</b></p>
+                        <ul>
+                            <li>ISEE corrente</li>
+                            <li>Documenti anagrafici</li>
+                            <li>Certificazione di disoccupazione</li>
+                            <li>Eventuali documenti specifici</li>
+                        </ul>
+
+                        <p><b>Procedura online</b></p>
+                        <ol>
+                            <li>Accedi a <em>www.inps.it</em> con SPID/CIE/CNS</li>
+                            <li>Cerca "Domanda ADI" nel motore di ricerca</li>
+                            <li>Compila il modulo con i dati richiesti</li>
+                            <li>Allega i documenti necessari</li>
+                            <li>Invia la domanda e salva la ricevuta</li>
+                        </ol>
+
+                        <p><b>Checklist finale</b></p>
+                        <ol>
+                            <li>✅ Documenti preparati</li>
+                            <li>✅ Accesso a INPS effettuato</li>
+                            <li>✅ Modulo compilato correttamente</li>
+                            <li>✅ Documenti allegati</li>
+                            <li>✅ Ricevuta salvata</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SFL/SIISL Category -->
+            <div class="faq-category" id="sfl">
+                <h2><i class="fas fa-user-graduate"></i> SFL/SIISL - Servizi per il Lavoro</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Cos'è il SIISL e come funziona?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>SIISL - Sistema Informativo Intermediari Servizi Lavoro</b></p>
+                        
+                        <p>Il SIISL è il sistema informativo che gestisce i servizi per il lavoro erogati dai centri per l'impiego.</p>
+
+                        <p><b>Funzionalità principali</b></p>
+                        <ul>
+                            <li>Iscrizione e aggiornamento della posizione</li>
+                            <li>Gestione del Patto di Servizio</li>
+                            <li>Ricerca di opportunità di lavoro</li>
+                            <li>Prenotazione appuntamenti</li>
+                            <li>Comunicazioni con il centro per l'impiego</li>
+                        </ul>
+
+                        <p><b>Accesso al sistema</b></p>
+                        <ol>
+                            <li>Collegarsi al portale del centro per l'impiego della propria provincia</li>
+                            <li>Accedere con SPID, CIE o CNS</li>
+                            <li>Completare l'iscrizione se primo accesso</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Come funziona il Patto di Servizio Personalizzato?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>Patto di Servizio Personalizzato</b></p>
+                        
+                        <p>È un accordo tra il cittadino e il centro per l'impiego che definisce il percorso di ricerca attiva del lavoro.</p>
+
+                        <p><b>Contenuto del patto</b></p>
+                        <ul>
+                            <li>Obiettivi di ricerca del lavoro</li>
+                            <li>Impegni del cittadino</li>
+                            <li>Servizi offerti dal centro per l'impiego</li>
+                            <li>Tempi e scadenze</li>
+                        </ul>
+
+                        <p><b>Firma del patto</b></p>
+                        <ol>
+                            <li>Presentarsi al centro per l'impiego con documenti</li>
+                            <li>Discutere il percorso personalizzato</li>
+                            <li>Firmare il patto di servizio</li>
+                            <li>Ricevere copia del documento firmato</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- General Services Category -->
+            <div class="faq-category" id="generale">
+                <h2><i class="fas fa-info-circle"></i> Servizi Generali al Cittadino</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Come richiedere SPID senza andare in posta?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>Richiedere SPID completamente online</b></p>
+                        <ol>
+                            <li>Scegli un identity provider autorizzato (Poste, Sielte, Aruba, InfoCert, Namirial, etc.)</li>
+                            <li>Registrati sul sito del provider inserendo i tuoi dati anagrafici e il codice fiscale</li>
+                            <li>Effettua il riconoscimento a distanza tramite webcam, videochiamata o app del provider</li>
+                            <li>Ricevi le credenziali SPID via email o SMS</li>
+                            <li>Scarica l'app del provider per utilizzare SPID su mobile e gestire l'accesso ai servizi online</li>
+                        </ol>
+
+                        <p><b>TIPS</b></p>
+                        <ol>
+                            <li>Il riconoscimento video sostituisce il riconoscimento in presenza e permette di completare la procedura senza recarsi in posta</li>
+                            <li>Verifica che il documento d'identità sia valido e leggibile durante la videochiamata</li>
+                            <li>Assicurati di avere una connessione stabile per evitare interruzioni durante il riconoscimento</li>
+                        </ol>
+
+                        <p><b>Documenti utili</b></p>
+                        <ol>
+                            <li>Documento d'identità valido (carta d'identità, passaporto o patente)</li>
+                            <li>Codice fiscale</li>
+                            <li>Numero di telefono e indirizzo email personali</li>
+                            <li>Eventuale app o software per la videochiamata del provider scelto</li>
+                        </ol>
+
+                        <p><b>Checklist finale</b></p>
+                        <ol>
+                            <li>✅ Ho scelto un provider SPID online</li>
+                            <li>✅ Ho registrato i miei dati sul sito del provider</li>
+                            <li>✅ Ho effettuato il riconoscimento tramite videochiamata o webcam</li>
+                            <li>✅ Ho ricevuto le credenziali SPID via email o SMS</li>
+                            <li>✅ Ho installato l'app del provider per l'uso su mobile</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Come funziona l'ISEE precompilato?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>L'ISEE precompilato è un servizio che:</p>
+                        <ul>
+                            <li>Recupera automaticamente i tuoi dati dall'Agenzia delle Entrate</li>
+                            <li>Pre-compila il modulo ISEE con le informazioni già disponibili</li>
+                            <li>Ti chiede solo di integrare i dati mancanti</li>
+                            <li>Riduce gli errori e semplifica la compilazione</li>
+                        </ul>
+                        <p>Per usufruirne, accedi al sito dell'INPS con SPID/CIE e seleziona "ISEE precompilato".</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h2>Non hai trovato la risposta che cercavi?</h2>
+            <p>Il nostro team di esperti è pronto ad aiutarti con qualsiasi domanda su INPS, NASpI, ADI, ISEE, SFL e servizi al cittadino.</p>
+            <a href="https://wa.me/3934146871" class="btn" target="_blank">
+                <i class="fab fa-whatsapp"></i> Chiedi su WhatsApp
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Sportello Digitale</h3>
+                <p>Il primo sportello digitale in Italia per assistenza immediata su INPS, Naspi, AdI, ISEE, SFL e servizi al cittadino.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Servizi</h3>
+                <ul>
+                    <li>NASpI - Disoccupazione</li>
+                    <li>ISEE - Agevolazioni</li>
+                    <li>ADI - Inclusione</li>
+                    <li>SFL/SIISL - Formazione e Lavoro</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contatti</h3>
+                <ul>
+                    <li>+39 393 4146871</li>
+                    <li>Assistenza WhatsApp</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Sportello Speed - Tutti i diritti riservati</p>
+        </div>
+    </div>
+</footer>
+
 <script>
-document.getElementById('admin-toggle').addEventListener('click', function(e) {
-    e.preventDefault();
-    const pwd = prompt("Inserisci la password per accedere all'area amministratori:");
-    if (pwd === "GppRmO72@") {
-        window.location.href = "admin.html";
-    } else {
-        alert("Password errata! Accesso negato.");
+// FAQ Accordion Functionality
+document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', () => {
+        const item = question.parentNode;
+        item.classList.toggle('active');
+    });
+});
+
+// Category Filter Functionality
+document.querySelectorAll('.category-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        // Add active class to clicked button
+        button.classList.add('active');
+
+        const category = button.getAttribute('data-category');
+
+        // Show/hide categories based on selection
+        document.querySelectorAll('.faq-category').forEach(cat => {
+            if (category === 'all' || cat.id === category) {
+                cat.style.display = 'block';
+            } else {
+                cat.style.display = 'none';
+            }
+        });
+    });
+});
+
+// Search Functionality
+document.querySelector('.search-btn').addEventListener('click', performSearch);
+document.querySelector('.search-input').addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') {
+        performSearch();
     }
 });
-</script>
 
+function performSearch() {
+    const searchTerm = document.querySelector('.search-input').value.toLowerCase();
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1>Assistenza Immediate per INPS, Naspi, AdI e servizi al cittadino</h1>
-            <p>Il primo sportello digitale in Italia che ti offre supporto immediato per le tue pratiche burocratiche. Ricevi risposte in tempo zero direttamente sul tuo WhatsApp!</p>
-            <a href="#chat" class="btn">Hai un dubbio URGENTE? Scrivici e ti rispondiamo su WhatsApp in pochi minuti!<br>"INIZIA ORA"</a>
-            
-        </div>
-    </section>
-
-    <!-- Chat Section -->
-    <section id="chat" class="chat-section">
-        <div class="container">
-            <h2 class="section-title">Invia la tua domanda</h2>
-            <div class="chat-container">
-                <div class="chat-info">
-                    <h3>Come funziona il nostro servizio</h3>
-                    <p>Scrivi la tua domanda nel modulo qui accanto, allega eventuali documenti e invia la richiesta. I nostri operatori specializzati ti risponderanno nel minor tempo possibile direttamente sul tuo WhatsApp.</p>
-                    <p>Il servizio è disponible per assistenza su:</p>
-                    <ul>
-                        <li>INPS - Pensioni e prestazioni sociali</li>
-                        <li>Naspi - Disoccupazione</li>
-                        <li>Agenzia delle Entrate (AdE)</li>
-                        <li>ANPAL - Servizi per il lavoro</li>
-                        <li>e molti altri servizi al cittadino</li>
-                    </ul>
-                    
-                </div>
-                
-                <div class="chat-box">
-                    <div class="chat-header">
-                        <i class="fas fa-comments"></i>
-                        <span>Hai una domanda? Scrivici qui!</span>
-                    </div>
-                    <div class="chat-messages">
-                        <div class="message received">
-                            Ciao! Come possiamo aiutarti oggi?
-                        </div>
-                    </div>
-                    <div class="chat-input">
-                        <input type="text" id="user-name" placeholder="Il tuo nome" required>
-                        <input type="tel" id="user-phone" placeholder="Il tuo numero WhatsApp" required>
-                        <textarea id="user-question" placeholder="Inserisci la tua domanda qui..." required></textarea>
-                        
-                        <div class="file-upload">
-                            <input type="file" id="file-upload" multiple style="display: none;">
-                            <label for="file-upload" class="file-upload-label">
-                                <i class="fas fa-paperclip"></i> Allega file
-                            </label>
-                            <span class="file-list">Nessun file selezionato</span>
-                        </div>
-                        
-                        <div class="whatsapp-note">
-                            <i class="fab fa-whatsapp"></i>
-                            <span>Riceverai la risposta direttamente sul tuo WhatsApp in tempo zero!</span>
-                        </div>
-                        
-                        <button type="button" id="submit-question">Invia richiesta</button>
-                    </div>
-                </div>
-            </div>
-            <!-- Nuova sezione Servizi Lettere Ufficiali -->
-<section class="servizi-lettere">
-    <h2>📌 Hai bisogno di una lettera ufficiale da inviare a INPS, CPI o Comune?</h2>
-    <p>Ti prepariamo un modello già pronto da scaricare e inviare:</p>
-    
-    <div class="servizi-grid">
-        <div class="servizio-card">
-            <h3>Lettere di sollecito pagamenti</h3>
-            <p>Modelli precompilati per sollecitare pagamenti pendenti da enti pubblici e privati.</p>
-            <div class="tempo-consegna">Consegna: Entro 4h</div>
-            <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20alle%20lettere%20di%20sollecito%20pagamenti" class="btn-richiedi" target="_blank">Richiedi Ora</a>
-            <a href="#" class="info-link" onclick="mostraDettagli(1)">Per saperne di più →</a>
-            <div class="dettagli-completi" id="dettagli-1" style="display: none;">
-                <p>Le nostre lettere di sollecito includono:</p>
-                <ul>
-                    <li>Modelli precompilati personalizzabili</li>
-                    <li>Riferimenti normativi appropriati</li>
-                    <li>Istruzioni per l'invio corretto</li>
-                    <li>Template per follow-up</li>
-                    <li>Assistenza nella compilazione</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="servizio-card">
-            <h3>Comunicazioni per assenze/giustificazioni</h3>
-            <p>Lettere formali per giustificare assenze lavorative o ritardi secondo le normative.</p>
-            <div class="tempo-consegna">Consegna: Entro 2h</div>
-            <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20alle%20comunicazioni%20per%20assenze/giustificazioni" class="btn-richiedi" target="_blank">Richiedi Ora</a>
-            <a href="#" class="info-link" onclick="mostraDettagli(2)">Per saperne di più →</a>
-            <div class="dettagli-completi" id="dettagli-2" style="display: none;">
-                <p>Le nostre comunicazioni per assenze includono:</p>
-                <ul>
-                    <li>Modelli per malattia certificata</li>
-                    <li>Comunicazioni per motivi familiari</li>
-                    <li>Giustificazioni per ritardi</li>
-                    <li>Lettere per permessi vari</li>
-                    <li>Modelli per smart working</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="servizio-card">
-            <h3>Richieste di chiarimenti</h3>
-            <p>Modelli professionali per richiedere chiarimenti a enti pubblici e uffici amministrativi.</p>
-            <div class="tempo-consegna">Consegna: Entro 3h</div>
-            <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20alle%20richieste%20di%20chiarimenti" class="btn-richiedi" target="_blank">Richiedi Ora</a>
-            <a href="#" class="info-link" onclick="mostraDettagli(3)">Per saperne di più →</a>
-            <div class="dettagli-completi" id="dettagli-3" style="display: none;">
-                <p>Le nostre richieste di chiarimenti includono:</p>
-                <ul>
-                    <li>Modelli per informazioni su pratiche</li>
-                    <li>Richiesta documentazione mancante</li>
-                    <li>Chiarimenti su provvedimenti</li>
-                    <li>Comunicazioni per errori amministrativi</li>
-                    <li>Template per sollecito risposte</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="servizio-card">
-            <h3>Reclami formali stile allegato</h3>
-            <p>Reclami ufficiali redatti in formato corretto per presentare contestazioni formali.</p>
-            <div class="tempo-consegna">Consegna: Entro 6h</div>
-            <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20ai%20reclami%20formali" class="btn-richiedi" target="_blank">Richiedi Ora</a>
-            <a href="#" class="info-link" onclick="mostraDettagli(4)">Per saperne di più →</a>
-            <div class="dettagli-completi" id="dettagli-4" style="display: none;">
-                <p>I nostri reclami formali includono:</p>
-                <ul>
-                    <li>Reclami per servizi inefficienti</li>
-                    <li>Contestazioni di decisioni</li>
-                    <li>Segnalazioni di disservizi</li>
-                    <li>Recapiti ufficiali per l'invio</li>
-                    <li>Istruzioni per il follow-up</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="servizio-card">
-            <h3>Domande per agevolazioni e bonus</h3>
-            <p>Modelli per richiedere agevolazioni fiscali, bonus edilizi e contributi a fondo perduto.</p>
-            <div class="tempo-consegna">Consegna: Entro 5h</div>
-            <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20alle%20domande%20per%20agevolazioni%20e%20bonus" class="btn-richiedi" target="_blank">Richiedi Ora</a>
-            <a href="#" class="info-link" onclick="mostraDettagli(5)">Per saperne di più →</a>
-            <div class="dettagli-completi" id="dettagli-5" style="display: none;">
-                <p>Le nostre domande per agevolazioni includono:</p>
-                <ul>
-                    <li>Modelli per bonus facciate</li>
-                    <li>Domande per contributi a fondo perduto</li>
-                    <li>Richieste agevolazioni fiscali</li>
-                    <li>Modelli per bonus mobilità</li>
-                    <li>Documentazione per ecobonus</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="servizio-card">
-            <h3>Comunicazioni per disoccupazione</h3>
-            <p>Lettere e modelli specifici per le pratiche NASpI e DIS-COLL con gli enti preposti.</p>
-            <div class="tempo-consegna">Consegna: Entro 3h</div>
-            <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20alle%20comunicazioni%20per%20disoccupazione" class="btn-richiedi" target="_blank">Richiedi Ora</a>
-            <a href="#" class="info-link" onclick="mostraDettagli(6)">Per saperne di più →</a>
-            <div class="dettagli-completi" id="dettagli-6" style="display: none;">
-                <p>Le nostre comunicazioni per disoccupazione includono:</p>
-                <ul>
-                    <li>Modelli per integrazione documentazione NASpI</li>
-                    <li>Comunicazioni per variazione situazione</li>
-                    <li>Richieste di chiarimenti su disposizioni</li>
-                    <li>Solleciti per pagamenti</li>
-                    <li>Comunicazioni per mobilità</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
-
-<script>
-function mostraDettagli(numero) {
-    event.preventDefault();
-    var dettagli = document.getElementById('dettagli-' + numero);
-    if (dettagli.style.display === 'none') {
-        dettagli.style.display = 'block';
-    } else {
-        dettagli.style.display = 'none';
-    }
-}
-</script>
-
-<style>
-.dettagli-completi {
-    margin-top: 15px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    border-left: 4px solid var(--poste-blue);
-}
-
-.dettagli-completi ul {
-    margin: 10px 0;
-    padding-left: 20px;
-}
-
-.dettagli-completi li {
-    margin-bottom: 8px;
-    line-height: 1.4;
-}
-
-.btn-richiedi {
-    display: inline-block;
-    background-color: var(--poste-blue);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-    margin-bottom: 10px;
-}
-
-.btn-richiedi:hover {
-    background-color: var(--poste-dark-blue);
-}
-</style>
-            <!-- Interfaccia amministratore: presente ma nascosta -->
-            <div class="whatsapp-chat-container admin-only">
-                <div class="whatsapp-chat-header">
-                    <i class="fab fa-whatsapp"></i>
-                    <h3>Chat Ricevute - Interfaccia Amministratore</h3>
-                </div>
-                <div class="chat-list" id="whatsapp-chat-list">
-                    <!-- Le chat verranno aggiunte dinamicamente qui -->
-                </div>
-            </div>
-        </div>
-    </section>
-<!-- ✅ Sezione Testimonianze / Fiducia -->
-<section id="testimonianze" aria-labelledby="testimonianze-title">
-  <div class="ts-wrap">
-    <h2 id="testimonianze-title">Dicono di noi</h2>
-    <p class="ts-sub">Risposte chiare, tempi rapidi, zero burocrazia.</p>
-
-    <div class="ts-grid">
-      <!-- Card 1 -->
-      <figure class="ts-card">
-        <div class="ts-stars" aria-label="Valutazione 5 su 5">★★★★★</div>
-        <blockquote>
-          “Ho inviato la domanda NASpI con il loro aiuto: verifica in 15 minuti e pagamento sbloccato. Grazie!”
-        </blockquote>
-        <figcaption>
-          <span class="ts-name">M. • Roma</span>
-          <span class="ts-meta">Servizio: NASpI • Risposta in 15 min</span>
-          <span class="ts-badge" aria-label="Recensione verificata">Verificata</span>
-        </figcaption>
-      </figure>
-
-      <!-- Card 2 -->
-      <figure class="ts-card">
-        <div class="ts-stars" aria-label="Valutazione 5 su 5">★★★★★</div>
-        <blockquote>
-          “Non capivo l’ADI. Mi hanno guidata passo passo su WhatsApp. Domanda inviata senza errori!”
-        </blockquote>
-        <figcaption>
-          <span class="ts-name">L. • Torino</span>
-          <span class="ts-meta">Servizio: ADI • Supporto via WhatsApp</span>
-          <span class="ts-badge">Verificata</span>
-        </figcaption>
-      </figure>
-
-      <!-- Card 3 -->
-      <figure class="ts-card">
-        <div class="ts-stars" aria-label="Valutazione 5 su 5">★★★★★</div>
-        <blockquote>
-          “ISEE fatto online in 24 ore, con controlli e promemoria documenti. Semplice e veloce.”
-        </blockquote>
-        <figcaption>
-          <span class="ts-name">S. • Napoli</span>
-          <span class="ts-meta">Servizio: ISEE • Consegna 24h</span>
-          <span class="ts-badge">Verificata</span>
-        </figcaption>
-      </figure>
-    </div>
-
-    <p class="ts-note">Le iniziali tutelano la privacy. Recensioni raccolte via modulo e WhatsApp.</p>
-
-    
-  </div>
-</section>
-<section id="enti-riferimento" aria-labelledby="enti-title">
-  <div class="enti-wrap">
-    <h3 id="enti-title">Ci basiamo sulle informazioni ufficiali di</h3>
-    <div class="enti-logos">
-      <!-- Logo INPS -->
-      <img src="https://conflombardia.com/wp-content/uploads/2023/03/logocard.jpg" 
-           alt="INPS" loading="lazy">
-
-      <!-- Logo Agenzia delle Entrate -->
-      <img src="https://www.simplybiz.eu/wp-content/uploads/2013/10/Agenzia-Entrate-Logo-e1432046540209.png" 
-           alt="Agenzia delle Entrate" loading="lazy">
-
-      <!-- Logo placeholder ADI -->
-      <img src="https://edotto-prod-acl.s3.eu-central-1.amazonaws.com/f21e552035ff7bc25d2089fb" 
-           alt="Assegno di Inclusione (ADI)" loading="lazy">
-    </div>
-    <p class="enti-note">Loghi a titolo informativo — non siamo partner né affiliati.</p>
-  </div>
-</section>
-
-
-    <!-- Features Section -->
-    <section class="features">
-        <div class="container">
-            <h2 class="section-title">Perché scegliere il nostro servizio</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>Risposte Immediate</h3>
-                    <p>Tempo zero di attesa per lesposte alle tue domande più urgenti.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <h3>Sicuro e Affidabile</h3>
-                    <p>I tuoi dati sono protetti e trattati nel rispetto della privacy.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3>Esperti del Settore</h3>
-                    <p>Personale specializzato in pratiche burocratiche e servizi al cittadino.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fab fa-whatsapp"></i>
-                    </div>
-                    <h3>Comodità WhatsApp</h3>
-                    <p>Risposte direttamente sul tuo smartphone, senza bisogno di app.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>Sportello Digitale</h3>
-                    <p>Il primo sportello digitale in Italia per assistenza immediata su INPS, Naspi, AdE e servizi al cittadino.</p>
-                </div>
-                <div class="footer-column">
-                    <h3>Servizi</h3>
-                    <ul>
-                        <li><a href="servizi.html">NASpI, Sussidio di disoccupazione</a></li>
-                        <li><a href="servizi.html">ISEE, Bonus e agevolazioni</a></li>
-                        <li><a href="servizi.html">ADI, Inclusione per le famiglie</a></li>
-                        <li><a href="servizi.html">SFL, Supporto per la Formazione e il Lavoro</a></li>
-                        <li><a href="servizi.html">SIISL, Percorsi formativi reinserimento lavoro</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Contatti</h3>
-                    <ul>
-                        <li><a href="#"></a></li>
-                        <li><a href="#">+39 3934146871</a></li>
-                        <li><a href="#">Assistenza WhatsApp</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2025 Sportello Speed - Tutti i diritti riservati</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Admin Panel nascosto -->
-    <div class="overlay admin-only" id="admin-overlay"></div>
-    <div class="admin-panel admin-only" id="admin-panel">
-        <div class="admin-header">
-            <h3>Pannello di Amministrazione - Domande degli Utenti</h3>
-            <button class="close-admin" id="close-admin">&times;</button>
-        </div>
-        <div class="question-list" id="question-list">
-            <!-- Le domande verranno aggiunte dinamicamente qui -->
-        </div>
-    </div>
-
-    <script>
-       <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script>
-    // Configurazione Firebase
-    const firebaseConfig = {
-        apiKey: "AIzaSyAA9sbM03-XbikVrBGhVV6H_du6E28WIg4",
-        authDomain: "sportellospeed.firebaseapp.com",
-        projectId: "sportellospeed",
-        storageBucket: "sportellospeed.firebasetorage.app",
-        messagingSenderId: "224365418093",
-        appId: "1:224365418093:web:b01c57d26ba86300e85164",
-        measurementId: "G-SHBNCHFG1F"
-    };
-
-    // Inizializza Firebase
-    try {
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        console.log("Firebase inizializzato correttamente");
-    } catch (e) {
-        console.error("Errore inizializzazione Firebase:", e);
-        }
-
-        // Funzioni per interagire con Firestore
-        async function saveChatToFirestore(chat) {
-    try {
-        // Accedi a firebase direttamente dall'oggetto globale
-        const db = firebase.firestore();
-        await db.collection("chats").doc(chat.id).set(chat);
-        console.log("Chat salvata su Firestore");
-    } catch (error) {
-        console.error("Errore salvataggio su Firestore:", error);
-        // Fallback al localStorage
-        saveToLocalStorage(chat);
+    if (searchTerm.trim() === '') {
+        // If search is empty, show all FAQs
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.style.display = 'block';
+        });
+        return;
     }
 
+    // Search through questions and answers
+    document.querySelectorAll('.faq-item').forEach(item => {
+        const question = item.querySelector('.faq-question').textContent.toLowerCase();
+        const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+
+        if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+            item.style.display = 'block';
+            // Expand matching items
+            item.classList.add('active');
+        } else {
+            item.style.display = 'none';
         }
-
-        // Funzioni di fallback per localStorage
-        function saveToLocalStorage(chat) {
-            let chats = JSON.parse(localStorage.getItem('whatsapp_chats')) || [];
-            const existingIndex = chats.findIndex(c => c.id === chat.id);
-            
-            if (existingIndex >= 0) {
-                chats[existingIndex] = chat;
-            } else {
-                chats.unshift(chat);
-            }
-            
-            localStorage.setItem('whatsapp_chats', JSON.stringify(chats));
-        }
-
-        // Gestione del caricamento file
-        document.getElementById('file-upload').addEventListener('change', function(e) {
-            const fileList = document.querySelector('.file-list');
-            if (this.files.length > 0) {
-                if (this.files.length === 1) {
-                    fileList.textContent = this.files[0].name;
-                } else {
-                    fileList.textContent = this.files.length + ' file selezionati';
-                }
-            } else {
-                fileList.textContent = 'Nessun file selezionato';
-            }
-        });
-
-        // === Utilities robustezza WhatsApp ===
-        function normalizePhone(phone) {
-            let p = (phone || '').replace(/\D/g, '');
-            p = p.replace(/^0+/, ''); // rimuove zeri iniziali
-            if (!p.startsWith('39')) p = '39' + p; // default Italia
-            return p;
-        }
-
-        // Funzione per convertire file in base64
-        function fileToBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-        }
-
-        // Canale broadcast per comunicare con admin.html
-        let bc = null;
-        try { bc = new BroadcastChannel('sd_chats'); } catch(e) { /* Safari privato etc. */ }
-
-        // Array per memorizzare le chat
-        let chats = JSON.parse(localStorage.getItem('whatsapp_chats')) || [];
-        
-        // Simulazione invio domanda (utente)
-        document.getElementById('submit-question').addEventListener('click', async function() {
-            const userName = document.getElementById('user-name').value.trim();
-            const userPhoneRaw = document.getElementById('user-phone').value.trim();
-            const userQuestion = document.getElementById('user-question').value.trim();
-            const fileInput = document.getElementById('file-upload');
-            
-            if (userName && userPhoneRaw && userQuestion) {
-                const userPhone = normalizePhone(userPhoneRaw);
-                
-                // Gestione allegati
-                let attachments = [];
-                if (fileInput.files.length > 0) {
-                    for (let i = 0; i < fileInput.files.length; i++) {
-                        const base64File = await fileToBase64(fileInput.files[i]);
-                        attachments.push({
-                            name: fileInput.files[i].name,
-                            type: fileInput.files[i].type,
-                            data: base64File
-                        });
-                    }
-                }
-
-                // Aggiungi alla chat fittizia (interfaccia)
-                const messagesContainer = document.querySelector('.chat-messages');
-                const newMessage = document.createElement('div');
-                newMessage.classList.add('message', 'sent');
-                newMessage.textContent = userQuestion;
-                
-                messagesContainer.appendChild(newMessage);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                
-                // Simula risposta automatica
-                setTimeout(function() {
-                    const response = document.createElement('div');
-                    response.classList.add('message', 'received');
-                    response.textContent = 'Grazie per la tua richiesta! Ti risponderemo al più presto sul tuo WhatsApp.';
-                    
-                    messagesContainer.appendChild(response);
-                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                }, 800);
-                
-                // Crea un nuovo oggetto chat
-                const newChat = {
-                    id: Date.now().toString(),
-                    userName: userName,
-                    userPhone: userPhone,
-                    question: userQuestion,
-                    timestamp: new Date().toISOString(),
-                    status: 'unread',
-                    attachments: attachments  // Aggiungi gli allegati
-                };
-                
-                // Salva su Firestore (con fallback a localStorage)
-                await saveChatToFirestore(newChat);
-
-                // Resetta il form
-                document.getElementById('user-name').value = '';
-                document.getElementById('user-phone').value = '';
-                document.getElementById('user-question').value = '';
-                document.querySelector('.file-list').textContent = 'Nessun file selezionato';
-                fileInput.value = '';
-                
-            } else {
-                alert('Per favore, compila tutti i campi prima di inviare la domanda.');
-            }
-        });
-
-        // Nessun handler per pannello admin su questa pagina (rimane nascosto)
-    </script>
+    });
+}
+</script>
 </body>
 </html>
