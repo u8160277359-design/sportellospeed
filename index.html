@@ -228,6 +228,8 @@ nav a:hover {
     transition: transform 0.3s ease;
 }
 
+/* TROVA QUESTA PARTE NEL CSS E SOSTITUISCI: */
+
 .faq-answer {
     padding: 0 20px;
     max-height: 0;
@@ -238,20 +240,36 @@ nav a:hover {
 
 .faq-item.active .faq-answer {
     padding: 20px;
-    max-height: 1000px;
+    max-height: 5000px; /* Aumentato da 1000px a 5000px */
 }
 
-.faq-item.active .faq-icon {
-    transform: rotate(180deg);
+/* SOSTITUISCI CON: */
+
+.faq-answer {
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
 }
 
-.faq-answer ol, .faq-answer ul {
-    margin-left: 20px;
-    margin-top: 10px;
+.faq-item.active .faq-answer {
+    padding: 20px;
+    max-height: 10000px; /* Aumentato drasticamente */
+    overflow: visible; /* IMPORTANTE: permette al contenuto di essere visibile */
 }
 
-.faq-answer li {
-    margin-bottom: 8px;
+/* AGGIUNGI QUESTA REGOLA PER MOBILE: */
+@media (max-width: 768px) {
+    .faq-item.active .faq-answer {
+        max-height: none !important; /* Rimuove il limite di altezza su mobile */
+        height: auto; /* Altezza automatica */
+        overflow: visible;
+    }
+    
+    .faq-answer {
+        transition: all 0.5s ease; /* Transizione più lenta per mobile */
+    }
 }
 
 /* Search Section */
@@ -1327,12 +1345,32 @@ document.querySelectorAll('.faq-question').forEach(question => {
     question.addEventListener('click', () => {
         const item = question.parentNode;
         
-        // Chiudi tutte le altre FAQ prima di aprire quella cliccata
+        // Chiudi altre FAQ aperte
         document.querySelectorAll('.faq-item').forEach(otherItem => {
             if (otherItem !== item && otherItem.classList.contains('active')) {
                 otherItem.classList.remove('active');
             }
         });
+        
+        // Apri/chiudi questa FAQ
+        item.classList.toggle('active');
+        
+        // Scroll migliorato per mobile
+        if (item.classList.contains('active')) {
+            setTimeout(() => {
+                const rect = item.getBoundingClientRect();
+                const isVisible = (rect.top >= 0) && (rect.bottom <= window.innerHeight);
+                
+                if (!isVisible) {
+                    item.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'nearest'
+                    });
+                }
+            }, 150);
+        }
+    });
+});
         
         // Apri/chiudi la FAQ cliccata
         item.classList.toggle('active');
