@@ -1322,11 +1322,26 @@ footer {
 </footer>
 
 <script>
-// FAQ Accordion Functionality
+// FAQ Accordion Functionality - MIGLIORATO
 document.querySelectorAll('.faq-question').forEach(question => {
     question.addEventListener('click', () => {
         const item = question.parentNode;
-        item.classList.toggle('active');
+        const wasActive = item.classList.contains('active');
+        
+        // Chiudi tutte le FAQ
+        document.querySelectorAll('.faq-item').forEach(faqItem => {
+            faqItem.classList.remove('active');
+        });
+        
+        // Apri la FAQ cliccata se non era già attiva
+        if (!wasActive) {
+            item.classList.add('active');
+            
+            // Scroll leggero per mostrare la risposta
+            setTimeout(() => {
+                item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 300);
+        }
     });
 });
 
@@ -1347,6 +1362,10 @@ document.querySelectorAll('.category-btn').forEach(button => {
         document.querySelectorAll('.faq-category').forEach(cat => {
             if (category === 'all' || cat.id === category) {
                 cat.style.display = 'block';
+                // Scroll alla categoria selezionata
+                setTimeout(() => {
+                    cat.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
             } else {
                 cat.style.display = 'none';
             }
@@ -1369,10 +1388,13 @@ function performSearch() {
         // If search is empty, show all FAQs
         document.querySelectorAll('.faq-item').forEach(item => {
             item.style.display = 'block';
+            item.classList.remove('active');
         });
         return;
     }
 
+    let foundResults = false;
+    
     // Search through questions and answers
     document.querySelectorAll('.faq-item').forEach(item => {
         const question = item.querySelector('.faq-question').textContent.toLowerCase();
@@ -1382,11 +1404,28 @@ function performSearch() {
             item.style.display = 'block';
             // Expand matching items
             item.classList.add('active');
+            foundResults = true;
+            
+            // Scroll al primo risultato trovato
+            if (!foundResults) {
+                setTimeout(() => {
+                    item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            }
         } else {
             item.style.display = 'none';
+            item.classList.remove('active');
         }
     });
 }
+
+// Miglioramento per il touch su dispositivi mobili
+document.addEventListener('touchstart', function() {}, {passive: true});
+
+// Prevenire problemi di zoom su iOS
+document.addEventListener('gesturestart', function (e) {
+    e.preventDefault();
+});
 </script>
 </body>
 </html>
