@@ -29,6 +29,8 @@ body {
     background-color: var(--light-gray);
     color: var(--dark-gray);
     line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .container {
@@ -217,6 +219,7 @@ nav a:hover {
     align-items: center;
     font-weight: 600;
     font-size: 1.1rem;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.1);
 }
 
 .faq-question:hover {
@@ -228,48 +231,32 @@ nav a:hover {
     transition: transform 0.3s ease;
 }
 
-/* TROVA QUESTA PARTE NEL CSS E SOSTITUISCI: */
-
 .faq-answer {
     padding: 0 20px;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease, padding 0.3s ease;
+    transition: all 0.5s ease;
     background-color: #f9f9f9;
 }
 
 .faq-item.active .faq-answer {
     padding: 20px;
-    max-height: 5000px; /* Aumentato da 1000px a 5000px */
+    max-height: 10000px;
+    overflow: visible;
 }
 
-/* SOSTITUISCI CON: */
-
-.faq-answer {
-    padding: 0 20px;
-    max-height: 0;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    background-color: #f9f9f9;
+.faq-item.active .faq-icon {
+    transform: rotate(180deg);
 }
 
-.faq-item.active .faq-answer {
-    padding: 20px;
-    max-height: 10000px; /* Aumentato drasticamente */
-    overflow: visible; /* IMPORTANTE: permette al contenuto di essere visibile */
+.faq-answer ol, .faq-answer ul {
+    margin-left: 20px;
+    margin-top: 10px;
 }
 
-/* AGGIUNGI QUESTA REGOLA PER MOBILE: */
-@media (max-width: 768px) {
-    .faq-item.active .faq-answer {
-        max-height: none !important; /* Rimuove il limite di altezza su mobile */
-        height: auto; /* Altezza automatica */
-        overflow: visible;
-    }
-    
-    .faq-answer {
-        transition: all 0.5s ease; /* Transizione più lenta per mobile */
-    }
+.faq-answer li {
+    margin-bottom: 8px;
+    word-wrap: break-word;
 }
 
 /* Search Section */
@@ -435,7 +422,7 @@ footer {
     font-size: 0.9rem;
 }
 
-/* Responsive Design */
+/* Responsive Design - CORRETTO */
 @media (max-width: 768px) {
     .header-content {
         flex-direction: column;
@@ -455,6 +442,14 @@ footer {
     .faq-question {
         padding: 15px;
         font-size: 1rem;
+        min-height: 60px;
+        align-items: center;
+    }
+
+    .faq-item.active .faq-answer {
+        max-height: none !important;
+        height: auto;
+        overflow: visible;
     }
 
     .search-container {
@@ -487,11 +482,38 @@ footer {
     .btn {
         padding: 12px 24px;
         font-size: 16px;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
     }
 
     .footer-content {
         flex-direction: column;
         gap: 30px;
+    }
+    
+    .faq-categories {
+        gap: 10px;
+        margin-bottom: 30px;
+    }
+    
+    .category-btn {
+        padding: 12px 20px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Miglioramenti per touch */
+@media (hover: none) and (pointer: coarse) {
+    .faq-question {
+        min-height: 60px;
+    }
+    
+    .category-btn, .btn {
+        min-height: 44px;
     }
 }
 </style>
@@ -564,7 +586,7 @@ footer {
                             <li>CNS (Carta Nazionale dei Servizi)</li>
                         </ol>
                         
-                        <p><b>Come accedere al Fascicolo Previdenziale</b></p>
+                        <p><b>Como accedere al Fascicolo Previdenziale</b></p>
                         <ol>
                             <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
                             <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
@@ -1340,55 +1362,30 @@ footer {
 </footer>
 
 <script>
-// 1. Modifica la funzione dell'accordion FAQ
+// FAQ Accordion Functionality - CORRETTO
 document.querySelectorAll('.faq-question').forEach(question => {
     question.addEventListener('click', () => {
         const item = question.parentNode;
+        const wasActive = item.classList.contains('active');
         
-        // Chiudi altre FAQ aperte
-        document.querySelectorAll('.faq-item').forEach(otherItem => {
-            if (otherItem !== item && otherItem.classList.contains('active')) {
-                otherItem.classList.remove('active');
-            }
+        // Chiudi tutte le FAQ
+        document.querySelectorAll('.faq-item').forEach(faqItem => {
+            faqItem.classList.remove('active');
         });
         
-        // Apri/chiudi questa FAQ
-        item.classList.toggle('active');
-        
-        // Scroll migliorato per mobile
-        if (item.classList.contains('active')) {
+        // Apri la FAQ cliccata se non era già attiva
+        if (!wasActive) {
+            item.classList.add('active');
+            
+            // Scroll leggero per mostrare la risposta
             setTimeout(() => {
-                const rect = item.getBoundingClientRect();
-                const isVisible = (rect.top >= 0) && (rect.bottom <= window.innerHeight);
-                
-                if (!isVisible) {
-                    item.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'nearest'
-                    });
-                }
-            }, 150);
-        }
-    });
-});
-        
-        // Apri/chiudi la FAQ cliccata
-        item.classList.toggle('active');
-        
-        // Scroll automatico per garantire visibilità completa
-        if (item.classList.contains('active')) {
-            setTimeout(() => {
-                item.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'start', // Cambiato da 'center' a 'start'
-                    inline: 'nearest'
-                });
-            }, 100); // Ridotto il timeout
+                item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 300);
         }
     });
 });
 
-// 2. Modifica la funzione dei filtri categoria
+// Category Filter Functionality
 document.querySelectorAll('.category-btn').forEach(button => {
     button.addEventListener('click', () => {
         // Remove active class from all buttons
@@ -1405,22 +1402,19 @@ document.querySelectorAll('.category-btn').forEach(button => {
         document.querySelectorAll('.faq-category').forEach(cat => {
             if (category === 'all' || cat.id === category) {
                 cat.style.display = 'block';
-                
-                // Scroll alla categoria selezionata
-                setTimeout(() => {
-                    cat.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'start'
-                    });
-                }, 300);
             } else {
                 cat.style.display = 'none';
             }
         });
+        
+        // Scroll alla sezione FAQ
+        setTimeout(() => {
+            document.querySelector('.faq-container').scrollIntoView({ behavior: 'smooth' });
+        }, 100);
     });
 });
 
-// 3. Modifica la funzione di ricerca
+// Search Functionality
 document.querySelector('.search-btn').addEventListener('click', performSearch);
 document.querySelector('.search-input').addEventListener('keyup', (e) => {
     if (e.key === 'Enter') {
@@ -1430,69 +1424,36 @@ document.querySelector('.search-input').addEventListener('keyup', (e) => {
 
 function performSearch() {
     const searchTerm = document.querySelector('.search-input').value.toLowerCase();
-    const faqItems = document.querySelectorAll('.faq-item');
 
     if (searchTerm.trim() === '') {
-        // Se search è vuoto, mostra tutte le FAQ e scrolla in alto
-        faqItems.forEach(item => {
+        // If search is empty, show all FAQs
+        document.querySelectorAll('.faq-item').forEach(item => {
             item.style.display = 'block';
-            item.classList.remove('active');
         });
-        window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
     }
 
-    let foundItems = false;
-    
-    // Cerca attraverso domande e risposte
-    faqItems.forEach(item => {
+    // Search through questions and answers
+    document.querySelectorAll('.faq-item').forEach(item => {
         const question = item.querySelector('.faq-question').textContent.toLowerCase();
         const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
 
         if (question.includes(searchTerm) || answer.includes(searchTerm)) {
             item.style.display = 'block';
-            item.classList.add('active'); // Espandi gli elementi trovati
-            foundItems = true;
-            
-            // Scroll al primo elemento trovato
-            if (!foundItems) {
-                setTimeout(() => {
-                    item.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'start'
-                    });
-                }, 200);
-            }
+            // Expand matching items
+            item.classList.add('active');
         } else {
             item.style.display = 'none';
         }
     });
-
-    // Se non trova risultati, scrolla in alto
-    if (!foundItems) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
 }
 
-// 4. Aggiungi gestione resize e caricamento
+// Miglioramenti per mobile
 window.addEventListener('load', function() {
-    // Forza il ridimensionamento corretto al caricamento
-    setTimeout(() => {
-        document.body.style.overflowX = 'hidden';
-        document.documentElement.style.overflowX = 'hidden';
-    }, 100);
+    document.body.style.overflowX = 'hidden';
 });
 
-window.addEventListener('resize', function() {
-    // Corregge problemi di visualizzazione su mobile durante il ridimensionamento
-    if (window.innerWidth <= 768) {
-        document.body.style.overflowX = 'hidden';
-        document.documentElement.style.overflowX = 'hidden';
-    }
-});
-
-// 5. Aggiungi questo per prevenire problemi di zoom su mobile
-document.addEventListener('touchstart', function() {}, { passive: true });
+document.addEventListener('touchstart', function() {}, {passive: true});
 </script>
 </body>
 </html>
