@@ -29,8 +29,6 @@ body {
     background-color: var(--light-gray);
     color: var(--dark-gray);
     line-height: 1.6;
-    overflow-x: hidden; /* Previene lo scroll orizzontale */
-    -webkit-tap-highlight-color: transparent; /* Migliora il feedback al tap */
 }
 
 .container {
@@ -240,7 +238,7 @@ nav a:hover {
 
 .faq-item.active .faq-answer {
     padding: 20px;
-    max-height: 5000px; /* Aumentato da 1000px a 5000px */
+    max-height: 1000px;
 }
 
 .faq-item.active .faq-icon {
@@ -254,7 +252,6 @@ nav a:hover {
 
 .faq-answer li {
     margin-bottom: 8px;
-    word-wrap: break-word; /* Migliora la gestione del testo lungo */
 }
 
 /* Search Section */
@@ -420,12 +417,8 @@ footer {
     font-size: 0.9rem;
 }
 
-/* Responsive Design - Miglioramenti specifici per mobile */
+/* Responsive Design */
 @media (max-width: 768px) {
-    body {
-        overflow-x: hidden; /* Doppia sicurezza per mobile */
-    }
-    
     .header-content {
         flex-direction: column;
         text-align: center;
@@ -444,10 +437,6 @@ footer {
     .faq-question {
         padding: 15px;
         font-size: 1rem;
-    }
-    
-    .faq-item.active .faq-answer {
-        max-height: 10000px; /* Aumentato per mobile */
     }
 
     .search-container {
@@ -485,51 +474,6 @@ footer {
     .footer-content {
         flex-direction: column;
         gap: 30px;
-    }
-    
-    /* Ottimizzazioni aggiuntive per mobile */
-    .faq-section {
-        padding: 2rem 0;
-    }
-    
-    .faq-categories {
-        gap: 10px;
-        margin-bottom: 30px;
-    }
-    
-    .category-btn {
-        padding: 8px 16px;
-        font-size: 0.9rem;
-    }
-    
-    .faq-category h2 {
-        font-size: 1.5rem;
-        margin-bottom: 20px;
-    }
-    
-    .search-section {
-        padding: 20px;
-        margin-bottom: 30px;
-    }
-}
-
-/* Miglioramenti per touch su dispositivi mobili */
-@media (hover: none) and (pointer: coarse) {
-    .faq-question {
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
-        min-height: 60px; /* Area toccabile più grande */
-        display: flex;
-        align-items: center;
-    }
-    
-    .category-btn {
-        padding: 12px 20px; /* Area toccabile più grande */
-        min-height: 44px; /* Dimensione minima per touch */
-    }
-    
-    .btn {
-        padding: 16px 32px; /* Area toccabile più grande */
-        min-height: 44px; /* Dimensione minima per touch */
     }
 }
 </style>
@@ -868,9 +812,9 @@ footer {
                         <ol>
                             <li>La durata della NASpI corrisponde alla metà delle settimane di contribuzione maturate nei 4 anni precedenti la disoccupazione</li>
                             <li>L'importo mensile si calcola sulla media delle retribuzioni imponibili degli ultimi 4 anni</li>
-                            <li>Dopo i primi 4 mesi di NASpI, l'indennità viene ridotta del 3% ogni 2 mesi</li>
-                            <li>L'importo minimo mensile è di € 500,00, mentre il massimo è di € 1.400,00</li>
-                            <li>Per il calcolo esatto, consulta il sito INPS o utilizza il simulatore disponibile su MyINPS</li>
+                            <li>Dopo i primi 4 mesi di NASpI, l'indennità viene ridotta del 3% ogni mese successivo</li>
+                            <li>È necessario rimanere disoccupati e avere la DID attiva per percepire le rate</li>
+                            <li>Eventuali altri redditi percepiti possono ridurre l'importo della NASpI</li>
                         </ol>
 
                         <p><b>Guida passo-passo</b></p>
@@ -878,69 +822,165 @@ footer {
                             <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
                             <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
                             <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
-                            <li>Una volta effettuato l'accesso, cerca "<b>Simulatore NASpI</b>" nella barra di ricerca</li>
-                            <li>Apri il servizio <b>Simulatore NASpI</b> e inserisci i dati richiesti (periodi lavorativi, retribuzioni, ecc.)</li>
-                            <li>Il simulatore ti mostrerà la durata e l'importo stimato della NASpI</li>
-                            <li>Salva il risultato in formato PDF per consultarlo in seguito</li>
+                            <li>Una volta effettuato l'accesso, cerca "<b>Calcolo NASpI</b>" o "<b>Simulatore NASpI</b>" nella barra di ricerca</li>
+                            <li>Inserisci le settimane contributive e le retribuzioni degli ultimi 4 anni</li>
+                            <li>Visualizza il calcolo della durata e dell'importo mensile stimato</li>
+                            <li>Salva o stampa il risultato per consultazione futura</li>
                         </ol>
 
                         <p><b>Documenti utili</b></p>
                         <ol>
                             <li>Carta d'identità o CIE</li>
                             <li>Codice fiscale</li>
+                            <li>Ultime buste paga o certificazioni delle retribuzioni degli ultimi 4 anni</li>
                             <li>Credenziali SPID, CIE o CNS attive</li>
-                            <li>Dati sui periodi lavorativi e le retribuzioni degli ultimi 4 anni</li>
                         </ol>
 
                         <p><b>Checklist finale</b></p>
                         <ol>
                             <li>✅ Ho SPID/CIE/CNS attivo</li>
                             <li>✅ Sono entrato su www.inps.it</li>
-                            <li>✅ Ho aperto il servizio "Simulatore NASpI"</li>
-                            <li>✅ Ho inserito i dati richiesti</li>
-                            <li>✅ Ho salvato il risultato in PDF</li>
+                            <li>✅ Ho aperto il servizio "Calcolo NASpI" o simulatore</li>
+                            <li>✅ Ho inserito dati contributivi e retributivi corretti</li>
+                            <li>✅ Ho salvato o stampato il risultato del calcolo</li>
                         </ol>
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        Come si rinnova la NASpI?
+                        Cosa succede se si presenta la domanda dopo 60 giorni?
                         <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
                     </div>
                     <div class="faq-answer">
-                        <p><b>Come rinnovare la NASpI</b></p>
+                        <p><b>Presentazione tardiva della domanda NASpI</b></p>
                         <ol>
-                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
-                            <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
-                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
-                            <li>Una volta effettuato l'accesso, cerca "<b>Rinnovo NASpI</b>" nella barra di ricerca</li>
+                            <li>Se la domanda NASpI viene presentata dopo i 68 giorni dalla cessazione del lavoro, l'indennità viene ridotta proporzionalmente ai giorni di ritardo</li>
+                            <li>La NASpI spetta comunque, ma l'importo sarà calcolato a partire dalla data di presentazione della domanda</li>
+                            <li>È importante conservare tutta la documentazione e comprovare la data di disoccupazione</li>
+                            <li>Non ci sono penalità aggiuntive, ma i giorni non coperti dalla domanda tardiva non sono indennizzati</li>
+                            <li>Si raccomanda di contattare il centro per l'impiego o l'INPS per verificare casi particolari o giustificati ritardi</li>
                         </ol>
 
                         <p><b>Guida passo-passo</b></p>
                         <ol>
-                            <li>Apri il servizio <b>Rinnovo NASpI</b></li>
-                            <li>Verifica i dati anagrafici e lavorativi già presenti</li>
-                            <li>Aggiorna le informazioni richieste (es. disponibilità al lavoro, eventuali attività lavorative svolte durante il periodo di NASpI)</li>
+                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
+                            <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
+                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
+                            <li>Una volta effettuato l'accesso, cerca "<b>Domanda NASpI</b>" nella barra di ricerca</li>
+                            <li>Apri il servizio e compila la domanda indicando correttamente la data di cessazione del lavoro</li>
+                            <li>Allega eventuali documenti giustificativi del ritardo, se disponibili</li>
                             <li>Conferma l'invio e scarica la ricevuta in formato PDF</li>
-                            <li>Ricorda che il rinnovo va effettuato ogni 30 giorni per mantenere attiva la NASpI</li>
                         </ol>
 
                         <p><b>Documenti utili</b></p>
                         <ol>
                             <li>Carta d'identità o CIE</li>
                             <li>Codice fiscale</li>
+                            <li>Documenti che attestano il rapporto di lavoro concluso</li>
+                            <li>Eventuali documenti che giustificano il ritardo nella presentazione</li>
                             <li>Credenziali SPID, CIE o CNS attive</li>
-                            <li>Eventuali documenti che attestano attività lavorative svolte durante il periodo di NASpI</li>
                         </ol>
 
                         <p><b>Checklist finale</b></p>
                         <ol>
                             <li>✅ Ho SPID/CIE/CNS attivo</li>
                             <li>✅ Sono entrato su www.inps.it</li>
-                            <li>✅ Ho aperto il servizio "Rinnovo NASpI"</li>
-                            <li>✅ Ho verificato e aggiornato i dati richiesti</li>
-                            <li>✅ Ho inviato e salvato la ricevuta PDF</li>
+                            <li>✅ Ho aperto il servizio "Domanda NASpI"</li>
+                            <li>✅ Ho indicato correttamente la data di cessazione del lavoro</li>
+                            <li>✅ Ho allegato eventuali documenti giustificativi del ritardo</li>
+                            <li>✅ Ho inviato la domanda e salvato la ricevuta PDF</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Come si presenta la domanda NASpI online passo passo?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>Presentazione della domanda NASpI online passo passo</b></p>
+                        <ol>
+                            <li>Assicurati di avere SPID, CIE o CNS attivo per l'accesso ai servizi online</li>
+                            <li>Raccogli i documenti necessari: carta d'identità, codice fiscale, eventuali certificazioni del rapporto di lavoro concluso</li>
+                            <li>Verifica di avere la Dichiarazione di Immediata Disponibilità (DID) attiva</li>
+                        </ol>
+
+                        <p><b>Guida passo-passo su MyINPS</b></p>
+                        <ol>
+                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
+                            <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
+                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
+                            <li>Una volta effettuato l'accesso, cerca "<b>Domanda NASpI</b>" nella barra di ricerca</li>
+                            <li>Apri il servizio e compila tutti i campi richiesti</li>
+                            <li>Allega eventuali documenti giustificativi in formato PDF o JPG (<i>DA VERIFICARE su sito ufficiale INPS</i>)</li>
+                            <li>Conferma l'invio e scarica la ricevuta in formato PDF</li>
+                        </ol>
+
+                        <p><b>Documenti utili</b></p>
+                        <ol>
+                            <li>Carta d'identità o CIE</li>
+                            <li>Codice fiscale</li>
+                            <li>Documenti che attestano la cessazione del rapporto di lavoro (lettera di licenziamento, fine contratto, dimissioni per giusta causa)</li>
+                            <li>Eventuali documenti giustificativi aggiuntivi</li>
+                            <li>Credenziali SPID, CIE o CNS attive</li>
+                        </ol>
+
+                        <p><b>Checklist finale</b></p>
+                        <ol>
+                            <li>✅ Ho SPID/CIE/CNS attivo</li>
+                            <li>✅ Sono entrato su www.inps.it</li>
+                            <li>✅ Ho aperto il servizio "Domanda NASpI"</li>
+                            <li>✅ Ho compilato tutti i campi richiesti</li>
+                            <li>✅ Ho allegato eventuali documenti giustificativi</li>
+                            <li>✅ Ho inviato la domanda e salvato la ricevuta PDF</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Cosa fare dopo l'accoglimento: iscrizione SIISL e patto di servizio?
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><b>Iscrizione al SIISL e Patto di Servizio dopo l'accoglimento della NASpI</b></p>
+                        <ol>
+                            <li>Dopo l'accoglimento della NASpI, devi iscriverti al <b>SIISL (Sistema Informativo Intermediari Servizi Lavoro)</b> tramite il portale o il centro per l'impiego competente</li>
+                            <li>Verifica di avere SPID, CIE o CNS attivo per accedere ai servizi online del centro per l'impiego</li>
+                            <li>Raccogli i documenti necessari: carta d'identità, codice fiscale, copia della comunicazione di accoglimento NASpI</li>
+                            <li>Partecipa alla stipula del <b>Patto di Servizio Personalizzato</b> presso il centro per l'impiego o tramite piattaforma online, se disponibile</li>
+                        </ol>
+
+                        <p><b>Guida passo-passo su MyINPS e centri per l'impiego</b></p>
+                        <ol>
+                            <li>Vai sul sito del centro per l'impiego della tua provincia o sulla piattaforma online dedicata al SIISL</li>
+                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
+                            <li>Seleziona la sezione "<b>Iscrizione SIISL</b>"</li>
+                            <li>Compila i dati richiesti, allegando la comunicazione di accoglimento NASpI</li>
+                            <li>Prendi appuntamento per la stipula del Patto di Servizio, se necessario in presenza</li>
+                            <li>Firma il Patto di Servizio e conferma l'iscrizione al SIISL</li>
+                            <li>Salva o stampa la ricevuta di iscrizione e del Patto di Servizio</li>
+                        </ol>
+
+                        <p><b>Documenti utili</b></p>
+                        <ol>
+                            <li>Carta d'identità o CIE</li>
+                            <li>Codice fiscale</li>
+                            <li>Comunicazione di accoglimento NASpI</li>
+                            <li>Eventuali certificazioni aggiuntive richieste dal centro per l'impiego</li>
+                            <li>Credenziali SPID, CIE o CNS attive</li>
+                        </ol>
+
+                        <p><b>Checklist finale</b></p>
+                        <ol>
+                            <li>✅ Ho SPID/CIE/CNS attivo</li>
+                            <li>✅ Ho raccolto i documenti richiesti</li>
+                            <li>✅ Ho effettuato l'iscrizione al SIISL</li>
+                            <li>✅ Ho preso appuntamento per il Patto di Servizio, se necessario</li>
+                            <li>✅ Ho firmato e confermato il Patto di Servizio</li>
+                            <li>✅ Ho salvato o stampato la ricevuta dell'iscrizione</li>
                         </ol>
                     </div>
                 </div>
@@ -952,107 +992,83 @@ footer {
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        Come si richiede l'ISEE 2025?
+                        Come funziona l'ISEE precompilato?
                         <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
                     </div>
                     <div class="faq-answer">
-                        <p><b>Come richiedere l'ISEE 2025</b></p>
+                        <p><b>ISEE Precompilato: cos'è e come funziona</b></p>
+                        <ol>
+                            <li>L'ISEE precompilato è un servizio che recupera automaticamente i tuoi dati dall'Agenzia delle Entrate</li>
+                            <li>Pre-compila il modulo ISEE con le informazioni già disponibili</li>
+                            <li>Ti chiede solo di integrare i dati mancanti o aggiornare quelli non corretti</li>
+                            <li>Riduce gli errori e semplifica notevolmente la compilazione</li>
+                        </ol>
+
+                        <p><b>Guida passo-passo per l'ISEE precompilato</b></p>
                         <ol>
                             <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
-                            <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
                             <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
-                            <li>Una volta effettuato l'accesso, cerca "<b>ISEE</b>" nella barra di ricerca</li>
+                            <li>Cerca "<b>ISEE precompilato</b>" nella barra di ricerca</li>
+                            <li>Seleziona il servizio e verifica i dati precompilati</li>
+                            <li>Integra le informazioni mancanti (es. dati patrimoniali non presenti)</li>
+                            <li>Conferma e invia la dichiarazione</li>
+                            <li>Scarica la ricevuta in formato PDF</li>
                         </ol>
 
-                        <p><b>Guida passo-passo</b></p>
+                        <p><b>Documenti necessari</b></p>
                         <ol>
-                            <li>Apri il servizio <b>ISEE</b></li>
-                            <li>Seleziona "<b>Richiedi ISEE</b>"</li>
-                            <li>Compila il modulo DSU (Dichiarazione Sostitutiva Unica) con i dati del nucleo familiare</li>
-                            <li>Inserisci i redditi, i patrimoni mobiliari e immobiliari di tutti i componenti del nucleo familiare</li>
-                            <li>Allega eventuali documenti giustificativi (es. certificati reddituali, estratti conto, atti notarili) in formato PDF o JPG (<i>DA VERIFICARE su sito ufficiale INPS</i>)</li>
-                            <li>Conferma l'invio e scarica la ricevuta in formato PDF</li>
-                            <li>L'ISEE verrà calcolato automaticamente e sarà disponibile entro 10 giorni lavorativi</li>
-                        </ol>
-
-                        <p><b>Documenti utili</b></p>
-                        <ol>
-                            <li>Carta d'identità o CIE</li>
-                            <li>Codice fiscale</li>
-                            <li>Credenziali SPID, CIE o CNS attive</li>
-                            <li>Documenti reddituali (CU, 730, UNICO) di tutti i componenti del nucleo familiare</li>
-                            <li>Documenti patrimoniali (estratti conto, depositi titoli, atti di proprietà immobiliare)</li>
+                            <li>Carta d'identità valida</li>
+                            <li>Codice fiscale di tutti i componenti del nucleo familiare</li>
+                            <li>Dichiarazione dei redditi dell'anno precedente</li>
+                            <li>Eventuali documenti patrimoniali (conti correnti, investimenti, immobili)</li>
                         </ol>
 
                         <p><b>Checklist finale</b></p>
                         <ol>
-                            <li>✅ Ho SPID/CIE/CNS attivo</li>
-                            <li>✅ Sono entrato su www.inps.it</li>
-                            <li>✅ Ho aperto il servizio "ISEE"</li>
-                            <li>✅ Ho compilato il modulo DSU con i dati del nucleo familiare</li>
-                            <li>✅ Ho allegato eventuali documenti richiesti</li>
-                            <li>✅ Ho inviato e salvato la ricevuta PDF</li>
+                            <li>✅ Ho verificato i dati precompilati</li>
+                            <li>✅ Ho integrato le informazioni mancanti</li>
+                            <li>✅ Ho controllato l'esattezza di tutti i dati</li>
+                            <li>✅ Ho inviato la dichiarazione</li>
+                            <li>✅ Ho salvato la ricevuta PDF</li>
                         </ol>
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        Quali documenti servono per l'ISEE?
+                        Quali documenti servono per compilare l'ISEE?
                         <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
                     </div>
                     <div class="faq-answer">
-                        <p><b>Documenti necessari per l'ISEE</b></p>
-                        <ol>
-                            <li><b>Documenti anagrafici</b> di tutti i componenti del nucleo familiare:
-                                <ul>
-                                    <li>Carta d'identità o CIE</li>
-                                    <li>Codice fiscale</li>
-                                    <li>Stato di famiglia</li>
-                                </ul>
-                            </li>
-                            <li><b>Documenti reddituali</b> di tutti i componenti del nucleo familiare:
-                                <ul>
-                                    <li>CU (Certificazione Unica) o Modello 730/UNICO</li>
-                                    <li>Eventuali altri redditi (es. affitti, pensioni, assegni di mantenimento)</li>
-                                </ul>
-                            </li>
-                            <li><b>Documenti patrimoniali</b> di tutti i componenti del nucleo familiare:
-                                <ul>
-                                    <li>Estratti conto bancari e postali</li>
-                                    <li>Depositi titoli e conti correnti</li>
-                                    <li>Atti di proprietà immobiliare (case, terreni, box auto)</li>
-                                    <li>Eventuali altri beni (es. veicoli di lusso, barche, aerei)</li>
-                                </ul>
-                            </li>
-                            <li><b>Documenti specifici</b> per situazioni particolari:
-                                <ul>
-                                    <li>Certificati medici per disabilità o patologie</li>
-                                    <li>Documenti che attestano spese sanitarie o di assistenza</li>
-                                    <li>Eventuali altri documenti richiesti dalla normativa</li>
-                                </ul>
-                            </li>
-                        </ol>
+                        <p><b>Documentazione necessaria per la compilazione dell'ISEE</b></p>
+                        
+                        <p><b>Documenti anagrafici</b></p>
+                        <ul>
+                            <li>Carta d'identità e codice fiscale di tutti i componenti</li>
+                            <li>Stato di famiglia</li>
+                            <li>Eventuali documenti di separazione/divorzio</li>
+                        </ul>
 
-                        <p><b>Guida passo-passo</b></p>
-                        <ol>
-                            <li>Raccogli tutti i documenti elencati sopra</li>
-                            <li>Scansiona o fotografa i documenti in formato PDF o JPG</li>
-                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
-                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
-                            <li>Apri il servizio <b>ISEE</b> e compila il modulo DSU</li>
-                            <li>Allega i documenti scansionati nei campi corrispondenti</li>
-                            <li>Conferma l'invio e scarica la ricevuta in formato PDF</li>
-                        </ol>
+                        <p><b>Documenti reddituali</b></p>
+                        <ul>
+                            <li>CU (Certificazione Unica) o dichiarazione dei redditi</li>
+                            <li>Eventuali altri redditi (pensioni, affitti, etc.)</li>
+                        </ul>
 
-                        <p><b>Checklist finale</b></p>
+                        <p><b>Documenti patrimoniali</b></p>
+                        <ul>
+                            <li>Saldo conti correnti e libretti al 31/12</li>
+                            <li>Valore di azioni, obbligazioni, fondi</li>
+                            <li>Dichiarazione IMU per immobili posseduti</li>
+                            <li>Eventuali finanziamenti e mutui in corso</li>
+                        </ul>
+
+                        <p><b>Checklist documenti</b></p>
                         <ol>
-                            <li>✅ Ho raccolto tutti i documenti anagrafici</li>
-                            <li>✅ Ho raccolto tutti i documenti reddituali</li>
-                            <li>✅ Ho raccolto tutti i documenti patrimoniali</li>
-                            <li>✅ Ho scansionato o fotografato i documenti</li>
-                            <li>✅ Ho allegato i documenti al modulo DSU</li>
-                            <li>✅ Ho inviato e salvato la ricevuta PDF</li>
+                            <li>✅ Documenti anagrafici di tutti i componenti</li>
+                            <li>✅ Documenti reddituali completi</li>
+                            <li>✅ Situazione patrimoniale aggiornata</li>
+                            <li>✅ Eventuali documenti specifici per situazioni particolari</li>
                         </ol>
                     </div>
                 </div>
@@ -1060,98 +1076,79 @@ footer {
 
             <!-- ADI Category -->
             <div class="faq-category" id="adi">
-                <h2><i class="fas fa-hand-holding-heart"></i> ADI - Assegno di Inclusione</h2>
+                <h2><i class="fas fa-hands-helping"></i> ADI - Assegno di Inclusione</h2>
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        Quali sono i requisiti per richiedere l'ADI nel 2025?
+                        Quali sono i requisiti per richiedere l'ADI?
                         <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
                     </div>
                     <div class="faq-answer">
-                        <p><b>Requisiti per richiedere l'ADI nel 2025</b></p>
-                        <ol>
-                            <li>Essere cittadino italiano o dell'Unione Europea, oppure titolare di permesso di soggiorno UE per soggiornanti di lungo periodo</li>
-                            <li>Avere un'età compresa tra i 18 e i 67 anni</li>
-                            <li>Essere disoccupato o inoccupato</li>
-                            <li>Avere un ISEE inferiore a € 6.000,00</li>
-                            <li>Avere un patrimonio immobiliare inferiore a € 30.000,00</li>
-                            <li>Non percepire altre prestazioni di sostegno al reddito (es. NASpI, Reddito di Cittadinanza)</li>
-                            <li>Essere immediatamente disponibile al lavoro (DID attiva)</li>
-                            <li>Aderire al progetto personalizzato di inclusione sociale e lavorativa</li>
-                        </ol>
+                        <p><b>Requisiti per l'Assegno di Inclusione (ADI)</b></p>
+                        
+                        <p><b>Requisiti anagrafici e di residenza</b></p>
+                        <ul>
+                            <li>Cittadinanza italiana o UE, oppure permesso di soggiorno UE per soggiornanti di lungo periodo</li>
+                            <li>Residenza in Italia da almeno 2 anni</li>
+                            <li>Età compresa tra 18 e 67 anni (con alcune eccezioni)</li>
+                        </ul>
 
-                        <p><b>Guida passo-passo</b></p>
-                        <ol>
-                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
-                            <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
-                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
-                            <li>Una volta effettuato l'accesso, cerca "<b>Domanda ADI</b>" nella barra di ricerca</li>
-                            <li>Apri il servizio <b>Domanda ADI</b> e compila tutti i campi richiesti</li>
-                            <li>Allega eventuali documenti giustificativi (es. ISEE, documenti anagrafici, DID) in formato PDF o JPG (<i>DA VERIFICARE su sito ufficiale INPS</i>)</li>
-                            <li>Conferma l'invio e scarica la ricevuta in formato PDF</li>
-                        </ol>
+                        <p><b>Requisiti economici</b></p>
+                        <ul>
+                            <li>ISEE inferiore alla soglia stabilita annualmente</li>
+                            <li>Disoccupazione o sottoccupazione</li>
+                            <li>Disponibilità a partecipare a progetti di inclusione lavorativa</li>
+                        </ul>
 
-                        <p><b>Documenti utili</b></p>
-                        <ol>
-                            <li>Carta d'identità o CIE</li>
-                            <li>Codice fiscale</li>
-                            <li>ISEE in corso di validità</li>
-                            <li>DID (Dichiarazione di Immediata Disponibilità) attiva</li>
-                            <li>Eventuali documenti che attestano la situazione di disoccupazione o inoccupazione</li>
-                        </ol>
+                        <p><b>Requisiti aggiuntivi</b></p>
+                        <ul>
+                            <li>Iscrizione al centro per l'impiego</li>
+                            <li>Firma del Patto di Servizio Personalizzato</li>
+                            <li>Partecipazione ai percorsi di attivazione</li>
+                        </ul>
 
-                        <p><b>Checklist finale</b></p>
+                        <p><b>Checklist requisiti</b></p>
                         <ol>
-                            <li>✅ Ho SPID/CIE/CNS attivo</li>
-                            <li>✅ Sono entrato su www.inps.it</li>
-                            <li>✅ Ho aperto il servizio "Domanda ADI"</li>
-                            <li>✅ Ho compilato tutti i campi richiesti</li>
-                            <li>✅ Ho allegato eventuali documenti giustificativi</li>
-                            <li>✅ Ho inviato e salvato la ricevuta PDF</li>
+                            <li>✅ Requisiti anagrafici soddisfatti</li>
+                            <li>✅ ISEE inferiore alla soglia</li>
+                            <li>✅ Iscrizione al centro per l'impiego</li>
+                            <li>✅ Disponibilità a partecipare ai progetti</li>
                         </ol>
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        Come si rinnova l'ADI?
+                        Come si presenta la domanda ADI online?
                         <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
                     </div>
                     <div class="faq-answer">
-                        <p><b>Come rinnovare l'ADI</b></p>
-                        <ol>
-                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
-                            <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
-                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
-                            <li>Una volta effettuato l'accesso, cerca "<b>Rinnovo ADI</b>" nella barra di ricerca</li>
-                        </ol>
+                        <p><b>Presentazione domanda ADI online</b></p>
+                        
+                        <p><b>Preparazione documenti</b></p>
+                        <ul>
+                            <li>ISEE corrente</li>
+                            <li>Documenti anagrafici</li>
+                            <li>Certificazione di disoccupazione</li>
+                            <li>Eventuali documenti specifici</li>
+                        </ul>
 
-                        <p><b>Guida passo-passo</b></p>
+                        <p><b>Procedura online</b></p>
                         <ol>
-                            <li>Apri il servizio <b>Rinnovo ADI</b></li>
-                            <li>Verifica i dati anagrafici e reddituali già presenti</li>
-                            <li>Aggiorna le informazioni richieste (es. ISEE, DID, eventuali attività lavorative svolte durante il periodo di ADI)</li>
-                            <li>Conferma l'invio e scarica la ricevuta in formato PDF</li>
-                            <li>Ricorda che il rinnovo va effettuato ogni 12 mesi per mantenere attiva l'ADI</li>
-                        </ol>
-
-                        <p><b>Documenti utili</b></p>
-                        <ol>
-                            <li>Carta d'identità o CIE</li>
-                            <li>Codice fiscale</li>
-                            <li>Credenziali SPID, CIE o CNS attive</li>
-                            <li>ISEE in corso di validità</li>
-                            <li>DID attiva</li>
-                            <li>Eventuali documenti che attestano attività lavorative svolte durante il periodo di ADI</li>
+                            <li>Accedi a <em>www.inps.it</em> con SPID/CIE/CNS</li>
+                            <li>Cerca "Domanda ADI" nel motore di ricerca</li>
+                            <li>Compila il modulo con i dati richiesti</li>
+                            <li>Allega i documenti necessari</li>
+                            <li>Invia la domanda e salva la ricevuta</li>
                         </ol>
 
                         <p><b>Checklist finale</b></p>
                         <ol>
-                            <li>✅ Ho SPID/CIE/CNS attivo</li>
-                            <li>✅ Sono entrato su www.inps.it</li>
-                            <li>✅ Ho aperto il servizio "Rinnovo ADI"</li>
-                            <li>✅ Ho verificato e aggiornato i dati richiesti</li>
-                            <li>✅ Ho inviato e salvato la ricevuta PDF</li>
+                            <li>✅ Documenti preparati</li>
+                            <li>✅ Accesso a INPS effettuato</li>
+                            <li>✅ Modulo compilato correttamente</li>
+                            <li>✅ Documenti allegati</li>
+                            <li>✅ Ricevuta salvata</li>
                         </ol>
                     </div>
                 </div>
@@ -1159,229 +1156,137 @@ footer {
 
             <!-- SFL/SIISL Category -->
             <div class="faq-category" id="sfl">
-                <h2><i class="fas fa-hands-helping"></i> SFL/SIISL - Servizi per il Lavoro</h2>
+                <h2><i class="fas fa-user-graduate"></i> SFL/SIISL - Servizi per il Lavoro</h2>
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        Come si accede ai servizi SFL/SIISL?
+                        Cos'è il SIISL e come funziona?
                         <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
                     </div>
                     <div class="faq-answer">
-                        <p><b>Come accedere ai servizi SFL/SIISL</b></p>
-                        <ol>
-                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
-                            <li>In alto a destra clicca su <b>Entra in MyINPS</b></li>
-                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
-                            <li>Una volta effettuato l'accesso, cerca "<b>SFL</b>" o "<b>SIISL</b>" nella barra di ricerca</li>
-                        </ol>
+                        <p><b>SIISL - Sistema Informativo Intermediari Servizi Lavoro</b></p>
+                        
+                        <p>Il SIISL è il sistema informativo che gestisce i servizi per il lavoro erogati dai centri per l'impiego.</p>
 
-                        <p><b>Guida passo-passo</b></p>
-                        <ol>
-                            <li>Apri il servizio <b>SFL/SIISL</b></li>
-                            <li>Seleziona il servizio di cui hai bisogno (es. orientamento, formazione, accompagnamento al lavoro)</li>
-                            <li>Compila il modulo di richiesta con i tuoi dati e le tue esigenze</li>
-                            <li>Allega eventuali documenti giustificativi (es. CV, certificati di formazione, DID) in formato PDF o JPG (<i>DA VERIFICARE su sito ufficiale INPS</i>)</li>
-                            <li>Conferma l'invio e scarica la ricevuta in formato PDF</li>
-                            <li>Attendi la convocazione da parte del centro per l'impiego o del servizio competente</li>
-                        </ol>
+                        <p><b>Funzionalità principali</b></p>
+                        <ul>
+                            <li>Iscrizione e aggiornamento della posizione</li>
+                            <li>Gestione del Patto di Servizio</li>
+                            <li>Ricerca di opportunità di lavoro</li>
+                            <li>Prenotazione appuntamenti</li>
+                            <li>Comunicazioni con il centro per l'impiego</li>
+                        </ul>
 
-                        <p><b>Documenti utili</b></p>
+                        <p><b>Accesso al sistema</b></p>
                         <ol>
-                            <li>Carta d'identità o CIE</li>
-                            <li>Codice fiscale</li>
-                            <li>Credenziali SPID, CIE o CNS attive</li>
-                            <li>CV aggiornato</li>
-                            <li>Eventuali certificati di formazione o di lavoro</li>
-                            <li>DID attiva</li>
-                        </ol>
-
-                        <p><b>Checklist finale</b></p>
-                        <ol>
-                            <li>✅ Ho SPID/CIE/CNS attivo</li>
-                            <li>✅ Sono entrato su www.inps.it</li>
-                            <li>✅ Ho aperto il servizio "SFL/SIISL"</li>
-                            <li>✅ Ho selezionato il servizio di cui ho bisogno</li>
-                            <li>✅ Ho compilato il modulo di richiesta</li>
-                            <li>✅ Ho allegato eventuali documenti richiesti</li>
-                            <li>✅ Ho inviato e salvato la ricevuta PDF</li>
+                            <li>Collegarsi al portale del centro per l'impiego della propria provincia</li>
+                            <li>Accedere con SPID, CIE o CNS</li>
+                            <li>Completare l'iscrizione se primo accesso</li>
                         </ol>
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        Quali servizi offrono SFL e SIISL?
+                        Come funziona il Patto di Servizio Personalizzato?
                         <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
                     </div>
                     <div class="faq-answer">
-                        <p><b>Servizi offerti da SFL e SIISL</b></p>
-                        <ol>
-                            <li><b>Orientamento al lavoro</b>:
-                                <ul>
-                                    <li>Bilancio di competenze</li>
-                                    <li>Definizione del progetto professionale</li>
-                                    <li>Supporto nella ricerca attiva del lavoro</li>
-                                </ul>
-                            </li>
-                            <li><b>Formazione professionale</b>:
-                                <ul>
-                                    <li>Corsi di formazione finanziati</li>
-                                    <li>Tirocini formativi</li>
-                                    <li>Certificazioni delle competenze</li>
-                                </ul>
-                            </li>
-                            <li><b>Accompagnamento al lavoro</b>:
-                                <ul>
-                                    <li>Colloqui di selezione</li>
-                                    <li>Supporto nella stesura del CV e della lettera di presentazione</li>
-                                    <li>Simulazioni di colloqui di lavoro</li>
-                                </ul>
-                            </li>
-                            <li><b>Servizi di inclusione sociale</b>:
-                                <ul>
-                                    <li>Sostegno al reddito</li>
-                                    <li>Supporto per l'accesso ai servizi socio-sanitari</li>
-                                    <li>Mediazione familiare e abitativa</li>
-                                </ul>
-                            </li>
-                        </ol>
+                        <p><b>Patto di Servizio Personalizzato</b></p>
+                        
+                        <p>È un accordo tra il cittadino e il centro per l'impiego che definisce il percorso di ricerca attiva del lavoro.</p>
 
-                        <p><b>Guida passo-passo</b></p>
-                        <ol>
-                            <li>Vai sul sito ufficiale <em>www.inps.it</em></li>
-                            <li>Accedi con <b>SPID</b>, <b>CIE</b> o <b>CNS</b></li>
-                            <li>Apri il servizio <b>SFL/SIISL</b></li>
-                            <li>Esplora i servizi disponibili e seleziona quelli più adatti alle tue esigenze</li>
-                            <li>Compila i moduli di richiesta per i servizi scelti</li>
-                            <li>Allega eventuali documenti richiesti</li>
-                            <li>Conferma l'invio e scarica le ricevute in formato PDF</li>
-                            <li>Attendi la convocazione da parte del servizio competente</li>
-                        </ol>
+                        <p><b>Contenuto del patto</b></p>
+                        <ul>
+                            <li>Obiettivi di ricerca del lavoro</li>
+                            <li>Impegni del cittadino</li>
+                            <li>Servizi offerti dal centro per l'impiego</li>
+                            <li>Tempi e scadenze</li>
+                        </ul>
 
-                        <p><b>Checklist finale</b></p>
+                        <p><b>Firma del patto</b></p>
                         <ol>
-                            <li>✅ Ho SPID/CIE/CNS attivo</li>
-                            <li>✅ Sono entrato su www.inps.it</li>
-                            <li>✅ Ho aperto il servizio "SFL/SIISL"</li>
-                            <li>✅ Ho esplorato i servizi disponibili</li>
-                            <li>✅ Ho selezionato i servizi più adatti alle mie esigenze</li>
-                            <li>✅ Ho compilato i moduli di richiesta</li>
-                            <li>✅ Ho allegato eventuali documenti richiesti</li>
-                            <li>✅ Ho inviato e salvato le ricevute PDF</li>
+                            <li>Presentarsi al centro per l'impiego con documenti</li>
+                            <li>Discutere il percorso personalizzato</li>
+                            <li>Firmare il patto di servizio</li>
+                            <li>Ricevere copia del documento firmato</li>
                         </ol>
                     </div>
                 </div>
             </div>
 
-            <!-- Generale Category -->
+            <!-- General Services Category -->
             <div class="faq-category" id="generale">
-                <h2><i class="fas fa-info-circle"></i> Servizi Generali</h2>
+                <h2><i class="fas fa-info-circle"></i> Servizi Generali al Cittadino</h2>
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        Come si attiva SPID?
+                        Come richiedere SPID senza andare in posta?
                         <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
                     </div>
                     <div class="faq-answer">
-                        <p><b>Come attivare SPID</b></p>
+                        <p><b>Richiedere SPID completamente online</b></p>
                         <ol>
-                            <li>Scegli un Identity Provider (fornitore di identità digitale) tra quelli accreditati (es. Poste Italiane, TIM, Sielte, Aruba, ecc.)</li>
-                            <li>Vai sul sito dell'Identity Provider scelto e clicca su "<b>Registrati</b>" o "<b>Attiva SPID</b>"</li>
-                            <li>Inserisci i tuoi dati anagrafici (nome, cognome, data di nascita, codice fiscale, indirizzo email, numero di telefono)</li>
-                            <li>Carica un documento di identità valido (carta d'identità o passaporto) e la tua tessera sanitaria (per verificare il codice fiscale)</li>
-                            <li>Effettua il riconoscimento:
-                                <ul>
-                                    <li><b>Online</b>: tramite webcam con operatore, CIE (Carta d'Identità Elettronica) o CNS (Carta Nazionale dei Servizi)</li>
-                                    <li><b>Di persona</b>: recandoti in uno degli sportelli abilitati (es. uffici postali, CAF, patronati)</li>
-                                </ul>
-                            </li>
-                            <li>Ricevi le credenziali SPID (username e password) via email o SMS</li>
-                            <li>Completa l'attivazione accedendo a un servizio pubblico con le tue credenziali SPID</li>
+                            <li>Scegli un identity provider autorizzato (Poste, Sielte, Aruba, InfoCert, Namirial, etc.)</li>
+                            <li>Registrati sul sito del provider inserendo i tuoi dati anagrafici e il codice fiscale</li>
+                            <li>Effettua il riconoscimento a distanza tramite webcam, videochiamata o app del provider</li>
+                            <li>Ricevi le credenziali SPID via email o SMS</li>
+                            <li>Scarica l'app del provider per utilizzare SPID su mobile e gestire l'accesso ai servizi online</li>
+                        </ol>
+
+                        <p><b>TIPS</b></p>
+                        <ol>
+                            <li>Il riconoscimento video sostituisce il riconoscimento in presenza e permette di completare la procedura senza recarsi in posta</li>
+                            <li>Verifica che il documento d'identità sia valido e leggibile durante la videochiamata</li>
+                            <li>Assicurati di avere una connessione stabile per evitare interruzioni durante il riconoscimento</li>
                         </ol>
 
                         <p><b>Documenti utili</b></p>
                         <ol>
-                            <li>Carta d'identità valida o passaporto</li>
-                            <li>Tessera sanitaria (per verificare il codice fiscale)</li>
-                            <li>Indirizzo email personale</li>
-                            <li>Numero di telefono cellulare</li>
+                            <li>Documento d'identità valido (carta d'identità, passaporto o patente)</li>
+                            <li>Codice fiscale</li>
+                            <li>Numero di telefono e indirizzo email personali</li>
+                            <li>Eventuale app o software per la videochiamata del provider scelto</li>
                         </ol>
 
                         <p><b>Checklist finale</b></p>
                         <ol>
-                            <li>✅ Ho scelto un Identity Provider</li>
-                            <li>✅ Ho inserito i miei dati anagrafici</li>
-                            <li>✅ Ho caricato i documenti richiesti</li>
-                            <li>✅ Ho effettuato il riconoscimento</li>
-                            <li>✅ Ho ricevuto le credenziali SPID</li>
-                            <li>✅ Ho completato l'attivazione accedendo a un servizio pubblico</li>
+                            <li>✅ Ho scelto un provider SPID online</li>
+                            <li>✅ Ho registrato i miei dati sul sito del provider</li>
+                            <li>✅ Ho effettuato il riconoscimento tramite videochiamata o webcam</li>
+                            <li>✅ Ho ricevuto le credenziali SPID via email o SMS</li>
+                            <li>✅ Ho installato l'app del provider per l'uso su mobile</li>
                         </ol>
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        Come si attiva la CIE (Carta d'Identità Elettronica)?
+                        Come funziona l'ISEE precompilato?
                         <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
                     </div>
                     <div class="faq-answer">
-                        <p><b>Come attivare la CIE (Carta d'Identità Elettronica)</b></p>
-                        <ol>
-                            <li>Recati presso il tuo Comune di residenza per richiedere la CIE</li>
-                            <li>Porta con te:
-                                <ul>
-                                    <li>Una fototessera recente</li>
-                                    <li>La vecchia carta d'identità (se ancora valida) o un altro documento di riconoscimento</li>
-                                    <li>Il codice fiscale (tessera sanitaria)</li>
-                                    <li>Eventuale marca da bollo (se richiesta)</li>
-                                </ul>
-                            </li>
-                            <li>Paga il costo previsto per l'emissione della CIE (circa € 22,00)</li>
-                            <li>Ricevi il PIN e il PUK della tua CIE (di solito in una busta separata)</li>
-                            <li>Scarica l'app <b>CIE ID</b> sul tuo smartphone</li>
-                            <li>Segui le istruzioni nell'app per attivare la CIE:
-                                <ul>
-                                    <li>Inserisci il PIN ricevuto</li>
-                                    <li>Avvicina la CIE al retro del telefono (NFC attivo)</li>
-                                    <li>Completa la procedura di attivazione</li>
-                                </ul>
-                            </li>
-                            <li>Una volta attivata, puoi utilizzare la CIE per accedere ai servizi online</li>
-                        </ol>
-
-                        <p><b>Documenti utili</b></p>
-                        <ol>
-                            <li>Fototessera recente</li>
-                            <li>Vecchia carta d'identità o altro documento di riconoscimento</li>
-                            <li>Codice fiscale (tessera sanitaria)</li>
-                            <li>Eventuale marca da bollo</li>
-                            <li>Smartphone con NFC</li>
-                        </ol>
-
-                        <p><b>Checklist finale</b></p>
-                        <ol>
-                            <li>✅ Mi sono recato presso il Comune di residenza</li>
-                            <li>✅ Ho portato tutti i documenti richiesti</li>
-                            <li>✅ Ho pagato il costo previsto</li>
-                            <li>✅ Ho ricevuto il PIN e il PUK</li>
-                            <li>✅ Ho scaricato l'app CIE ID</li>
-                            <li>✅ Ho attivato la CIE seguendo le istruzioni nell'app</li>
-                        </ol>
+                        <p>L'ISEE precompilato è un servizio che:</p>
+                        <ul>
+                            <li>Recupera automaticamente i tuoi dati dall'Agenzia delle Entrate</li>
+                            <li>Pre-compila il modulo ISEE con le informazioni già disponibili</li>
+                            <li>Ti chiede solo di integrare i dati mancanti</li>
+                            <li>Riduce gli errori e semplifica la compilazione</li>
+                        </ul>
+                        <p>Per usufruirne, accedi al sito dell'INPS con SPID/CIE e seleziona "ISEE precompilato".</p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
 
-<!-- Contact CTA -->
-<section class="contact-cta">
-    <div class="container">
-        <h2>Hai bisogno di aiuto con una pratica?</h2>
-        <p>Contattaci su WhatsApp per una consulenza personalizzata. I nostri esperti ti guideranno passo dopo passo nella compilazione della tua domanda.</p>
-        <a href="https://wa.me/393123456789?text=Salve,%20ho%20bisogno%20di%20aiuto%20con%20una%20pratica%20INPS" class="btn">
-            <i class="fab fa-whatsapp"></i> Contattaci su WhatsApp
-        </a>
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h2>Non hai trovato la risposta che cercavi?</h2>
+            <p>Il nostro team di esperti è pronto ad aiutarti con qualsiasi domanda su INPS, NASpI, ADI, ISEE, SFL e servizi al cittadino.</p>
+            <a href="https://wa.me/3934146871" class="btn" target="_blank">
+                <i class="fab fa-whatsapp"></i> Chiedi su WhatsApp
+            </a>
+        </div>
     </div>
 </section>
 
@@ -1390,156 +1295,98 @@ footer {
     <div class="container">
         <div class="footer-content">
             <div class="footer-column">
-                <h3>Sportello Speed</h3>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="chat.html">Chatta con Noi</a></li>
-                </ul>
+                <h3>Sportello Digitale</h3>
+                <p>Il primo sportello digitale in Italia per assistenza immediata su INPS, Naspi, AdI, ISEE, SFL e servizi al cittadino.</p>
             </div>
             <div class="footer-column">
-                <h3>Servizi INPS</h3>
+                <h3>Servizi</h3>
                 <ul>
-                    <li><a href="#">NASpI - Disoccupazione</a></li>
-                    <li><a href="#">ISEE</a></li>
-                    <li><a href="#">ADI - Assegno di Inclusione</a></li>
-                    <li><a href="#">SFL/SIISL</a></li>
+                    <li>NASpI - Disoccupazione</li>
+                    <li>ISEE - Agevolazioni</li>
+                    <li>ADI - Inclusione</li>
+                    <li>SFL/SIISL - Formazione e Lavoro</li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h3>Contatti</h3>
                 <ul>
-                    <li><i class="fab fa-whatsapp"></i> WhatsApp: 391 234 5678</li>
-                    <li><i class="fas fa-envelope"></i> Email: info@sportellospeed.it</li>
-                    <li><i class="fas fa-clock"></i> Orari: Lun-Ven 9:00-18:00</li>
+                    <li>+39 393 4146871</li>
+                    <li>Assistenza WhatsApp</li>
                 </ul>
             </div>
         </div>
         <div class="copyright">
-            <p>&copy; 2025 Sportello Speed. Tutti i diritti riservati.</p>
+            <p>&copy; 2025 Sportello Speed - Tutti i diritti riservati</p>
         </div>
     </div>
 </footer>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // FAQ Accordion
-    const faqItems = document.querySelectorAll('.faq-item');
-    
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        
-        question.addEventListener('click', () => {
-            // Chiudi tutte le altre FAQ
-            faqItems.forEach(otherItem => {
-                if (otherItem !== item && otherItem.classList.contains('active')) {
-                    otherItem.classList.remove('active');
-                }
-            });
-            
-            // Apri/chiudi la FAQ cliccata
-            item.classList.toggle('active');
-            
-            // Scroll automatico per migliorare l'esperienza utente
-            if (item.classList.contains('active')) {
-                setTimeout(() => {
-                    item.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 300);
+// FAQ Accordion Functionality
+document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', () => {
+        const item = question.parentNode;
+        item.classList.toggle('active');
+    });
+});
+
+// Category Filter Functionality
+document.querySelectorAll('.category-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        // Add active class to clicked button
+        button.classList.add('active');
+
+        const category = button.getAttribute('data-category');
+
+        // Show/hide categories based on selection
+        document.querySelectorAll('.faq-category').forEach(cat => {
+            if (category === 'all' || cat.id === category) {
+                cat.style.display = 'block';
+            } else {
+                cat.style.display = 'none';
             }
         });
     });
-    
-    // Category Filtering
-    const categoryButtons = document.querySelectorAll('.category-btn');
-    const faqCategories = document.querySelectorAll('.faq-category');
-    
-    categoryButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Aggiorna i pulsanti attivi
-            categoryButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            
-            const category = button.getAttribute('data-category');
-            
-            // Mostra/nascondi le categorie
-            faqCategories.forEach(cat => {
-                if (category === 'all' || cat.id === category) {
-                    cat.style.display = 'block';
-                } else {
-                    cat.style.display = 'none';
-                }
-            });
-            
-            // Scroll alla sezione FAQ
-            document.querySelector('.faq-container').scrollIntoView({ behavior: 'smooth' });
-        });
-    });
-    
-    // Search Functionality
-    const searchInput = document.querySelector('.search-input');
-    const searchButton = document.querySelector('.search-btn');
-    
-    function performSearch() {
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        
-        if (searchTerm === '') {
-            // Se la ricerca è vuota, mostra tutte le FAQ
-            faqItems.forEach(item => {
-                item.style.display = 'block';
-            });
-            return;
-        }
-        
-        // Nascondi tutte le FAQ
-        faqItems.forEach(item => {
-            item.style.display = 'none';
-        });
-        
-        // Mostra solo le FAQ che contengono il termine di ricerca
-        faqItems.forEach(item => {
-            const question = item.querySelector('.faq-question').textContent.toLowerCase();
-            const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
-            
-            if (question.includes(searchTerm) || answer.includes(searchTerm)) {
-                item.style.display = 'block';
-                item.classList.add('active'); // Apri la FAQ trovata
-            }
-        });
-    }
-    
-    searchButton.addEventListener('click', performSearch);
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            performSearch();
-        }
-    });
-    
-    // Miglioramenti per dispositivi mobili
-    function handleTouchEvents() {
-        // Aggiungi un piccolo ritardo per evitare azioni accidentali
-        const touchElements = document.querySelectorAll('.faq-question, .category-btn, .btn');
-        
-        touchElements.forEach(element => {
-            element.addEventListener('touchstart', function(e) {
-                // Previene il comportamento predefinito del browser
-                e.preventDefault();
-                
-                // Aggiungi una classe per feedback visivo
-                this.classList.add('touch-active');
-                
-                // Rimuovi la classe dopo un breve ritardo
-                setTimeout(() => {
-                    this.classList.remove('touch-active');
-                }, 300);
-            }, { passive: false });
-        });
-    }
-    
-    // Inizializza i miglioramenti per touch
-    if ('ontouchstart' in window) {
-        handleTouchEvents();
+});
+
+// Search Functionality
+document.querySelector('.search-btn').addEventListener('click', performSearch);
+document.querySelector('.search-input').addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') {
+        performSearch();
     }
 });
+
+function performSearch() {
+    const searchTerm = document.querySelector('.search-input').value.toLowerCase();
+
+    if (searchTerm.trim() === '') {
+        // If search is empty, show all FAQs
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.style.display = 'block';
+        });
+        return;
+    }
+
+    // Search through questions and answers
+    document.querySelectorAll('.faq-item').forEach(item => {
+        const question = item.querySelector('.faq-question').textContent.toLowerCase();
+        const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+
+        if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+            item.style.display = 'block';
+            // Expand matching items
+            item.classList.add('active');
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
 </script>
 </body>
 </html>
