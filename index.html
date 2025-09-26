@@ -1422,109 +1422,123 @@ footer {
 </footer>
 
 <script>
-// FAQ Accordion Functionality - MIGLIORATO
-document.querySelectorAll('.faq-question').forEach(question => {
-    question.addEventListener('click', () => {
-        const item = question.parentNode;
-        const wasActive = item.classList.contains('active');
-        
-        // Chiudi tutte le FAQ
-        document.querySelectorAll('.faq-item').forEach(faqItem => {
-            faqItem.classList.remove('active');
-        });
-        
-        // Apri la FAQ cliccata se non era già attiva
-        if (!wasActive) {
-            item.classList.add('active');
-            
-            // Scroll leggero per mostrare la risposta
-            setTimeout(() => {
-                item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 300);
-        }
-    });
-});
-
-// Category Filter Functionality
-document.querySelectorAll('.category-btn').forEach(button => {
-    button.addEventListener('click', () => {
-        // Remove active class from all buttons
-        document.querySelectorAll('.category-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-
-        // Add active class to clicked button
-        button.classList.add('active');
-
-        const category = button.getAttribute('data-category');
-
-        // Show/hide categories based on selection
-        document.querySelectorAll('.faq-category').forEach(cat => {
-            if (category === 'all' || cat.id === category) {
-                cat.style.display = 'block';
-                // Scroll alla categoria selezionata
-                setTimeout(() => {
-                    cat.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 100);
-            } else {
-                cat.style.display = 'none';
-            }
-        });
-    });
-});
-
-// Search Functionality
-document.querySelector('.search-btn').addEventListener('click', performSearch);
-document.querySelector('.search-input').addEventListener('keyup', (e) => {
-    if (e.key === 'Enter') {
-        performSearch();
-    }
-});
-
-function performSearch() {
-    const searchTerm = document.querySelector('.search-input').value.toLowerCase();
-
-    if (searchTerm.trim() === '') {
-        // If search is empty, show all FAQs
-        document.querySelectorAll('.faq-item').forEach(item => {
-            item.style.display = 'block';
-            item.classList.remove('active');
-        });
-        return;
-    }
-
-    let foundResults = false;
+document.addEventListener('DOMContentLoaded', function() {
+    // FAQ Accordion
+    const faqItems = document.querySelectorAll('.faq-item');
     
-    // Search through questions and answers
-    document.querySelectorAll('.faq-item').forEach(item => {
-        const question = item.querySelector('.faq-question').textContent.toLowerCase();
-        const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
-
-        if (question.includes(searchTerm) || answer.includes(searchTerm)) {
-            item.style.display = 'block';
-            // Expand matching items
-            item.classList.add('active');
-            foundResults = true;
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        
+        question.addEventListener('click', () => {
+            // Chiudi tutte le altre FAQ
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item && otherItem.classList.contains('active')) {
+                    otherItem.classList.remove('active');
+                }
+            });
             
-            // Scroll al primo risultato trovato
-            if (!foundResults) {
+            // Apri/chiudi la FAQ cliccata
+            item.classList.toggle('active');
+            
+            // Scroll automatico per migliorare l'esperienza utente
+            if (item.classList.contains('active')) {
                 setTimeout(() => {
                     item.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 300);
             }
-        } else {
+        });
+    });
+    
+    // Category Filtering
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    const faqCategories = document.querySelectorAll('.faq-category');
+    
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Aggiorna i pulsanti attivi
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            const category = button.getAttribute('data-category');
+            
+            // Mostra/nascondi le categorie
+            faqCategories.forEach(cat => {
+                if (category === 'all' || cat.id === category) {
+                    cat.style.display = 'block';
+                } else {
+                    cat.style.display = 'none';
+                }
+            });
+            
+            // Scroll alla sezione FAQ
+            document.querySelector('.faq-container').scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+    
+    // Search Functionality
+    const searchInput = document.querySelector('.search-input');
+    const searchButton = document.querySelector('.search-btn');
+    
+    function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        
+        if (searchTerm === '') {
+            // Se la ricerca è vuota, mostra tutte le FAQ
+            faqItems.forEach(item => {
+                item.style.display = 'block';
+            });
+            return;
+        }
+        
+        // Nascondi tutte le FAQ
+        faqItems.forEach(item => {
             item.style.display = 'none';
-            item.classList.remove('active');
+        });
+        
+        // Mostra solo le FAQ che contengono il termine di ricerca
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question').textContent.toLowerCase();
+            const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+            
+            if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                item.style.display = 'block';
+                item.classList.add('active'); // Apri la FAQ trovata
+            }
+        });
+    }
+    
+    searchButton.addEventListener('click', performSearch);
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            performSearch();
         }
     });
-}
-
-// Miglioramento per il touch su dispositivi mobili
-document.addEventListener('touchstart', function() {}, {passive: true});
-
-// Prevenire problemi di zoom su iOS
-document.addEventListener('gesturestart', function (e) {
-    e.preventDefault();
+    
+    // Miglioramenti per dispositivi mobili
+    function handleTouchEvents() {
+        // Aggiungi un piccolo ritardo per evitare azioni accidentali
+        const touchElements = document.querySelectorAll('.faq-question, .category-btn, .btn');
+        
+        touchElements.forEach(element => {
+            element.addEventListener('touchstart', function(e) {
+                // Previene il comportamento predefinito del browser
+                e.preventDefault();
+                
+                // Aggiungi una classe per feedback visivo
+                this.classList.add('touch-active');
+                
+                // Rimuovi la classe dopo un breve ritardo
+                setTimeout(() => {
+                    this.classList.remove('touch-active');
+                }, 300);
+            }, { passive: false });
+        });
+    }
+    
+    // Inizializza i miglioramenti per touch
+    if ('ontouchstart' in window) {
+        handleTouchEvents();
+    }
 });
 </script>
 </body>
