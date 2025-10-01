@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sportello Speed - Tools Digitali per Servizi INPS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #0066CC;
+            --dark-blue: #004C99;
+            --light-blue: #E6F2FF;
+            --accent-yellow: #F9D423;
+            --success-green: #28A745;
+            --warning-orange: #FF6B35;
+            --danger-red: #DC3545;
+            --light-gray: #f8f9fa;
+            --dark-gray: #333;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--accent-yellow);
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: white;
+            margin-bottom: 2rem;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-blue);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #555;
+        }
+
+        /* Tools Grid */
+        .tools-section {
+            padding: 2rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--dark-blue);
+            font-size: 2rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #666;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid var(--primary-blue);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .tool-card.inps {
+            border-left-color: var(--primary-blue);
+        }
+
+        .tool-card.isee {
+            border-left-color: var(--warning-orange);
+        }
+
+        .tool-card.adi {
+            border-left-color: #8A2BE2;
+        }
+
+        .tool-card.sfl {
+            border-left-color: var(--success-green);
+        }
+
+        .tool-card.generale {
+            border-left-color: #6c757d;
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .tool-card h3 {
+            margin-bottom: 1rem;
+            color: var(--dark-blue);
+            font-size: 1.3rem;
+        }
+
+        .tool-card p {
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary-blue);
+            outline: none;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary-blue);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: var(--dark-blue);
+            transform: translateY(-2px);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .btn-download {
+            background: var(--success-green);
+            margin-top: 10px;
+        }
+
+        .btn-download:hover {
+            background: #218838;
+        }
+
+        /* Results */
+        .result {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            background: var(--light-blue);
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .result.success {
+            background: #d4edda;
+            border-left-color: var(--success-green);
+        }
+
+        .result.warning {
+            background: #fff3cd;
+            border-left-color: var(--warning-orange);
+        }
+
+        .result.error {
+            background: #f8d7da;
+            border-left-color: var(--danger-red);
+        }
+
+        /* Checklist */
+        .checklist {
+            margin: 1.5rem 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            background: var(--light-gray);
+            border-radius: 6px;
+        }
+
+        .checklist-item input {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        /* Quiz */
+        .quiz-question {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: var(--light-gray);
+            border-radius: 8px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .quiz-option {
+            padding: 1rem;
+            background: white;
+            border: 2px solid #e1e5e9;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary-blue);
+            background: var(--light-blue);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--primary-blue);
+            background: var(--light-blue);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column a {
+            color: #e6e6e6;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent-yellow);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tool-card {
+                padding: 1.5rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        
+        
+        
+        
+       <div class="container">
+    <div class="header-content">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-calculator"></i>
+            </div>
+            <div class="logo-text">Tools-Calcolatori</div>
+        </div>
+        <nav>
+            <a href="index.html" style="color: white; text-decoration: none; margin-right: 20px;">Home</a>
+            <a href="chat.html" style="color: white; text-decoration: none;">Chatta con noi</a><br>
+               <a href="#generale" style="color: white; text-decoration: none; margin-right: 20px;">Generale</a>
+            
+            <a href="#inps" style="color: white; text-decoration: none; margin-right: 20px;">INPS/NASpI</a>
+            <a href="#isee" style="color: white; text-decoration: none; margin-right: 20px;">ISEE</a>
+            <a href="#adi" style="color: white; text-decoration: none; margin-right: 20px;">ADI</a>
+            <a href="#sfl" style="color: white; text-decoration: none; margin-right: 20px;">SFL/SIISL</a>
+         
+        </nav>
+    </div>
+</div>
+        
+        
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Tools Digitali per Servizi INPS</h1>
+            <p>Strumenti professionali per orientarti tra NASpI, ISEE, ADI e servizi al cittadino. Calcola, verifica e pianifica con i nostri tools gratuiti.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Area INPS / NASpI -->
+        <section id="inps" class="tools-section">
+            <h2 class="section-title">🟦 Area INPS / NASpI</h2>
+            <p class="section-subtitle">Strumenti per la disoccupazione e i servizi previdenziali INPS</p>
+            
+            <div class="tools-grid">
+                <!-- Tool 1: Quiz diritto NASpI -->
+                <div class="tool-card inps">
+                    <div class="tool-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <h3>1. Quiz diritto NASpI</h3>
+                    <p>Verifica in 2 minuti se hai i requisiti minimi per accedere alla NASpI</p>
+                    
+                    <div class="quiz-question">
+                        <p><strong>Hai lavorato almeno 13 settimane negli ultimi 4 anni?</strong></p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">Sì</div>
+                            <div class="quiz-option" onclick="selectOption(this)">No</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <p><strong>Sei stato licenziato o il tuo contratto è scaduto?</strong></p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">Sì, licenziamento</div>
+                            <div class="quiz-option" onclick="selectOption(this)">Sì, contratto scaduto</div>
+                            <div class="quiz-option" onclick="selectOption(this)">No, ho dato le dimissioni</div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-block" onclick="checkNaspiEligibility()">Verifica il mio diritto</button>
+                    <div id="naspiQuizResult" class="result" style="display: none;"></div>
+                </div>
+
+                <!-- Tool 2: Calcolatore NASpI stimato -->
+                <div class="tool-card inps">
+                    <div class="tool-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3>2. Calcolatore NASpI stimato</h3>
+                    <p>Calcola l'importo stimato della tua indennità di disoccupazione</p>
+                    
+                    <div class="form-group">
+                        <label for="stipendioMedio">Stipendio medio mensile (€)</label>
+                        <input type="number" id="stipendioMedio" placeholder="Es: 1500">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="mesiLavoro">Mesi di lavoro negli ultimi 4 anni</label>
+                        <input type="number" id="mesiLavoro" placeholder="Es: 24">
+                    </div>
+                    
+                    <button class="btn btn-block" onclick="calcolaNaspi()">Calcola NASpI</button>
+                    <div id="naspiResult" class="result" style="display: none;"></div>
+                </div>
+
+                <!-- Tool 3: Scadenziario NASpI -->
+                <div class="tool-card inps">
+                    <div class="tool-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>3. Scadenziario NASpI</h3>
+                    <p>Calcola l'ultima data utile per presentare la domanda NASpI</p>
+                    
+                    <div class="form-group">
+                        <label for="dataCessazione">Data di cessazione del lavoro</label>
+                        <input type="date" id="dataCessazione">
+                    </div>
+                    
+                    <button class="btn btn-block" onclick="calcolaScadenzaNaspi()">Calcola scadenza</button>
+                    <div id="scadenzaResult" class="result" style="display: none;"></div>
+                </div>
+
+                <!-- Tool 4: Simulatore durata NASpI -->
+                <div class="tool-card inps">
+                    <div class="tool-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>4. Simulatore durata NASpI</h3>
+                    <p>Stima per quanti mesi avrai diritto alla NASpI in base ai tuoi contributi</p>
+                    
+                    <div class="form-group">
+                        <label for="settimaneContributive">Settimane di contribuzione</label>
+                        <input type="number" id="settimaneContributive" placeholder="Es: 52">
+                    </div>
+                    
+                    <button class="btn btn-block" onclick="calcolaDurataNaspi()">Calcola durata</button>
+                    <div id="durataResult" class="result" style="display: none;"></div>
+                </div>
+
+                <!-- Tool 5: Checklist documenti NASpI -->
+                <div class="tool-card inps">
+                    <div class="tool-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3>5. Checklist documenti NASpI</h3>
+                    <p>Lista completa dei documenti necessari per la domanda NASpI</p>
+                    
+                    <div class="checklist">
+                        <div class="checklist-item">
+                            <input type="checkbox" id="doc1">
+                            <label for="doc1">Documento d'identità valido</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="doc2">
+                            <label for="doc2">Codice fiscale (tessera sanitaria)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="doc3">
+                            <label for="doc3">Ultime buste paga (ultimi 4 anni)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="doc4">
+                            <label for="doc4">Comunicazione di licenziamento/fine rapporto</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="doc5">
+                            <label for="doc5">Credenziali SPID/CIE</label>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-block btn-download" onclick="scaricaChecklist('Checklist Documenti NASpI', getChecklistItems('naspi'))">
+                        <i class="fas fa-download"></i> Scarica Checklist
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Area ISEE -->
+        <section id="isee" class="tools-section">
+            <h2 class="section-title">🟦 Area ISEE</h2>
+            <p class="section-subtitle">Strumenti per il calcolo e la gestione dell'Indicatore della Situazione Economica Equivalente</p>
+            
+            <div class="tools-grid">
+                <!-- Tool 6: Checklist documenti ISEE Ordinario -->
+                <div class="tool-card isee">
+                    <div class="tool-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>6. Checklist ISEE Ordinario</h3>
+                    <p>Documenti necessari per la Dichiarazione Sostitutiva Unica (DSU)</p>
+                    
+                    <div class="checklist">
+                        <div class="checklist-item">
+                            <input type="checkbox" id="iseeDoc1">
+                            <label for="iseeDoc1">Carta d'identità di tutti i componenti</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="iseeDoc2">
+                            <label for="iseeDoc2">Codici fiscali di tutti i componenti</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="iseeDoc3">
+                            <label for="iseeDoc3">Stato di famiglia</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="iseeDoc4">
+                            <label for="iseeDoc4">Certificazione Unica (CU) o 730</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="iseeDoc5">
+                            <label for="iseeDoc5">Estratti conto bancari e postali</label>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-block btn-download" onclick="scaricaChecklist('Checklist Documenti ISEE Ordinario', getChecklistItems('isee'))">
+                        <i class="fas fa-download"></i> Scarica Checklist
+                    </button>
+                </div>
+
+                <!-- Tool 7: Checklist ISEE Universitario -->
+                <div class="tool-card isee">
+                    <div class="tool-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>7. Checklist ISEE Universitario</h3>
+                    <p>Documenti specifici per studenti universitari</p>
+                    
+                    <div class="checklist">
+                        <div class="checklist-item">
+                            <input type="checkbox" id="uniDoc1">
+                            <label for="uniDoc1">Certificato di iscrizione universitaria</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="uniDoc2">
+                            <label for="uniDoc2">Eventuali borse di studio</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="uniDoc3">
+                            <label for="uniDoc3">Documenti genitori (se a carico)</label>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-block btn-download" onclick="scaricaChecklist('Checklist ISEE Universitario', getChecklistItems('isee-uni'))">
+                        <i class="fas fa-download"></i> Scarica Checklist
+                    </button>
+                </div>
+
+                <!-- Tool 8: Mini-guida ISEE Corrente -->
+                <div class="tool-card isee">
+                    <div class="tool-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3>8. Mini-guida ISEE Corrente</h3>
+                    <p>Scopri se ti conviene richiedere l'ISEE Corrente</p>
+                    
+                    <div class="form-group">
+                        <label>Hai avuto una variazione significativa del reddito nell'ultimo anno?</label>
+                        <select id="variazioneReddito">
+                            <option value="">Seleziona</option>
+                            <option value="si">Sì, in diminuzione</option>
+                            <option value="no">No, stabile</option>
+                            <option value="aumento">Sì, in aumento</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-block" onclick="consigliaIseeCorrente()">Ottieni consiglio</button>
+                    <div id="iseeCorrenteResult" class="result" style="display: none;"></div>
+                </div>
+
+                <!-- Tool 9: Simulatore cambio residenza -->
+                <div class="tool-card isee">
+                    <div class="tool-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>9. Simulatore cambio residenza</h3>
+                    <p>Cosa succede all'ISEE se cambi residenza?</p>
+                    
+                    <div class="form-group">
+                        <label>Stato attuale della residenza</label>
+                        <select id="residenzaAttuale">
+                            <option value="">Seleziona</option>
+                            <option value="famiglia">Vivo con la famiglia</option>
+                            <option value="solo">Vivo da solo</option>
+                            <option value="convivenza">In convivenza</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-block" onclick="simulaCambioResidenza()">Simula effetto</button>
+                    <div id="residenzaResult" class="result" style="display: none;"></div>
+                </div>
+
+                <!-- Tool 10: Scadenziario rinnovo ISEE -->
+                <div class="tool-card isee">
+                    <div class="tool-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>10. Scadenziario rinnovo ISEE</h3>
+                    <p>Calcola quando devi rinnovare il tuo ISEE</p>
+                    
+                    <div class="form-group">
+                        <label for="dataIsee">Data dell'ultimo ISEE presentato</label>
+                        <input type="date" id="dataIsee">
+                    </div>
+                    
+                    <button class="btn btn-block" onclick="calcolaScadenzaIsee()">Calcola scadenza</button>
+                    <div id="scadenzaIseeResult" class="result" style="display: none;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Area ADI -->
+        <section id="adi" class="tools-section">
+            <h2 class="section-title">🟦 Area ADI</h2>
+            <p class="section-subtitle">Strumenti per l'Assegno di Inclusione e il sostegno al reddito</p>
+            
+            <div class="tools-grid">
+                <!-- Tool 11: Quiz diritto ADI -->
+                <div class="tool-card adi">
+                    <div class="tool-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h3>11. Quiz diritto ADI</h3>
+                    <p>Verifica rapidamente se hai i requisiti per l'Assegno di Inclusione</p>
+                    
+                    <div class="quiz-question">
+                        <p><strong>Hai un ISEE inferiore a € 6.000?</strong></p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOptionAdi(this)">Sì</div>
+                            <div class="quiz-option" onclick="selectOptionAdi(this)">No</div>
+                            <div class="quiz-option" onclick="selectOptionAdi(this)">Non lo so</div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-block" onclick="checkAdiEligibility()">Verifica diritto ADI</button>
+                    <div id="adiQuizResult" class="result" style="display: none;"></div>
+                </div>
+
+                <!-- Tool 12: Controlla soglia ISEE ADI -->
+                <div class="tool-card adi">
+                    <div class="tool-icon">
+                        <i class="fas fa-euro-sign"></i>
+                    </div>
+                    <h3>12. Controlla soglia ISEE ADI</h3>
+                    <p>Verifica se il tuo ISEE è sotto la soglia per l'ADI</p>
+                    
+                    <div class="form-group">
+                        <label for="valoreIsee">Valore del tuo ISEE (€)</label>
+                        <input type="number" id="valoreIsee" placeholder="Es: 5500">
+                    </div>
+                    
+                    <button class="btn btn-block" onclick="controllaSogliaAdi()">Controlla soglia</button>
+                    <div id="sogliaAdiResult" class="result" style="display: none;"></div>
+                </div>
+
+                <!-- Tool 13: Simulatore importo ADI -->
+                <div class="tool-card adi">
+                    <div class="tool-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3>13. Simulatore importo ADI</h3>
+                    <p>Calcola quanto potresti ricevere con l'Assegno di Inclusione</p>
+                    
+                    <div class="form-group">
+                        <label for="componentiFamiglia">Numero di componenti del nucleo familiare</label>
+                        <select id="componentiFamiglia">
+                            <option value="1">1 persona</option>
+                            <option value="2">2 persone</option>
+                            <option value="3">3 persone</option>
+                            <option value="4">4 persone</option>
+                            <option value="5">5 o più persone</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-block" onclick="calcolaAdi()">Calcola ADI</button>
+                    <div id="adiResult" class="result" style="display: none;"></div>
+                </div>
+
+                <!-- Tool 14: FAQ interattiva ADI -->
+                <div class="tool-card adi">
+                    <div class="tool-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>14. FAQ interattiva ADI</h3>
+                    <p>Risposte immediate alle domande più frequenti sull'ADI</p>
+                    
+                    <div class="faq-buttons">
+                        <button class="btn" onclick="mostraRisposta('L\'ADI è compatibile con altri redditi?', 'Sì, ma ci sono limiti. Puoi percepire fino a € 3.000 annui da lavoro senza perdere il diritto.')" style="margin-bottom: 10px; width: 100%; text-align: left;">L'ADI è compatibile con altri redditi?</button>
+                        <button class="btn" onclick="mostraRisposta('Quanto dura l\'ADI?', 'L\'ADI dura 12 mesi e può essere rinnovato se permangono i requisiti.')" style="margin-bottom: 10px; width: 100%; text-align: left;">Quanto dura l'ADI?</button>
+                        <button class="btn" onclick="mostraRisposta('Come si presenta la domanda?', 'La domanda si presenta online sul sito INPS con SPID/CIE, oppure tramite patronati e CAF.')" style="margin-bottom: 10px; width: 100%; text-align: left;">Come si presenta la domanda?</button>
+                    </div>
+                    
+                    <div id="faqResult" class="result" style="display: none;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Area SFL / SIISL -->
+        <section id="sfl" class="tools-section">
+            <h2 class="section-title">🟦 Area SFL / SIISL</h2>
+            <p class="section-subtitle">Strumenti per i servizi per il lavoro e la formazione professionale</p>
+            
+            <div class="tools-grid">
+                <!-- Tool 15: Checklist iscrizione SIISL -->
+                <div class="tool-card sfl">
+                    <div class="tool-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h3>15. Checklist iscrizione SIISL</h3>
+                    <p>Step da completare per l'iscrizione al Sistema Informativo Intermediari Servizi Lavoro</p>
+                    
+                    <div class="checklist">
+                        <div class="checklist-item">
+                            <input type="checkbox" id="siisl1">
+                            <label for="siisl1">Registrazione sul portale del centro per l'impiego</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="siisl2">
+                            <label for="siisl2">Compilazione profilo professionale</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="siisl3">
+                            <label for="siisl3">Caricamento CV aggiornato</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="siisl4">
+                            <label for="siisl4">Dichiarazione di Immediata Disponibilità (DID)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="siisl5">
+                            <label for="siisl5">Firma del Patto di Servizio</label>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-block btn-download" onclick="scaricaChecklist('Checklist Iscrizione SIISL', getChecklistItems('siisl'))">
+                        <i class="fas fa-download"></i> Scarica Checklist
+                    </button>
+                </div>
+
+                <!-- Tool 16: Test Patto di Attivazione -->
+                <div class="tool-card sfl">
+                    <div class="tool-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>16. Test Attivazione Digitale</h3>
+                    <p>Verifica se sei pronto per il Patto di Attivazione Digitale</p>
+                    
+                    <div class="quiz-question">
+                        <p><strong>Hai competenze digitali di base?</strong></p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOptionPatto(this)">Sì, uso computer e internet</div>
+                            <div class="quiz-option" onclick="selectOptionPatto(this)">No, ho difficoltà</div>
+                            <div class="quiz-option" onclick="selectOptionPatto(this)">Solo smartphone</div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-block" onclick="checkPattoDigitale()">Verifica preparazione</button>
+                    <div id="pattoResult" class="result" style="display: none;"></div>
+                </div>
+
+                <!-- Tool 17: Mini guida SFL -->
+                <div class="tool-card sfl">
+                    <div class="tool-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3>17. Mini guida SFL</h3>
+                    <p>Cosa serve per iscriversi al Supporto Formazione e Lavoro</p>
+                    
+                    <div class="result">
+                        <h4>Requisiti SFL:</h4>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Disoccupazione o inoccupazione</li>
+                            <li>Iscrizione al centro per l'impiego</li>
+                            <li>DID attiva</li>
+                            <li>Disponibilità a percorsi di formazione</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="btn btn-block btn-download" onclick="scaricaGuidaSfl()">
+                        <i class="fas fa-download"></i> Scarica Guida
+                    </button>
+                </div>
+
+                <!-- Tool 18: Quiz offerta di lavoro -->
+                <div class="tool-card sfl">
+                    <div class="tool-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>18. Quiz offerta di lavoro</h3>
+                    <p>Devi accettare l'offerta di lavoro? Casi pratici con risposta</p>
+                    
+                    <div class="quiz-question">
+                        <p><strong>Ti viene offerto un lavoro con stipendio inferiore del 20% rispetto al precedente:</strong></p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOptionLavoro(this)">Devi accettare</div>
+                            <div class="quiz-option" onclick="selectOptionLavoro(this)">Puoi rifiutare</div>
+                            <div class="quiz-option" onclick="selectOptionLavoro(this)">Dipende dalla distanza</div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-block" onclick="checkRispostaLavoro()">Verifica risposta</button>
+                    <div id="lavoroResult" class="result" style="display: none;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Area Generale -->
+        <section id="generale" class="tools-section">
+            <h2 class="section-title">🟦 Area Generale / Servizi al Cittadino</h2>
+            <p class="section-subtitle">Strumenti utili per la gestione di pratiche e scadenze</p>
+            
+            <div class="tools-grid">
+                <!-- Tool 19: Simulatore scadenze contributive -->
+                <div class="tool-card generale">
+                    <div class="tool-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <h3>19. Simulatore scadenze contributive</h3>
+                    <p>Calcola le date chiave per contributi e prestazioni</p>
+                    
+                    <div class="form-group">
+                        <label for="dataEvento">Data di riferimento (assunzione/licenziamento)</label>
+                        <input type="date" id="dataEvento">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tipoEvento">Tipo di evento</label>
+                        <select id="tipoEvento">
+                            <option value="assunzione">Assunzione</option>
+                            <option value="licenziamento">Licenziamento</option>
+                            <option value="pensione">Pensione</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-block" onclick="calcolaScadenze()">Calcola scadenze</button>
+                    <div id="scadenzeResult" class="result" style="display: none;"></div>
+                </div>
+
+                <!-- Tool 20: Generatore checklist universale -->
+                <div class="tool-card generale">
+                    <div class="tool-icon">
+                        <i class="fas fa-list-ol"></i>
+                    </div>
+                    <h3>20. Generatore checklist universale</h3>
+                    <p>Crea checklist personalizzate per diverse pratiche</p>
+                    
+                    <div class="form-group">
+                        <label for="tipoPratica">Seleziona la pratica</label>
+                        <select id="tipoPratica">
+                            <option value="">Seleziona</option>
+                            <option value="naspi">Domanda NASpI</option>
+                            <option value="isee">Dichiarazione ISEE</option>
+                            <option value="adi">Domanda ADI</option>
+                            <option value="pensione">Domanda di pensione</option>
+                            <option value="citizenship">Cittadinanza</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-block" onclick="generaChecklist()">Genera Checklist</button>
+                    <div id="checklistGenerata" class="result" style="display: none;"></div>
+                    
+                    <button class="btn btn-block btn-download" onclick="scaricaChecklistGenerata()" style="margin-top: 10px; display: none;" id="btnScaricaGenerata">
+                        <i class="fas fa-download"></i> Scarica Checklist
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Sportello Speed</h3>
+                    <p>Il primo sportello digitale in Italia per assistenza immediata su INPS, NASpI, ADI, ISEE e servizi al cittadino.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Servizi</h3>
+                    <ul>
+                        <li><a href="#inps">INPS / NASpI</a></li>
+                        <li><a href="#isee">ISEE</a></li>
+                        <li><a href="#adi">ADI</a></li>
+                        <li><a href="#sfl">SFL/SIISL</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contatti</h3>
+                    <ul>
+                        <li>+39 393 4146871</li>
+                        <li>Assistenza WhatsApp</li>
+                        <li>info@sportellospeed.it</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Sportello Speed - Tutti i diritti riservati</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Funzioni generali per i quiz
+        function selectOption(element) {
+            // Rimuovi la selezione da tutte le opzioni del questionario
+            const parent = element.parentElement;
+            const options = parent.querySelectorAll('.quiz-option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            
+            // Aggiungi la selezione all'opzione cliccata
+            element.classList.add('selected');
+        }
+
+        function selectOptionAdi(element) {
+            selectOption(element);
+        }
+
+        function selectOptionPatto(element) {
+            selectOption(element);
+        }
+
+        function selectOptionLavoro(element) {
+            selectOption(element);
+        }
+
+        // Funzione per scaricare checklist
+        function scaricaChecklist(titolo, items) {
+            let contenuto = `${titolo}\n`;
+            contenuto += `Data: ${new Date().toLocaleDateString('it-IT')}\n\n`;
+            
+            items.forEach((item, index) => {
+                contenuto += `${index + 1}. ${item}\n`;
+            });
+            
+            contenuto += `\nChecklist generata da Sportello Speed - www.sportellospeed.it`;
+            
+            const blob = new Blob([contenuto], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${titolo.toLowerCase().replace(/ /g, '_')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Funzione per ottenere gli elementi delle checklist
+        function getChecklistItems(tipo) {
+            const checklist = {
+                'naspi': [
+                    'Documento d\'identità valido',
+                    'Codice fiscale (tessera sanitaria)',
+                    'Ultime buste paga (ultimi 4 anni)',
+                    'Comunicazione di licenziamento/fine rapporto',
+                    'Credenziali SPID/CIE'
+                ],
+                'isee': [
+                    'Carta d\'identità di tutti i componenti',
+                    'Codici fiscali di tutti i componenti',
+                    'Stato di famiglia',
+                    'Certificazione Unica (CU) o 730',
+                    'Estratti conto bancari e postali'
+                ],
+                'isee-uni': [
+                    'Certificato di iscrizione universitaria',
+                    'Eventuali borse di studio',
+                    'Documenti genitori (se a carico)'
+                ],
+                'siisl': [
+                    'Registrazione sul portale del centro per l\'impiego',
+                    'Compilazione profilo professionale',
+                    'Caricamento CV aggiornato',
+                    'Dichiarazione di Immediata Disponibilità (DID)',
+                    'Firma del Patto di Servizio'
+                ]
+            };
+            
+            return checklist[tipo] || [];
+        }
+
+        // Funzione per scaricare la guida SFL
+        function scaricaGuidaSfl() {
+            const contenuto = `Mini Guida SFL - Supporto Formazione e Lavoro\n
+Data: ${new Date().toLocaleDateString('it-IT')}
+
+Requisiti per l'iscrizione:
+- Disoccupazione o inoccupazione
+- Iscrizione al centro per l'impiego
+- DID (Dichiarazione di Immediata Disponibilità) attiva
+- Disponibilità a percorsi di formazione
+
+Documenti necessari:
+- Documento d'identità valido
+- Codice fiscale
+- Curriculum vitae aggiornato
+- Eventuali titoli di studio e attestati
+
+Step da seguire:
+1. Registrati sul portale del centro per l'impiego
+2. Compila il profilo professionale
+3. Carica il CV aggiornato
+4. Attiva la DID
+5. Firma il Patto di Servizio
+
+Guida generata da Sportello Speed - www.sportellospeed.it`;
+            
+            const blob = new Blob([contenuto], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'guida_sfl.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Tool 1: Quiz diritto NASpI
+        function checkNaspiEligibility() {
+            const resultDiv = document.getElementById('naspiQuizResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result success';
+            resultDiv.innerHTML = `
+                <h4>✅ Probabile diritto alla NASpI</h4>
+                <p>In base alle risposte fornite, sembri avere i requisiti minimi per la NASpI.</p>
+                <p><strong>Prossimi step:</strong></p>
+                <ol>
+                    <li>Presenta la domanda entro 68 giorni</li>
+                    <li>Attiva la DID (Dichiarazione di Immediata Disponibilità)</li>
+                    <li>Iscriviti al centro per l'impiego</li>
+                </ol>
+            `;
+        }
+
+        // Tool 2: Calcolatore NASpI stimato
+        function calcolaNaspi() {
+            const stipendio = parseFloat(document.getElementById('stipendioMedio').value);
+            const mesi = parseInt(document.getElementById('mesiLavoro').value);
+            
+            if (!stipendio || !mesi) {
+                alert('Inserisci tutti i dati richiesti');
+                return;
+            }
+
+            const importoBase = stipendio * 0.75;
+            const importoMax = Math.min(importoBase, 1400);
+            const durataMesi = Math.floor(mesi / 2);
+            
+            const resultDiv = document.getElementById('naspiResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result success';
+            resultDiv.innerHTML = `
+                <h4>📊 Stima NASpI</h4>
+                <p><strong>Importo mensile stimato:</strong> € ${importoMax.toFixed(2)}</p>
+                <p><strong>Durata stimata:</strong> ${durataMesi} mesi</p>
+                <p><strong>Importo totale stimato:</strong> € ${(importoMax * durataMesi).toFixed(2)}</p>
+                <p><em>Nota: questa è una stima indicativa. L'importo effettivo viene calcolato dall'INPS.</em></p>
+            `;
+        }
+
+        // Tool 3: Scadenziario NASpI
+        function calcolaScadenzaNaspi() {
+            const dataCessazione = document.getElementById('dataCessazione').value;
+            
+            if (!dataCessazione) {
+                alert('Inserisci la data di cessazione');
+                return;
+            }
+
+            const data = new Date(dataCessazione);
+            data.setDate(data.getDate() + 68); // 68 giorni per presentare domanda
+            
+            const resultDiv = document.getElementById('scadenzaResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result warning';
+            resultDiv.innerHTML = `
+                <h4>📅 Scadenza NASpI</h4>
+                <p><strong>Data ultima per presentare domanda:</strong> ${data.toLocaleDateString('it-IT')}</p>
+                <p><strong>Giorni rimanenti:</strong> ${Math.ceil((data - new Date()) / (1000 * 60 * 60 * 24))} giorni</p>
+                <p><em>Presenta la domanda il prima possibile per non perdere giornate di indennità!</em></p>
+            `;
+        }
+
+        // Tool 4: Simulatore durata NASpI
+        function calcolaDurataNaspi() {
+            const settimane = parseInt(document.getElementById('settimaneContributive').value);
+            
+            if (!settimane) {
+                alert('Inserisci il numero di settimane contributive');
+                return;
+            }
+
+            const durataMesi = Math.floor(settimane / 2);
+            const durataMax = Math.min(durataMesi, 24); // Massimo 2 anni
+            
+            const resultDiv = document.getElementById('durataResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result success';
+            resultDiv.innerHTML = `
+                <h4>⏱️ Durata NASpI</h4>
+                <p><strong>Settimane contributive:</strong> ${settimane}</p>
+                <p><strong>Durata stimata NASpI:</strong> ${durataMax} mesi</p>
+                <p><strong>Giorni totali:</strong> ${durataMax * 30} giorni</p>
+                <p><em>La durata effettiva dipende dalla verifica INPS dei contributi.</em></p>
+            `;
+        }
+
+        // Tool 8: Consiglia ISEE Corrente
+        function consigliaIseeCorrente() {
+            const variazione = document.getElementById('variazioneReddito').value;
+            
+            if (!variazione) {
+                alert('Seleziona una opzione');
+                return;
+            }
+
+            const resultDiv = document.getElementById('iseeCorrenteResult');
+            resultDiv.style.display = 'block';
+            
+            if (variazione === 'si') {
+                resultDiv.className = 'result success';
+                resultDiv.innerHTML = `
+                    <h4>✅ Ti conviene l'ISEE Corrente</h4>
+                    <p>Con una diminuzione significativa del reddito, l'ISEE Corrente può darti accesso immediato a agevolazioni.</p>
+                    <p><strong>Vantaggi:</strong></p>
+                    <ul>
+                        <li>Calcolo su reddito attuale (non dell'anno precedente)</li>
+                        <li>Accesso immediato a bonus e agevolazioni</li>
+                        <li>Maggiori possibilità di ottenere sostegni</li>
+                    </ul>
+                `;
+            } else {
+                resultDiv.className = 'result warning';
+                resultDiv.innerHTML = `
+                    <h4>ℹ️ ISEE Ordinario sufficiente</h4>
+                    <p>Con un reddito stabile o in aumento, l'ISEE Ordinario è probabilmente sufficiente per le tue necessità.</p>
+                `;
+            }
+        }
+
+        // Tool 9: Simulatore cambio residenza
+        function simulaCambioResidenza() {
+            const residenza = document.getElementById('residenzaAttuale').value;
+            
+            if (!residenza) {
+                alert('Seleziona la tua situazione attuale');
+                return;
+            }
+
+            const resultDiv = document.getElementById('residenzaResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            
+            if (residenza === 'famiglia') {
+                resultDiv.innerHTML = `
+                    <h4>🏠 Effetto cambio residenza</h4>
+                    <p><strong>Se esci dal nucleo familiare:</strong></p>
+                    <ul>
+                        <li>Dovrai fare un ISEE separato</li>
+                        <li>Il tuo ISEE potrebbe diminuire (se hai redditi bassi)</li>
+                        <li>Perdi eventuali agevolazioni legate al nucleo familiare</li>
+                    </ul>
+                `;
+            } else if (residenza === 'solo') {
+                resultDiv.innerHTML = `
+                    <h4>🏠 Effetto cambio residenza</h4>
+                    <p><strong>Se ti unisci ad un nucleo familiare:</strong></p>
+                    <ul>
+                        <li>Dovrai essere incluso nel loro ISEE</li>
+                        <li>Il tuo reddito si sommerà a quello del nucleo</li>
+                        <li>Potresti perdere agevolazioni se il ISEE complessivo supera le soglie</li>
+                    </ul>
+                `;
+            }
+        }
+
+        // Tool 10: Scadenziario rinnovo ISEE
+        function calcolaScadenzaIsee() {
+            const dataIsee = document.getElementById('dataIsee').value;
+            
+            if (!dataIsee) {
+                alert('Inserisci la data dell\'ultimo ISEE');
+                return;
+            }
+
+            const data = new Date(dataIsee);
+            data.setFullYear(data.getFullYear() + 1); // ISEE vale 1 anno
+            
+            const resultDiv = document.getElementById('scadenzaIseeResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result warning';
+            resultDiv.innerHTML = `
+                <h4>📅 Scadenza ISEE</h4>
+                <p><strong>Data di scadenza:</strong> ${data.toLocaleDateString('it-IT')}</p>
+                <p><strong>Giorni rimanenti:</strong> ${Math.ceil((data - new Date()) / (1000 * 60 * 60 * 24))} giorni</p>
+                <p><em>Rinnova l'ISEE 30 giorni prima della scadenza per evitare interruzioni nei servizi!</em></p>
+            `;
+        }
+
+        // Tool 11: Quiz diritto ADI
+        function checkAdiEligibility() {
+            const resultDiv = document.getElementById('adiQuizResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result success';
+            resultDiv.innerHTML = `
+                <h4>✅ Possibile diritto all'ADI</h4>
+                <p>In base alle risposte, potresti avere i requisiti per l'Assegno di Inclusione.</p>
+                <p><strong>Requisiti principali:</strong></p>
+                <ul>
+                    <li>ISEE inferiore a € 6.000</li>
+                    <li>Disoccupazione o sottoccupazione</li>
+                    <li>Disponibilità a progetti di inclusione</li>
+                    <li>Residenza in Italia da almeno 2 anni</li>
+                </ul>
+            `;
+        }
+
+        // Tool 12: Controlla soglia ISEE ADI
+        function controllaSogliaAdi() {
+            const isee = parseFloat(document.getElementById('valoreIsee').value);
+            
+            if (!isee) {
+                alert('Inserisci il valore del tuo ISEE');
+                return;
+            }
+
+            const resultDiv = document.getElementById('sogliaAdiResult');
+            resultDiv.style.display = 'block';
+            
+            if (isee <= 6000) {
+                resultDiv.className = 'result success';
+                resultDiv.innerHTML = `
+                    <h4>✅ Soglia rispettata</h4>
+                    <p>Il tuo ISEE di € ${isee} è sotto la soglia massima di € 6.000 per l'ADI.</p>
+                    <p><strong>Prosegui con la verifica degli altri requisiti!</strong></p>
+                `;
+            } else {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `
+                    <h4>❌ Soglia superata</h4>
+                    <p>Il tuo ISEE di € ${isee} supera la soglia massima di € 6.000 per l'ADI.</p>
+                    <p><strong>Alternative:</strong> Verifica se hai diritto ad altre forme di sostegno al reddito.</p>
+                `;
+            }
+        }
+
+        // Tool 13: Simulatore importo ADI
+        function calcolaAdi() {
+            const componenti = parseInt(document.getElementById('componentiFamiglia').value);
+            const importi = {
+                1: 500,
+                2: 850,
+                3: 1100,
+                4: 1300,
+                5: 1500
+            };
+            
+            const importo = importi[componenti] || 1500;
+            
+            const resultDiv = document.getElementById('adiResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result success';
+            resultDiv.innerHTML = `
+                <h4>💰 Importo ADI stimato</h4>
+                <p><strong>Componenti nucleo familiare:</strong> ${componenti}</p>
+                <p><strong>Importo mensile stimato:</strong> € ${importo}</p>
+                <p><strong>Importo annuo stimato:</strong> € ${importo * 12}</p>
+                <p><em>L'importo effettivo può variare in base alla verifica ISEE e alla situazione specifica.</em></p>
+            `;
+        }
+
+        // Tool 14: FAQ interattiva ADI
+        function mostraRisposta(domanda, risposta) {
+            const resultDiv = document.getElementById('faqResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = `
+                <h4>${domanda}</h4>
+                <p>${risposta}</p>
+            `;
+        }
+
+        // Tool 16: Test Patto di Attivazione
+        function checkPattoDigitale() {
+            const resultDiv = document.getElementById('pattoResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result success';
+            resultDiv.innerHTML = `
+                <h4>💻 Preparazione Digitale</h4>
+                <p><strong>Sei pronto per il Patto di Attivazione Digitale!</strong></p>
+                <p>Competenze consigliate:</p>
+                <ul>
+                    <li>Uso di email e browser web</li>
+                    <li>Accesso a portali online (INPS, centro impiego)</li>
+                    <li>Compilazione moduli digitali</li>
+                    <li>Comunicazione via chat/email</li>
+                </ul>
+                <p><em>Il centro per l'impiego ti fornirà supporto per eventuali difficoltà.</em></p>
+            `;
+        }
+
+        // Tool 18: Quiz offerta di lavoro
+        function checkRispostaLavoro() {
+            const resultDiv = document.getElementById('lavoroResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result warning';
+            resultDiv.innerHTML = `
+                <h4>💼 Offerta di lavoro</h4>
+                <p><strong>Risposta corretta: Puoi rifiutare</strong></p>
+                <p>Secondo la normativa, puoi rifiutare un'offerta di lavoro che prevede una retribuzione inferiore del 20% rispetto alla precedente, senza perdere i benefici NASpI.</p>
+                <p><em>Condizione: la riduzione non sia giustificata da cambiamenti del mercato del lavoro.</em></p>
+            `;
+        }
+
+        // Tool 19: Simulatore scadenze contributive
+        function calcolaScadenze() {
+            const dataEvento = document.getElementById('dataEvento').value;
+            const tipoEvento = document.getElementById('tipoEvento').value;
+            
+            if (!dataEvento) {
+                alert('Inserisci la data di riferimento');
+                return;
+            }
+
+            const data = new Date(dataEvento);
+            let scadenze = [];
+            
+            if (tipoEvento === 'licenziamento') {
+                scadenze = [
+                    { nome: 'Presentazione domanda NASpI', giorni: 68 },
+                    { nome: 'Iscrizione centro impiego', giorni: 30 },
+                    { nome: 'Comunicazione situazione al centro impiego', giorni: 90 }
+                ];
+            } else if (tipoEvento === 'assunzione') {
+                scadenze = [
+                    { nome: 'Comunicazione assunzione al centro impiego', giorni: 7 },
+                    { nome: 'Fine periodo di prova', giorni: 90 },
+                    { nome: 'Scadenza contratto determinato', giorni: 365 }
+                ];
+            }
+            
+            let html = `<h4>📅 Scadenze ${tipoEvento.toUpperCase()}</h4>`;
+            scadenze.forEach(scadenza => {
+                const dataScadenza = new Date(data);
+                dataScadenza.setDate(dataScadenza.getDate() + scadenza.giorni);
+                html += `<p><strong>${scadenza.nome}:</strong> ${dataScadenza.toLocaleDateString('it-IT')}</p>`;
+            });
+            
+            const resultDiv = document.getElementById('scadenzeResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = html;
+        }
+
+        // Tool 20: Generatore checklist universale
+        function generaChecklist() {
+            const pratica = document.getElementById('tipoPratica').value;
+            
+            if (!pratica) {
+                alert('Seleziona un tipo di pratica');
+                return;
+            }
+
+            const checklist = {
+                naspi: [
+                    'Documento d\'identità valido',
+                    'Codice fiscale',
+                    'Ultime buste paga (4 anni)',
+                    'Comunicazione licenziamento/fine rapporto',
+                    'Credenziali SPID/CIE',
+                    'IBAN per accredito',
+                    'Dichiarazione di Immediata Disponibilità'
+                ],
+                isee: [
+                    'Documenti d\'identità di tutti i componenti',
+                    'Codici fiscali di tutti i componenti',
+                    'Stato di famiglia',
+                    'Certificazione Unica (CU) o 730',
+                    'Estratti conto bancari e postali',
+                    'Dichiarazioni patrimoniali immobiliari',
+                    'Eventuali contratti di locazione'
+                ],
+                adi: [
+                    'ISEE in corso di validità',
+                    'Documento d\'identità',
+                    'Codice fiscale',
+                    'Dichiarazione di disoccupazione',
+                    'Dichiarazione di Immediata Disponibilità',
+                    'Iscrizione al centro per l\'impiego',
+                    'Patto di Servizio'
+                ]
+            };
+
+            const items = checklist[pratica] || ['Documento d\'identità', 'Codice fiscale', 'Altri documenti specifici'];
+            
+            let html = `<h4>📋 Checklist ${pratica.toUpperCase()}</h4>`;
+            items.forEach((item, index) => {
+                html += `
+                    <div class="checklist-item">
+                        <input type="checkbox" id="gen${index}">
+                        <label for="gen${index}">${item}</label>
+                    </div>
+                `;
+            });
+            
+            const resultDiv = document.getElementById('checklistGenerata');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = html;
+            
+            // Mostra il pulsante Scarica
+            document.getElementById('btnScaricaGenerata').style.display = 'block';
+        }
+
+        // Funzione per scaricare la checklist generata
+        function scaricaChecklistGenerata() {
+            const pratica = document.getElementById('tipoPratica').value;
+            const titolo = `Checklist ${pratica.toUpperCase()}`;
+            
+            const checklist = {
+                naspi: [
+                    'Documento d\'identità valido',
+                    'Codice fiscale',
+                    'Ultime buste paga (4 anni)',
+                    'Comunicazione licenziamento/fine rapporto',
+                    'Credenziali SPID/CIE',
+                    'IBAN per accredito',
+                    'Dichiarazione di Immediata Disponibilità'
+                ],
+                isee: [
+                    'Documenti d\'identità di tutti i componenti',
+                    'Codici fiscali di tutti i componenti',
+                    'Stato di famiglia',
+                    'Certificazione Unica (CU) o 730',
+                    'Estratti conto bancari e postali',
+                    'Dichiarazioni patrimoniali immobiliari',
+                    'Eventuali contratti di locazione'
+                ],
+                adi: [
+                    'ISEE in corso di validità',
+                    'Documento d\'identità',
+                    'Codice fiscale',
+                    'Dichiarazione di disoccupazione',
+                    'Dichiarazione di Immediata Disponibilità',
+                    'Iscrizione al centro per l\'impiego',
+                    'Patto di Servizio'
+                ]
+            };
+
+            const items = checklist[pratica] || ['Documento d\'identità', 'Codice fiscale', 'Altri documenti specifici'];
+            
+            scaricaChecklist(titolo, items);
+        }
+    </script>
+</body>
+</html>
