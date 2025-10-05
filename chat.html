@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sportello Digitale - Assistenza INPS, Naspi, AdE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Aggiungi Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <style>
      /* === Loghi Enti === */
 #enti-riferimento {
@@ -793,6 +790,40 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .dettagli-completi {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border-left: 4px solid var(--poste-blue);
+        }
+
+        .dettagli-completi ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .dettagli-completi li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .btn-richiedi {
+            display: inline-block;
+            background-color: var(--poste-blue);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .btn-richiedi:hover {
+            background-color: var(--poste-dark-blue);
+        }
     </style>
 </head>
 <body>
@@ -808,11 +839,9 @@
             </div>
             <nav>
                 <ul>
-                   
                     <li><a href="index.html">Home</a></li>
                     <li><a href="calcolatori.html">Calcolatori</a></li>
                     <li><a href="pensione.html">La Mia Pensione</a></li>
-                   
                 </ul>
             </nav>
             <!-- Link admin con password -->
@@ -821,26 +850,12 @@
     </div>
 </header>
 
-<script>
-document.getElementById('admin-toggle').addEventListener('click', function(e) {
-    e.preventDefault();
-    const pwd = prompt("Inserisci la password per accedere all'area amministratori:");
-    if (pwd === "GppRmO72@") {
-        window.location.href = "admin.html";
-    } else {
-        alert("Password errata! Accesso negato.");
-    }
-});
-</script>
-
-
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <h1>Assistenza Immediate per INPS, Naspi, AdI e servizi al cittadino</h1>
             <p>Il primo sportello digitale in Italia che ti offre supporto immediato per le tue pratiche burocratiche. Ricevi risposte in tempo zero direttamente sul tuo WhatsApp!</p>
             <a href="#chat" class="btn">Hai un dubbio URGENTE? Scrivici e ti rispondiamo su WhatsApp in pochi minuti!<br>"INIZIA ORA"</a>
-            
         </div>
     </section>
 
@@ -860,7 +875,6 @@ document.getElementById('admin-toggle').addEventListener('click', function(e) {
                         <li>ANPAL - Servizi per il lavoro</li>
                         <li>e molti altri servizi al cittadino</li>
                     </ul>
-                    
                 </div>
                 
                 <div class="chat-box">
@@ -895,169 +909,123 @@ document.getElementById('admin-toggle').addEventListener('click', function(e) {
                     </div>
                 </div>
             </div>
+
             <!-- Nuova sezione Servizi Lettere Ufficiali -->
-<section class="servizi-lettere">
-    <h2>📌 Hai bisogno di una lettera ufficiale da inviare a INPS, CPI o Comune?</h2>
-    <p>Ti prepariamo un modello già pronto da scaricare e inviare:</p>
-    
-    <div class="servizi-grid">
-        <div class="servizio-card">
-            <h3>Lettere di sollecito pagamenti</h3>
-            <p>Modelli precompilati per sollecitare pagamenti pendenti da enti pubblici e privati.</p>
-            <div class="tempo-consegna">Consegna: Entro 4h</div>
-            <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20alle%20lettere%20di%20sollecito%20pagamenti" class="btn-richiedi" target="_blank">Richiedi Ora</a>
-            <a href="#" class="info-link" onclick="mostraDettagli(1)">Per saperne di più →</a>
-            <div class="dettagli-completi" id="dettagli-1" style="display: none;">
-                <p>Le nostre lettere di sollecito includono:</p>
-                <ul>
-                    <li>Modelli precompilati personalizzabili</li>
-                    <li>Riferimenti normativi appropriati</li>
-                    <li>Istruzioni per l'invio corretto</li>
-                    <li>Template per follow-up</li>
-                    <li>Assistenza nella compilazione</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="servizio-card">
-            <h3>Comunicazioni per assenze/giustificazioni</h3>
-            <p>Lettere formali per giustificare assenze lavorative o ritardi secondo le normative.</p>
-            <div class="tempo-consegna">Consegna: Entro 2h</div>
-            <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20alle%20comunicazioni%20per%20assenze/giustificazioni" class="btn-richiedi" target="_blank">Richiedi Ora</a>
-            <a href="#" class="info-link" onclick="mostraDettagli(2)">Per saperne di più →</a>
-            <div class="dettagli-completi" id="dettagli-2" style="display: none;">
-                <p>Le nostre comunicazioni per assenze includono:</p>
-                <ul>
-                    <li>Modelli per malattia certificata</li>
-                    <li>Comunicazioni per motivi familiari</li>
-                    <li>Giustificazioni per ritardi</li>
-                    <li>Lettere per permessi vari</li>
-                    <li>Modelli per smart working</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="servizio-card">
-            <h3>Richieste di chiarimenti</h3>
-            <p>Modelli professionali per richiedere chiarimenti a enti pubblici e uffici amministrativi.</p>
-            <div class="tempo-consegna">Consegna: Entro 3h</div>
-            <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20alle%20richieste%20di%20chiarimenti" class="btn-richiedi" target="_blank">Richiedi Ora</a>
-            <a href="#" class="info-link" onclick="mostraDettagli(3)">Per saperne di più →</a>
-            <div class="dettagli-completi" id="dettagli-3" style="display: none;">
-                <p>Le nostre richieste di chiarimenti includono:</p>
-                <ul>
-                    <li>Modelli per informazioni su pratiche</li>
-                    <li>Richiesta documentazione mancante</li>
-                    <li>Chiarimenti su provvedimenti</li>
-                    <li>Comunicazioni per errori amministrativi</li>
-                    <li>Template per sollecito risposte</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="servizio-card">
-            <h3>Reclami formali stile allegato</h3>
-            <p>Reclami ufficiali redatti in formato corretto per presentare contestazioni formali.</p>
-            <div class="tempo-consegna">Consegna: Entro 6h</div>
-            <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20ai%20reclami%20formali" class="btn-richiedi" target="_blank">Richiedi Ora</a>
-            <a href="#" class="info-link" onclick="mostraDettagli(4)">Per saperne di più →</a>
-            <div class="dettagli-completi" id="dettagli-4" style="display: none;">
-                <p>I nostri reclami formali includono:</p>
-                <ul>
-                    <li>Reclami per servizi inefficienti</li>
-                    <li>Contestazioni di decisioni</li>
-                    <li>Segnalazioni di disservizi</li>
-                    <li>Recapiti ufficiali per l'invio</li>
-                    <li>Istruzioni per il follow-up</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="servizio-card">
-            <h3>Domande per agevolazioni e bonus</h3>
-            <p>Modelli per richiedere agevolazioni fiscali, bonus edilizi e contributi a fondo perduto.</p>
-            <div class="tempo-consegna">Consegna: Entro 5h</div>
-            <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20alle%20domande%20per%20agevolazioni%20e%20bonus" class="btn-richiedi" target="_blank">Richiedi Ora</a>
-            <a href="#" class="info-link" onclick="mostraDettagli(5)">Per saperne di più →</a>
-            <div class="dettagli-completi" id="dettagli-5" style="display: none;">
-                <p>Le nostre domande per agevolazioni includono:</p>
-                <ul>
-                    <li>Modelli per bonus facciate</li>
-                    <li>Domande per contributi a fondo perduto</li>
-                    <li>Richieste agevolazioni fiscali</li>
-                    <li>Modelli per bonus mobilità</li>
-                    <li>Documentazione per ecobonus</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="servizio-card">
-            <h3>Comunicazioni per disoccupazione</h3>
-            <p>Lettere e modelli specifici per le pratiche NASpI e DIS-COLL con gli enti preposti.</p>
-            <div class="tempo-consegna">Consegna: Entro 3h</div>
-            <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20alle%20comunicazioni%20per%20disoccupazione" class="btn-richiedi" target="_blank">Richiedi Ora</a>
-            <a href="#" class="info-link" onclick="mostraDettagli(6)">Per saperne di più →</a>
-            <div class="dettagli-completi" id="dettagli-6" style="display: none;">
-                <p>Le nostre comunicazioni per disoccupazione includono:</p>
-                <ul>
-                    <li>Modelli per integrazione documentazione NASpI</li>
-                    <li>Comunicazioni per variazione situazione</li>
-                    <li>Richieste di chiarimenti su disposizioni</li>
-                    <li>Solleciti per pagamenti</li>
-                    <li>Comunicazioni per mobilità</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
+            <section class="servizi-lettere">
+                <h2>📌 Hai bisogno di una lettera ufficiale da inviare a INPS, CPI o Comune?</h2>
+                <p>Ti prepariamo un modello già pronto da scaricare e inviare:</p>
+                
+                <div class="servizi-grid">
+                    <div class="servizio-card">
+                        <h3>Lettere di sollecito pagamenti</h3>
+                        <p>Modelli precompilati per sollecitare pagamenti pendenti da enti pubblici e privati.</p>
+                        <div class="tempo-consegna">Consegna: Entro 4h</div>
+                        <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20alle%20lettere%20di%20sollecito%20pagamenti" class="btn-richiedi" target="_blank">Richiedi Ora</a>
+                        <a href="#" class="info-link" onclick="mostraDettagli(1)">Per saperne di più →</a>
+                        <div class="dettagli-completi" id="dettagli-1" style="display: none;">
+                            <p>Le nostre lettere di sollecito includono:</p>
+                            <ul>
+                                <li>Modelli precompilati personalizzabili</li>
+                                <li>Riferimenti normativi appropriati</li>
+                                <li>Istruzioni per l'invio corretto</li>
+                                <li>Template per follow-up</li>
+                                <li>Assistenza nella compilazione</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="servizio-card">
+                        <h3>Comunicazioni per assenze/giustificazioni</h3>
+                        <p>Lettere formali per giustificare assenze lavorative o ritardi secondo le normative.</p>
+                        <div class="tempo-consegna">Consegna: Entro 2h</div>
+                        <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20alle%20comunicazioni%20per%20assenze/giustificazioni" class="btn-richiedi" target="_blank">Richiedi Ora</a>
+                        <a href="#" class="info-link" onclick="mostraDettagli(2)">Per saperne di più →</a>
+                        <div class="dettagli-completi" id="dettagli-2" style="display: none;">
+                            <p>Le nostre comunicazioni per assenze includono:</p>
+                            <ul>
+                                <li>Modelli per malattia certificata</li>
+                                <li>Comunicazioni per motivi familiari</li>
+                                <li>Giustificazioni per ritardi</li>
+                                <li>Lettere per permessi vari</li>
+                                <li>Modelli per smart working</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="servizio-card">
+                        <h3>Richieste di chiarimenti</h3>
+                        <p>Modelli professionali per richiedere chiarimenti a enti pubblici e uffici amministrativi.</p>
+                        <div class="tempo-consegna">Consegna: Entro 3h</div>
+                        <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20alle%20richieste%20di%20chiarimenti" class="btn-richiedi" target="_blank">Richiedi Ora</a>
+                        <a href="#" class="info-link" onclick="mostraDettagli(3)">Per saperne di più →</a>
+                        <div class="dettagli-completi" id="dettagli-3" style="display: none;">
+                            <p>Le nostre richieste di chiarimenti includono:</p>
+                            <ul>
+                                <li>Modelli per informazioni su pratiche</li>
+                                <li>Richiesta documentazione mancante</li>
+                                <li>Chiarimenti su provvedimenti</li>
+                                <li>Comunicazioni per errori amministrativi</li>
+                                <li>Template per sollecito risposte</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="servizio-card">
+                        <h3>Reclami formali stile allegato</h3>
+                        <p>Reclami ufficiali redatti in formato corretto per presentare contestazioni formali.</p>
+                        <div class="tempo-consegna">Consegna: Entro 6h</div>
+                        <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20ai%20reclami%20formali" class="btn-richiedi" target="_blank">Richiedi Ora</a>
+                        <a href="#" class="info-link" onclick="mostraDettagli(4)">Per saperne di più →</a>
+                        <div class="dettagli-completi" id="dettagli-4" style="display: none;">
+                            <p>I nostri reclami formali includono:</p>
+                            <ul>
+                                <li>Reclami per servizi inefficienti</li>
+                                <li>Contestazioni di decisioni</li>
+                                <li>Segnalazioni di disservizi</li>
+                                <li>Recapiti ufficiali per l'invio</li>
+                                <li>Istruzioni per il follow-up</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="servizio-card">
+                        <h3>Domande per agevolazioni e bonus</h3>
+                        <p>Modelli per richiedere agevolazioni fiscali, bonus edilizi e contributi a fondo perduto.</p>
+                        <div class="tempo-consegna">Consegna: Entro 5h</div>
+                        <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20alle%20domande%20per%20agevolazioni%20e%20bonus" class="btn-richiedi" target="_blank">Richiedi Ora</a>
+                        <a href="#" class="info-link" onclick="mostraDettagli(5)">Per saperne di più →</a>
+                        <div class="dettagli-completi" id="dettagli-5" style="display: none;">
+                            <p>Le nostre domande per agevolazioni includono:</p>
+                            <ul>
+                                <li>Modelli per bonus facciate</li>
+                                <li>Domande per contributi a fondo perduto</li>
+                                <li>Richieste agevolazioni fiscali</li>
+                                <li>Modelli per bonus mobilità</li>
+                                <li>Documentazione per ecobonus</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="servizio-card">
+                        <h3>Comunicazioni per disoccupazione</h3>
+                        <p>Lettere e modelli specifici per le pratiche NASpI e DIS-COLL con gli enti preposti.</p>
+                        <div class="tempo-consegna">Consegna: Entro 3h</div>
+                        <a href="https://wa.me/3934146871?text=Salve,%20sono%20interessato%20alle%20comunicazioni%20per%20disoccupazione" class="btn-richiedi" target="_blank">Richiedi Ora</a>
+                        <a href="#" class="info-link" onclick="mostraDettagli(6)">Per saperne di più →</a>
+                        <div class="dettagli-completi" id="dettagli-6" style="display: none;">
+                            <p>Le nostre comunicazioni per disoccupazione includono:</p>
+                            <ul>
+                                <li>Modelli per integrazione documentazione NASpI</li>
+                                <li>Comunicazioni per variazione situazione</li>
+                                <li>Richieste di chiarimenti su disposizioni</li>
+                                <li>Solleciti per pagamenti</li>
+                                <li>Comunicazioni per mobilità</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-<script>
-function mostraDettagli(numero) {
-    event.preventDefault();
-    var dettagli = document.getElementById('dettagli-' + numero);
-    if (dettagli.style.display === 'none') {
-        dettagli.style.display = 'block';
-    } else {
-        dettagli.style.display = 'none';
-    }
-}
-</script>
-
-<style>
-.dettagli-completi {
-    margin-top: 15px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    border-left: 4px solid var(--poste-blue);
-}
-
-.dettagli-completi ul {
-    margin: 10px 0;
-    padding-left: 20px;
-}
-
-.dettagli-completi li {
-    margin-bottom: 8px;
-    line-height: 1.4;
-}
-
-.btn-richiedi {
-    display: inline-block;
-    background-color: var(--poste-blue);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-    margin-bottom: 10px;
-}
-
-.btn-richiedi:hover {
-    background-color: var(--poste-dark-blue);
-}
-</style>
             <!-- Interfaccia amministratore: presente ma nascosta -->
             <div class="whatsapp-chat-container admin-only">
                 <div class="whatsapp-chat-header">
@@ -1070,78 +1038,77 @@ function mostraDettagli(numero) {
             </div>
         </div>
     </section>
-<!-- ✅ Sezione Testimonianze / Fiducia -->
-<section id="testimonianze" aria-labelledby="testimonianze-title">
-  <div class="ts-wrap">
-    <h2 id="testimonianze-title">Dicono di noi</h2>
-    <p class="ts-sub">Risposte chiare, tempi rapidi, zero burocrazia.</p>
 
-    <div class="ts-grid">
-      <!-- Card 1 -->
-      <figure class="ts-card">
-        <div class="ts-stars" aria-label="Valutazione 5 su 5">★★★★★</div>
-        <blockquote>
-          “Ho inviato la domanda NASpI con il loro aiuto: verifica in 15 minuti e pagamento sbloccato. Grazie!”
-        </blockquote>
-        <figcaption>
-          <span class="ts-name">M. • Roma</span>
-          <span class="ts-meta">Servizio: NASpI • Risposta in 15 min</span>
-          <span class="ts-badge" aria-label="Recensione verificata">Verificata</span>
-        </figcaption>
-      </figure>
+    <!-- ✅ Sezione Testimonianze / Fiducia -->
+    <section id="testimonianze" aria-labelledby="testimonianze-title">
+        <div class="ts-wrap">
+            <h2 id="testimonianze-title">Dicono di noi</h2>
+            <p class="ts-sub">Risposte chiare, tempi rapidi, zero burocrazia.</p>
 
-      <!-- Card 2 -->
-      <figure class="ts-card">
-        <div class="ts-stars" aria-label="Valutazione 5 su 5">★★★★★</div>
-        <blockquote>
-          “Non capivo l’ADI. Mi hanno guidata passo passo su WhatsApp. Domanda inviata senza errori!”
-        </blockquote>
-        <figcaption>
-          <span class="ts-name">L. • Torino</span>
-          <span class="ts-meta">Servizio: ADI • Supporto via WhatsApp</span>
-          <span class="ts-badge">Verificata</span>
-        </figcaption>
-      </figure>
+            <div class="ts-grid">
+                <!-- Card 1 -->
+                <figure class="ts-card">
+                    <div class="ts-stars" aria-label="Valutazione 5 su 5">★★★★★</div>
+                    <blockquote>
+                        "Ho inviato la domanda NASpI con il loro aiuto: verifica in 15 minuti e pagamento sbloccato. Grazie!"
+                    </blockquote>
+                    <figcaption>
+                        <span class="ts-name">M. • Roma</span>
+                        <span class="ts-meta">Servizio: NASpI • Risposta in 15 min</span>
+                        <span class="ts-badge" aria-label="Recensione verificata">Verificata</span>
+                    </figcaption>
+                </figure>
 
-      <!-- Card 3 -->
-      <figure class="ts-card">
-        <div class="ts-stars" aria-label="Valutazione 5 su 5">★★★★★</div>
-        <blockquote>
-          “ISEE fatto online in 24 ore, con controlli e promemoria documenti. Semplice e veloce.”
-        </blockquote>
-        <figcaption>
-          <span class="ts-name">S. • Napoli</span>
-          <span class="ts-meta">Servizio: ISEE • Consegna 24h</span>
-          <span class="ts-badge">Verificata</span>
-        </figcaption>
-      </figure>
-    </div>
+                <!-- Card 2 -->
+                <figure class="ts-card">
+                    <div class="ts-stars" aria-label="Valutazione 5 su 5">★★★★★</div>
+                    <blockquote>
+                        "Non capivo l'ADI. Mi hanno guidata passo passo su WhatsApp. Domanda inviata senza errori!"
+                    </blockquote>
+                    <figcaption>
+                        <span class="ts-name">L. • Torino</span>
+                        <span class="ts-meta">Servizio: ADI • Supporto via WhatsApp</span>
+                        <span class="ts-badge">Verificata</span>
+                    </figcaption>
+                </figure>
 
-    <p class="ts-note">Le iniziali tutelano la privacy. Recensioni raccolte via modulo e WhatsApp.</p>
+                <!-- Card 3 -->
+                <figure class="ts-card">
+                    <div class="ts-stars" aria-label="Valutazione 5 su 5">★★★★★</div>
+                    <blockquote>
+                        "ISEE fatto online in 24 ore, con controlli e promemoria documenti. Semplice e veloce."
+                    </blockquote>
+                    <figcaption>
+                        <span class="ts-name">S. • Napoli</span>
+                        <span class="ts-meta">Servizio: ISEE • Consegna 24h</span>
+                        <span class="ts-badge">Verificata</span>
+                    </figcaption>
+                </figure>
+            </div>
 
-    
-  </div>
-</section>
-<section id="enti-riferimento" aria-labelledby="enti-title">
-  <div class="enti-wrap">
-    <h3 id="enti-title">Ci basiamo sulle informazioni ufficiali di</h3>
-    <div class="enti-logos">
-      <!-- Logo INPS -->
-      <img src="https://conflombardia.com/wp-content/uploads/2023/03/logocard.jpg" 
-           alt="INPS" loading="lazy">
+            <p class="ts-note">Le iniziali tutelano la privacy. Recensioni raccolte via modulo e WhatsApp.</p>
+        </div>
+    </section>
 
-      <!-- Logo Agenzia delle Entrate -->
-      <img src="https://www.simplybiz.eu/wp-content/uploads/2013/10/Agenzia-Entrate-Logo-e1432046540209.png" 
-           alt="Agenzia delle Entrate" loading="lazy">
+    <section id="enti-riferimento" aria-labelledby="enti-title">
+        <div class="enti-wrap">
+            <h3 id="enti-title">Ci basiamo sulle informazioni ufficiali di</h3>
+            <div class="enti-logos">
+                <!-- Logo INPS -->
+                <img src="https://conflombardia.com/wp-content/uploads/2023/03/logocard.jpg" 
+                     alt="INPS" loading="lazy">
 
-      <!-- Logo placeholder ADI -->
-      <img src="https://edotto-prod-acl.s3.eu-central-1.amazonaws.com/f21e552035ff7bc25d2089fb" 
-           alt="Assegno di Inclusione (ADI)" loading="lazy">
-    </div>
-    <p class="enti-note">Loghi a titolo informativo — non siamo partner né affiliati.</p>
-  </div>
-</section>
+                <!-- Logo Agenzia delle Entrate -->
+                <img src="https://www.simplybiz.eu/wp-content/uploads/2013/10/Agenzia-Entrate-Logo-e1432046540209.png" 
+                     alt="Agenzia delle Entrate" loading="lazy">
 
+                <!-- Logo placeholder ADI -->
+                <img src="https://edotto-prod-acl.s3.eu-central-1.amazonaws.com/f21e552035ff7bc25d2089fb" 
+                     alt="Assegno di Inclusione (ADI)" loading="lazy">
+            </div>
+            <p class="enti-note">Loghi a titolo informativo — non siamo partner né affiliati.</p>
+        </div>
+    </section>
 
     <!-- Features Section -->
     <section class="features">
@@ -1191,16 +1158,15 @@ function mostraDettagli(numero) {
                 <div class="footer-column">
                     <h3>Servizi</h3>
                     <ul>
-<li>NASpI - Disoccupazione</li>
-<li>ISEE - Agevolazioni</li>
-<li>ADI - Inclusione</li>
-<li>SFL - Formazione</li>
-</ul>
+                        <li>NASpI - Disoccupazione</li>
+                        <li>ISEE - Agevolazioni</li>
+                        <li>ADI - Inclusione</li>
+                        <li>SFL - Formazione</li>
+                    </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Contatti</h3>
                     <ul>
-                        
                         <li>+39 393 4146871</li>
                         <li>Assistenza WhatsApp</li>
                     </ul>
@@ -1224,46 +1190,158 @@ function mostraDettagli(numero) {
         </div>
     </div>
 
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
     <script>
-       <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script>
-    // Configurazione Firebase
-    const firebaseConfig = {
-        apiKey: "AIzaSyAA9sbM03-XbikVrBGhVV6H_du6E28WIg4",
-        authDomain: "sportellospeed.firebaseapp.com",
-        projectId: "sportellospeed",
-        storageBucket: "sportellospeed.firebasetorage.app",
-        messagingSenderId: "224365418093",
-        appId: "1:224365418093:web:b01c57d26ba86300e85164",
-        measurementId: "G-SHBNCHFG1F"
-    };
+        // Configurazione Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAA9sbM03-XbikVrBGhVV6H_du6E28WIg4",
+            authDomain: "sportellospeed.firebaseapp.com",
+            projectId: "sportellospeed",
+            storageBucket: "sportellospeed.firebasestorage.app",
+            messagingSenderId: "224365418093",
+            appId: "1:224365418093:web:b01c57d26ba86300e85164",
+            measurementId: "G-SHBNCHFG1F"
+        };
 
-    // Inizializza Firebase
-    try {
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        console.log("Firebase inizializzato correttamente");
-    } catch (e) {
-        console.error("Errore inizializzazione Firebase:", e);
+        // Inizializza Firebase UNA VOLTA SOLA
+        let db;
+        try {
+            // Controlla se Firebase è già inizializzato
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+            db = firebase.firestore();
+            console.log("Firebase inizializzato correttamente");
+            
+            // Imposta gestione errori globale
+            db.settings({
+                ignoreUndefinedProperties: true
+            });
+            
+        } catch (e) {
+            console.error("Errore inizializzazione Firebase:", e);
         }
 
-        // Funzioni per interagire con Firestore
+        // FUNZIONE PER CARICARE LE CHAT
+        async function loadChatsFromFirestore() {
+            try {
+                console.log("Tentativo di caricamento chat da Firestore...");
+                
+                const querySnapshot = await db.collection("chats").get();
+                const chats = [];
+                
+                querySnapshot.forEach((doc) => {
+                    console.log("Documento trovato:", doc.id);
+                    const chatData = doc.data();
+                    chats.push({
+                        id: doc.id,
+                        ...chatData
+                    });
+                });
+                
+                console.log(`Caricate ${chats.length} chat`);
+                displayChats(chats);
+                
+            } catch (error) {
+                console.error("Errore nel caricamento delle chat:", error);
+                console.log("Tentativo fallback a localStorage...");
+                loadChatsFromLocalStorage();
+            }
+        }
+
+        // FUNZIONE PER VISUALIZZARE LE CHAT
+        function displayChats(chats) {
+            console.log("Display chats chiamato con:", chats);
+            
+            const chatList = document.getElementById('whatsapp-chat-list');
+            
+            if (!chatList) {
+                console.log("Elemento whatsapp-chat-list non trovato (probabilmente nascosto da CSS admin-only)");
+                return;
+            }
+            
+            chatList.innerHTML = '';
+            
+            if (chats.length === 0) {
+                chatList.innerHTML = '<div class="chat-item">Nessuna chat disponibile</div>';
+                return;
+            }
+            
+            chats.forEach(chat => {
+                const chatItem = document.createElement('div');
+                chatItem.className = 'chat-item';
+                chatItem.innerHTML = `
+                    <div class="chat-avatar">
+                        ${chat.userName ? chat.userName.charAt(0).toUpperCase() : 'U'}
+                    </div>
+                    <div class="chat-content">
+                        <div class="chat-user">${chat.userName || 'Utente'}</div>
+                        <div class="chat-preview">${chat.question ? chat.question.substring(0, 50) + (chat.question.length > 50 ? '...' : '') : 'Nessun messaggio'}</div>
+                    </div>
+                    <div class="chat-meta">
+                        <div class="chat-time">${formatTime(chat.timestamp)}</div>
+                        <div class="chat-status ${chat.status === 'unread' ? 'status-unread' : 'status-read'}">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                    </div>
+                `;
+                
+                chatList.appendChild(chatItem);
+            });
+            
+            console.log("Chat visualizzate con successo");
+        }
+
+        // FORMATTAZIONE DATA/ORA
+        function formatTime(timestamp) {
+            if (!timestamp) return '';
+            
+            try {
+                const date = new Date(timestamp);
+                const now = new Date();
+                const diffMs = now - date;
+                const diffMins = Math.floor(diffMs / 60000);
+                const diffHours = Math.floor(diffMs / 3600000);
+                const diffDays = Math.floor(diffMs / 86400000);
+                
+                if (diffMins < 1) return 'Ora';
+                if (diffMins < 60) return `${diffMins}m`;
+                if (diffHours < 24) return `${diffHours}h`;
+                if (diffDays < 7) return `${diffDays}g`;
+                
+                return date.toLocaleDateString('it-IT');
+            } catch (e) {
+                return '';
+            }
+        }
+
+        // FALLBACK LOCALSTORAGE
+        function loadChatsFromLocalStorage() {
+            try {
+                const chats = JSON.parse(localStorage.getItem('whatsapp_chats')) || [];
+                console.log(`Caricate ${chats.length} chat da localStorage`);
+                displayChats(chats);
+            } catch (e) {
+                console.error("Errore caricamento localStorage:", e);
+            }
+        }
+
+        // FUNZIONE PER SALVARE CHAT
         async function saveChatToFirestore(chat) {
-    try {
-        // Accedi a firebase direttamente dall'oggetto globale
-        const db = firebase.firestore();
-        await db.collection("chats").doc(chat.id).set(chat);
-        console.log("Chat salvata su Firestore");
-    } catch (error) {
-        console.error("Errore salvataggio su Firestore:", error);
-        // Fallback al localStorage
-        saveToLocalStorage(chat);
-    }
-
+            try {
+                await db.collection("chats").doc(chat.id).set(chat);
+                console.log("Chat salvata su Firestore con ID:", chat.id);
+                loadChatsFromFirestore(); // Ricarica la lista
+                
+            } catch (error) {
+                console.error("Errore salvataggio su Firestore:", error);
+                saveToLocalStorage(chat);
+            }
         }
 
-        // Funzioni di fallback per localStorage
         function saveToLocalStorage(chat) {
             let chats = JSON.parse(localStorage.getItem('whatsapp_chats')) || [];
             const existingIndex = chats.findIndex(c => c.id === chat.id);
@@ -1275,9 +1353,11 @@ function mostraDettagli(numero) {
             }
             
             localStorage.setItem('whatsapp_chats', JSON.stringify(chats));
+            console.log("Chat salvata in localStorage");
+            displayChats(chats);
         }
 
-        // Gestione del caricamento file
+        // GESTIONE UPLOAD FILE
         document.getElementById('file-upload').addEventListener('change', function(e) {
             const fileList = document.querySelector('.file-list');
             if (this.files.length > 0) {
@@ -1291,15 +1371,15 @@ function mostraDettagli(numero) {
             }
         });
 
-        // === Utilities robustezza WhatsApp ===
+        // NORMALIZZAZIONE TELEFONO
         function normalizePhone(phone) {
             let p = (phone || '').replace(/\D/g, '');
-            p = p.replace(/^0+/, ''); // rimuove zeri iniziali
-            if (!p.startsWith('39')) p = '39' + p; // default Italia
+            p = p.replace(/^0+/, '');
+            if (!p.startsWith('39')) p = '39' + p;
             return p;
         }
 
-        // Funzione per convertire file in base64
+        // CONVERSIONE FILE A BASE64
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -1309,14 +1389,7 @@ function mostraDettagli(numero) {
             });
         }
 
-        // Canale broadcast per comunicare con admin.html
-        let bc = null;
-        try { bc = new BroadcastChannel('sd_chats'); } catch(e) { /* Safari privato etc. */ }
-
-        // Array per memorizzare le chat
-        let chats = JSON.parse(localStorage.getItem('whatsapp_chats')) || [];
-        
-        // Simulazione invio domanda (utente)
+        // GESTIONE INVIO DOMANDA
         document.getElementById('submit-question').addEventListener('click', async function() {
             const userName = document.getElementById('user-name').value.trim();
             const userPhoneRaw = document.getElementById('user-phone').value.trim();
@@ -1330,16 +1403,20 @@ function mostraDettagli(numero) {
                 let attachments = [];
                 if (fileInput.files.length > 0) {
                     for (let i = 0; i < fileInput.files.length; i++) {
-                        const base64File = await fileToBase64(fileInput.files[i]);
-                        attachments.push({
-                            name: fileInput.files[i].name,
-                            type: fileInput.files[i].type,
-                            data: base64File
-                        });
+                        try {
+                            const base64File = await fileToBase64(fileInput.files[i]);
+                            attachments.push({
+                                name: fileInput.files[i].name,
+                                type: fileInput.files[i].type,
+                                data: base64File
+                            });
+                        } catch (error) {
+                            console.error("Errore conversione file:", error);
+                        }
                     }
                 }
 
-                // Aggiungi alla chat fittizia (interfaccia)
+                // Aggiorna interfaccia chat
                 const messagesContainer = document.querySelector('.chat-messages');
                 const newMessage = document.createElement('div');
                 newMessage.classList.add('message', 'sent');
@@ -1348,7 +1425,7 @@ function mostraDettagli(numero) {
                 messagesContainer.appendChild(newMessage);
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
                 
-                // Simula risposta automatica
+                // Risposta automatica
                 setTimeout(function() {
                     const response = document.createElement('div');
                     response.classList.add('message', 'received');
@@ -1358,7 +1435,7 @@ function mostraDettagli(numero) {
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
                 }, 800);
                 
-                // Crea un nuovo oggetto chat
+                // Crea oggetto chat
                 const newChat = {
                     id: Date.now().toString(),
                     userName: userName,
@@ -1366,13 +1443,13 @@ function mostraDettagli(numero) {
                     question: userQuestion,
                     timestamp: new Date().toISOString(),
                     status: 'unread',
-                    attachments: attachments  // Aggiungi gli allegati
+                    attachments: attachments
                 };
                 
-                // Salva su Firestore (con fallback a localStorage)
+                // Salva su Firestore
                 await saveChatToFirestore(newChat);
 
-                // Resetta il form
+                // Reset form
                 document.getElementById('user-name').value = '';
                 document.getElementById('user-phone').value = '';
                 document.getElementById('user-question').value = '';
@@ -1384,7 +1461,35 @@ function mostraDettagli(numero) {
             }
         });
 
-        // Nessun handler per pannello admin su questa pagina (rimane nascosto)
+        // CARICAMENTO INIZIALE
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM caricato, inizializzo chat...");
+            setTimeout(() => {
+                loadChatsFromFirestore();
+            }, 1000);
+        });
+
+        // Funzione per mostrare dettagli servizi
+        function mostraDettagli(numero) {
+            event.preventDefault();
+            var dettagli = document.getElementById('dettagli-' + numero);
+            if (dettagli.style.display === 'none') {
+                dettagli.style.display = 'block';
+            } else {
+                dettagli.style.display = 'none';
+            }
+        }
+
+        // Gestione admin login
+        document.getElementById('admin-toggle').addEventListener('click', function(e) {
+            e.preventDefault();
+            const pwd = prompt("Inserisci la password per accedere all'area amministratori:");
+            if (pwd === "GppRmO72@") {
+                window.location.href = "admin.html";
+            } else {
+                alert("Password errata! Accesso negato.");
+            }
+        });
     </script>
 </body>
 </html>
